@@ -1,0 +1,18 @@
+{
+  "code.exe": {"description": "Редактор кода Visual Studio Code", "aliases": ["вскод", "редактор кода", "vs code"]},
+  "chrome.exe": {"description": "Веб-браузер Google Chrome", "aliases": ["хром", "браузер"]},
+  "msedge.exe": {"description": "Веб-браузер Microsoft Edge", "aliases": ["эдж", "браузер"]},
+  "firefox.exe": {"description": "Веб-браузер Mozilla Firefox", "aliases": ["файрфокс", "браузер"]},
+  "notepad.exe": {"description": "Блокнот для простых текстовых заметок", "aliases": ["блокнот", "заметки"]},
+  "telegram.exe": {"description": "Мессенджер Telegram", "aliases": ["телеграм", "сообщения"]},
+  "discord.exe": {"description": "Голосовое общение и сообщества Discord", "aliases": ["дискорд"]},
+  "steam.exe": {"description": "Библиотека и магазин игр Steam", "aliases": ["стим", "игры"]},
+  "excel.exe": {"description": "Таблицы Microsoft Excel", "aliases": ["эксель", "таблицы"]},
+  "winword.exe": {"description": "Документы Microsoft Word", "aliases": ["ворд", "документы"]},
+  "powerpnt.exe": {"description": "Презентации Microsoft PowerPoint", "aliases": ["поверпоинт", "презентации"]},
+  "obs64.exe": {"description": "Запись экрана и трансляции OBS Studio", "aliases": ["обс", "запись экрана"]},
+  "vlc.exe": {"description": "Видеоплеер VLC", "aliases": ["видео", "плеер"]},
+  "7zfm.exe": {"description": "Архиватор 7-Zip", "aliases": ["архивы", "архиватор"]},
+  "calculator": {"description": "Калькулятор Windows", "aliases": ["калькулятор", "посчитать"]},
+  "notepad": {"description": "Блокнот для простых текстовых заметок", "aliases": ["блокнот", "заметки"]}
+}
