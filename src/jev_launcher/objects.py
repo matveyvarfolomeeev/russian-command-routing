@@ -4,11 +4,25 @@ from __future__ import annotations
 
 import json
 import ntpath
+import re
 from dataclasses import asdict, dataclass, field
 from typing import Literal
 
 Kind = Literal["app", "folder", "file"]
 LaunchType = Literal["shortcut", "executable", "app_id", "folder", "file"]
+
+
+def is_maintenance(name: str, target: str, arguments: tuple[str, ...] = ()) -> bool:
+    """Reject installer actions, without treating ordinary names like Remove.bg as commands."""
+    if re.search(r"^(?:uninstall|деинсталл\w*|удаление|удалить)\b", name.strip(), re.I):
+        return True
+    executable = ntpath.basename(target).casefold()
+    if re.fullmatch(r"(?:unins\d*|uninstall(?:er)?|maintenancetool)\.exe", executable):
+        return True
+    switches = {arg.casefold() for arg in arguments}
+    if switches & {"/uninstall", "--uninstall", "-uninstall", "/repair", "--repair"}:
+        return True
+    return executable == "msiexec.exe" and bool(switches & {"/x", "/i", "/f", "/modify"})
 
 
 def launch_identity(
@@ -35,6 +49,7 @@ class DiscoveredObject:
     working_directory: str = ""
     identity: str = ""
     icon_target: str = ""
+    resolved_target: str = ""
     available: bool = True
 
     def __post_init__(self) -> None:
@@ -59,6 +74,7 @@ class CatalogObject:
     arguments: tuple[str, ...] = ()
     working_directory: str = ""
     icon_target: str = ""
+    resolved_target: str = ""
     enabled: bool = True
     available: bool = True
     favorite: bool = False

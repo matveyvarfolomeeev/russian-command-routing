@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-ScrollView {
+ColumnLayout {
     id: page
     objectName: "settingsPage"
     property bool dark: true
@@ -10,102 +10,170 @@ ScrollView {
     property color muted
     property color panel
     property color line
-    clip: true
-    contentWidth: availableWidth
+    Theme { id: colors; dark: page.dark }
+    spacing: 14
 
-    ColumnLayout {
-        width: page.availableWidth
-        spacing: 16
-        Label { text: "Настройки"; color: page.ink; font.pixelSize: 25; font.weight: Font.DemiBold }
-        Rectangle {
-            Layout.fillWidth: true
-            implicitHeight: appearance.implicitHeight + 36
-            color: page.panel; radius: 12; border.color: page.line
-            ColumnLayout {
-                id: appearance
-                anchors.fill: parent; anchors.margins: 18
-                spacing: 10
-                Label { text: "Быстрый доступ"; color: page.ink; font.pixelSize: 16 }
-                Label { text: "Горячая клавиша"; color: page.muted; font.pixelSize: 12 }
-                Field {
-                    id: hotkeyField; objectName: "hotkeyField"; dark: page.dark
-                    Layout.fillWidth: true; text: controller.hotkeyText
-                    placeholderText: "Ctrl+Alt+Space"
-                }
-                RowLayout {
-                    Label { text: "Тема"; color: page.muted; font.pixelSize: 12 }
-                    Item { Layout.fillWidth: true }
-                    ComboBox {
-                        id: themeBox
-                        objectName: "themeBox"
-                        model: ["Тёмная", "Светлая"]
-                        currentIndex: controller.theme === "dark" ? 0 : 1
-                        implicitWidth: 150
-                    }
-                }
-            }
-        }
-        Rectangle {
-            Layout.fillWidth: true
-            implicitHeight: voiceSettings.implicitHeight + 36
-            color: page.panel; radius: 12; border.color: page.line
-            ColumnLayout {
-                id: voiceSettings
-                anchors.fill: parent; anchors.margins: 18
-                spacing: 10
-                Label { text: "Голосовой ввод"; color: page.ink; font.pixelSize: 16 }
-                Label {
-                    text: "Whisper Large V3 Turbo через Groq. Запись отправляется после нажатия «Стоп»."
-                    color: page.muted; font.pixelSize: 12
-                    Layout.fillWidth: true; wrapMode: Text.Wrap
-                }
-                Label { text: "Микрофон"; color: page.muted; font.pixelSize: 12 }
-                ComboBox {
-                    id: microphoneBox; objectName: "microphoneBox"
-                    Layout.fillWidth: true
-                    model: controller.microphones
-                    textRole: "name"
-                    valueRole: "id"
-                    Component.onCompleted: currentIndex = Math.max(0, indexOfValue(controller.microphoneId))
-                }
-                Label {
-                    text: controller.keyConfigured ? "API-ключ настроен" : "Добавьте API-ключ Groq"
-                    color: controller.keyConfigured ? "#8cc9ae" : page.muted
-                    font.pixelSize: 12
-                }
-                Field {
-                    id: keyField; objectName: "apiKeyField"; dark: page.dark
-                    Layout.fillWidth: true
-                    echoMode: TextInput.Password
-                    placeholderText: "Новый ключ — оставить пустым, чтобы сохранить прежний"
-                }
-                CheckBox { id: clearKey; text: "Удалить сохранённый ключ"; palette.windowText: page.ink }
-                Label {
-                    text: "Ключ хранится локально с защитой Windows. GROQ_API_KEY из окружения имеет приоритет."
-                    color: page.muted; font.pixelSize: 11
-                    Layout.fillWidth: true; wrapMode: Text.Wrap
-                }
-            }
-        }
-        RowLayout {
-            Layout.fillWidth: true
-            Label {
-                text: "Записи голоса не сохраняются."
-                color: page.muted; font.pixelSize: 12
+    Label {
+        text: "Настройки"
+        color: colors.ink
+        font.pixelSize: 25
+        font.weight: Font.DemiBold
+        font.letterSpacing: -0.6
+    }
+    ScrollView {
+        id: settingsScroll
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        contentWidth: availableWidth
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        ColumnLayout {
+            width: settingsScroll.availableWidth
+            spacing: 12
+            Rectangle {
                 Layout.fillWidth: true
-            }
-            AppButton {
-                objectName: "saveSettingsButton"
-                text: "Сохранить настройки"; primary: true
-                onClicked: {
-                    if (controller.saveSettings(hotkeyField.text, themeBox.currentIndex === 0 ? "dark" : "light",
-                            microphoneBox.currentValue || "", keyField.text, clearKey.checked)) {
-                        keyField.clear()
-                        clearKey.checked = false
+                implicitHeight: appearance.implicitHeight + 24
+                color: colors.surface
+                radius: 11
+                border.color: colors.line
+                ColumnLayout {
+                    id: appearance
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    spacing: 6
+                    Label { text: "Быстрый доступ"; color: colors.ink; font.pixelSize: 15; font.weight: Font.DemiBold }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 16
+                        Label { text: "Горячая клавиша"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        Field {
+                            id: hotkeyField
+                            objectName: "hotkeyField"
+                            dark: page.dark
+                            Layout.fillWidth: true
+                            text: controller.hotkeyText
+                            placeholderText: "Ctrl+Shift+Space"
+                            implicitHeight: 38
+                        }
+                    }
+                    Label {
+                        text: controller.hotkeyStatus
+                        color: controller.hotkeyRegistered ? colors.muted : colors.danger
+                        font.pixelSize: 11
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 16
+                        Label { text: "Оформление"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        AppCombo {
+                            id: themeBox
+                            objectName: "themeBox"
+                            dark: page.dark
+                            model: ["Тёмная", "Светлая"]
+                            currentIndex: controller.theme === "dark" ? 0 : 1
+                            Layout.fillWidth: true
+                            implicitHeight: 38
+                        }
                     }
                 }
             }
+            Rectangle {
+                Layout.fillWidth: true
+                implicitHeight: voiceSettings.implicitHeight + 24
+                color: colors.surface
+                radius: 11
+                border.color: colors.line
+                ColumnLayout {
+                    id: voiceSettings
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    spacing: 6
+                    Label { text: "Голосовой ввод"; color: colors.ink; font.pixelSize: 15; font.weight: Font.DemiBold }
+                    Label {
+                        text: "Запись распознаётся через Groq после нажатия «Стоп»."
+                        color: colors.muted
+                        font.pixelSize: 12
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 16
+                        Label { text: "Микрофон"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        AppCombo {
+                            id: microphoneBox
+                            objectName: "microphoneBox"
+                            dark: page.dark
+                            Layout.fillWidth: true
+                            model: controller.microphones
+                            textRole: "name"
+                            valueRole: "id"
+                            implicitHeight: 38
+                            Component.onCompleted: currentIndex = Math.max(0, indexOfValue(controller.microphoneId))
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 16
+                        Label { text: "API-ключ Groq"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        Field {
+                            id: keyField
+                            objectName: "apiKeyField"
+                            dark: page.dark
+                            Layout.fillWidth: true
+                            echoMode: TextInput.Password
+                            placeholderText: "Оставьте пустым, чтобы сохранить прежний"
+                            implicitHeight: 38
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 12
+                        Label {
+                            text: controller.keyConfigured ? "Ключ настроен" : "Ключ ещё не добавлен"
+                            color: controller.keyConfigured ? colors.accent : colors.subtle
+                            font.pixelSize: 11
+                        }
+                        Item { Layout.fillWidth: true }
+                        AppCheck { id: clearKey; text: "Удалить сохранённый ключ"; dark: page.dark; implicitHeight: 28 }
+                    }
+                    Label {
+                        text: "Ключ защищён Windows. Аудиозаписи не сохраняются."
+                        color: colors.subtle
+                        font.pixelSize: 11
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                    }
+                }
+            }
+            Item { implicitHeight: 3 }
         }
-        Item { height: 6 }
+    }
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: 12
+        Label {
+            text: "Изменения применятся после сохранения"
+            color: colors.subtle
+            font.pixelSize: 11
+            Layout.fillWidth: true
+            Layout.minimumWidth: 0
+            elide: Text.ElideRight
+        }
+        AppButton {
+            objectName: "saveSettingsButton"
+            text: "Сохранить настройки"
+            primary: true
+            dark: page.dark
+            onClicked: {
+                if (controller.saveSettings(hotkeyField.text, themeBox.currentIndex === 0 ? "dark" : "light",
+                        microphoneBox.currentValue || "", keyField.text, clearKey.checked)) {
+                    keyField.clear()
+                    clearKey.checked = false
+                }
+            }
+        }
     }
 }

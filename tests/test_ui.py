@@ -2,7 +2,8 @@ import time
 from types import SimpleNamespace
 
 import pytest
-from PySide6.QtCore import QObject, Qt
+from PySide6.QtCore import QObject, QPointF, Qt
+from PySide6.QtQuick import QQuickItem
 from PySide6.QtTest import QTest
 
 from jev_launcher import controller as controller_module
@@ -138,3 +139,39 @@ def test_missing_voice_key_is_a_user_visible_error(ui, monkeypatch):
     controller.toggleRecording()
     assert controller.isError
     assert not controller.recording
+
+
+@pytest.mark.parametrize("size", [(720, 560), (1080, 760)])
+def test_search_catalog_and_editor_remain_inside_resized_window(ui, size):
+    controller, window, catalog, _ = ui
+    window.setWidth(size[0])
+    window.setHeight(size[1])
+    item = catalog.items()[0]
+    catalog.update(item.object_id, name="Очень длинное название проекта " * 8,
+                   description="Подробное описание папки " * 16)
+    controller.reload()
+    QTest.qWait(100)
+
+    def assert_inside(name):
+        control = window.findChild(QQuickItem, name)
+        assert control is not None
+        position = control.mapToScene(QPointF(0, 0))
+        assert control.width() > 24 and control.height() > 20
+        assert position.x() >= -1 and position.y() >= -1
+        assert position.x() + control.width() <= window.width() + 1
+        assert position.y() + control.height() <= window.height() + 1
+
+    for name in ("searchField", "voiceButton", "resultsList", "openButton"):
+        assert_inside(name)
+    navigation = window.findChild(QObject, "navigation")
+    navigation.setProperty("currentIndex", 1)
+    QTest.qWait(100)
+    for name in ("catalogSearchField", "catalogList", "refreshButton"):
+        assert_inside(name)
+    window.findChild(QObject, "catalogPage").editObject(controller.objectDetails(item.object_id))
+    QTest.qWait(100)
+    dialog = window.findChild(QObject, "objectEditor")
+    assert dialog.property("x") >= 0 and dialog.property("y") >= 0
+    assert dialog.property("x") + dialog.property("width") <= window.width()
+    assert dialog.property("y") + dialog.property("height") <= window.height()
+    assert_inside("saveObjectButton")

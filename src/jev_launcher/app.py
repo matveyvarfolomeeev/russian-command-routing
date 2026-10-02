@@ -9,7 +9,7 @@ import sys
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-from PySide6.QtCore import QLockFile, QTimer, QUrl
+from PySide6.QtCore import QLockFile, Qt, QTimer, QUrl
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from PySide6.QtQml import QQmlApplicationEngine
@@ -91,7 +91,11 @@ def main(argv=None) -> int:
     server.listen(server_name)
 
     def show_window():
-        window.show()
+        # A minimized Qt window remains minimized after show(). Restore it first.
+        if window.windowState() & Qt.WindowState.WindowMinimized:
+            window.showNormal()
+        else:
+            window.show()
         window.raise_()
         window.requestActivate()
         window.focusSearch()
@@ -146,16 +150,38 @@ def main(argv=None) -> int:
 
     if not args.no_hotkey:
         controller.hotkey = GlobalHotkey(
-            application, lambda: hide_window() if window.isVisible() else show_window()
+            application,
+            lambda: hide_window() if window.isVisible() and window.isActive() else show_window(),
+            controller.stateChanged.emit,
         )
         try:
             controller.hotkey.register(controller.hotkeyText)
         except (ValueError, RuntimeError) as exc:
             controller._message(str(exc), True)
+            startup_hotkey_error = str(exc)
+
+            def retry_hotkey():
+                # A previous instance can briefly retain its registration while exiting.
+                # Retry once, keeping the user's configured shortcut unchanged.
+                if controller.hotkey.registered:
+                    return
+                try:
+                    controller.hotkey.register(controller.hotkeyText)
+                    if controller.status == startup_hotkey_error:
+                        controller._message(f"Горячая клавиша: {controller.hotkey.current}")
+                except (ValueError, RuntimeError):
+                    logging.warning("Global hotkey retry failed; change it in Settings")
+
+            QTimer.singleShot(1500, retry_hotkey)
     if args.hidden and (tray_available or controller.hotkey and controller.hotkey.current):
         window.hide()
-    if not args.no_scan and not catalog.items():
-        QTimer.singleShot(100, controller.refresh)
+    refresh_timer = QTimer(application)
+    refresh_timer.setInterval(3_600_000)
+    if not args.no_scan:
+        # Render the stored catalog immediately; refresh stale data in background.
+        QTimer.singleShot(100, controller.refreshIfStale)
+        refresh_timer.timeout.connect(controller.refreshIfStale)
+        refresh_timer.start()
 
     def cleanup():
         controller.cancelSpeech()

@@ -10,7 +10,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from .objects import DiscoveredObject, ScanResult, launch_identity
+from .objects import DiscoveredObject, ScanResult, is_maintenance, launch_identity
 
 RESOURCES = Path(__file__).parent / "resources"
 
@@ -42,6 +42,27 @@ def parse_scan(payload: dict) -> ScanResult:
     entries = payload.get("entries", [])
     if isinstance(entries, dict):
         entries = [entries]
+    # An AppUserModel.ID can differ between two shortcuts launching the same desktop app.
+    # Match it to the actual command only when shortcut metadata identifies one command.
+    app_commands: dict[str, set[str]] = {}
+    desktop_commands: dict[str, set[str]] = {}
+    for entry in entries:
+        resolved = entry.get("resolved_target") or ""
+        arguments = split_windows_arguments(entry.get("raw_arguments") or "")
+        app_id = entry.get("app_id")
+        if entry["launch_type"] == "shortcut" and resolved and not arguments:
+            command = launch_identity(
+                "executable" if ntpath.splitext(resolved)[1].casefold() == ".exe" else "file",
+                resolved,
+                (),
+                entry.get("working_directory") or "",
+            )
+            if app_id:
+                app_commands.setdefault(app_id.casefold(), set()).add(command)
+            if ntpath.splitext(resolved)[1].casefold() == ".exe":
+                desktop_commands.setdefault(ntpath.normcase(ntpath.normpath(resolved)), set()).add(
+                    command
+                )
     for entry in entries:
         target = entry["launch_target"]
         launch_type = entry["launch_type"]
@@ -49,6 +70,8 @@ def parse_scan(payload: dict) -> ScanResult:
         resolved = entry.get("resolved_target") or ""
         arguments = split_windows_arguments(entry.get("raw_arguments") or "")
         cwd = entry.get("working_directory") or ""
+        if is_maintenance(entry["name"], resolved or target, arguments):
+            continue
         # Get-StartApps also returns absolute executable/document paths for desktop entries.
         if launch_type == "app_id" and Path(target).is_file():
             launch_type = "executable" if Path(target).suffix.lower() == ".exe" else "file"
@@ -56,10 +79,26 @@ def parse_scan(payload: dict) -> ScanResult:
             resolved = target
             cwd = str(Path(target).parent) if launch_type == "executable" else ""
         identity = ""
-        if launch_type == "shortcut" and entry.get("app_id") and not arguments:
+        if launch_type == "shortcut" and resolved:
+            identity = launch_identity(
+                "executable" if ntpath.splitext(resolved)[1].casefold() == ".exe" else "file",
+                resolved,
+                arguments,
+                cwd,
+            )
+        elif launch_type == "shortcut" and entry.get("app_id") and not arguments:
             identity = launch_identity("app_id", entry["app_id"])
-        elif launch_type == "shortcut" and resolved:
-            identity = launch_identity("executable", resolved, arguments, cwd)
+        elif launch_type == "app_id":
+            commands = app_commands.get(target.casefold(), set())
+            if len(commands) == 1:
+                identity = next(iter(commands))
+        elif launch_type == "executable" and entry["launch_type"] == "app_id":
+            # Get-StartApps provides no cwd. A single no-argument shortcut is authoritative;
+            # multiple explicit cwd/profile variants remain separate candidates.
+            commands = desktop_commands.get(ntpath.normcase(ntpath.normpath(target)), set())
+            if len(commands) == 1:
+                identity = next(iter(commands))
+                cwd = json.loads(identity)[3]
         builtin = known.get(ntpath.basename(resolved).casefold(), {})
         if not builtin:
             app_id = target.casefold()
@@ -82,6 +121,7 @@ def parse_scan(payload: dict) -> ScanResult:
                 working_directory=cwd,
                 identity=identity,
                 icon_target=entry.get("icon_target") or target,
+                resolved_target=resolved,
                 available=True if launch_type == "app_id" else Path(target).exists(),
             )
         )

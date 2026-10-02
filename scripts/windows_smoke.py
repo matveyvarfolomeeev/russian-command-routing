@@ -123,6 +123,7 @@ def packaged_check(executable: Path, root: Path, application):
         "--no-hotkey",
         "--no-tray",
     ]
+    started = time.perf_counter()
     process = subprocess.Popen(command, cwd=root, env=environment)
     handle = None
     try:
@@ -141,6 +142,7 @@ def packaged_check(executable: Path, root: Path, application):
             )
 
         native = wait_for(find_window, 20)
+        window_ms = round((time.perf_counter() - started) * 1000)
         handle = native["handle"]
         print("Packaged window is visible", flush=True)
 
@@ -154,6 +156,7 @@ def packaged_check(executable: Path, root: Path, application):
             return None
 
         catalog = wait_for(scan_completed, 50)
+        catalog_ready_ms = round((time.perf_counter() - started) * 1000)
         image = application.primaryScreen().grabWindow(handle)
         assert not image.isNull() and image.save(str(root / "packaged.png"))
         second = subprocess.run(command, cwd=root, env=environment, timeout=10, check=False)
@@ -164,12 +167,55 @@ def packaged_check(executable: Path, root: Path, application):
         assert process.returncode == 0
         return {
             "window_visible": True,
+            "window_ready_ms": window_ms,
+            "catalog_ready_ms": catalog_ready_ms,
             "catalog_count": len(catalog.items()),
             "active_count": len(catalog.model_catalog()),
             "source_errors": catalog.setting("last_scan")["errors"],
             "second_instance_exit": second.returncode,
             "close_exit": process.returncode,
         }
+    finally:
+        if process.poll() is None:
+            if handle:
+                USER.PostMessageW(handle, 0x0010, 0, 0)
+                try:
+                    process.wait(5)
+                except subprocess.TimeoutExpired:
+                    process.terminate()
+            else:
+                process.terminate()
+
+
+def cached_start_check(executable: Path, root: Path):
+    """Same packaged process with an existing catalog; no fresh scan is expected."""
+    catalog = Catalog(root / "packaged-data" / "catalog.sqlite3")
+    before = catalog.setting("last_scan")
+    started = time.perf_counter()
+    process = subprocess.Popen(
+        [str(executable.resolve()), "--data-dir", str(catalog.path.parent),
+         "--no-hotkey", "--no-tray"], cwd=root,
+    )
+    handle = None
+    try:
+        def find_window():
+            if process.poll() is not None:
+                raise RuntimeError(f"Cached launch exited: {process.returncode}")
+            return next((window for window in windows()
+                         if window["pid"] in process_family(process.pid)
+                         and window["title"] == "Jev Launcher"), None)
+
+        native = wait_for(find_window, 20)
+        handle = native["handle"]
+        window_ms = round((time.perf_counter() - started) * 1000)
+        QTest.qWait(1200)
+        assert catalog.setting("last_scan") == before, "Fresh catalog was rescanned"
+        assert catalog.model_catalog()
+        USER.PostMessageW(handle, 0x0010, 0, 0)
+        process.wait(10)
+        assert process.returncode == 0
+        return {"window_ready_ms": window_ms, "last_scan_unchanged": True,
+                "active_count": len(catalog.model_catalog()), "close_exit": process.returncode}
     finally:
         if process.poll() is None:
             if handle:
@@ -277,6 +323,7 @@ def main():
     report = {}
     if args.exe:
         report["packaged"] = packaged_check(args.exe, root, application)
+        report["cached_start"] = cached_start_check(args.exe, root)
     if args.open_objects:
         report["actual_open"] = actual_open_check(root)
     (root / "report.json").write_text(

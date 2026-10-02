@@ -4,7 +4,7 @@
   "msedge.exe": {"description": "Веб-браузер Microsoft Edge", "aliases": ["эдж", "браузер"]},
   "firefox.exe": {"description": "Веб-браузер Mozilla Firefox", "aliases": ["файрфокс", "браузер"]},
   "notepad.exe": {"description": "Блокнот для простых текстовых заметок", "aliases": ["блокнот", "заметки"]},
-  "telegram.exe": {"description": "Мессенджер Telegram", "aliases": ["телеграм", "сообщения"]},
+  "telegram.exe": {"description": "Мессенджер Telegram", "aliases": ["телеграм", "телеграмм", "сообщения"]},
   "discord.exe": {"description": "Голосовое общение и сообщества Discord", "aliases": ["дискорд"]},
   "steam.exe": {"description": "Библиотека и магазин игр Steam", "aliases": ["стим", "игры"]},
   "excel.exe": {"description": "Таблицы Microsoft Excel", "aliases": ["эксель", "таблицы"]},

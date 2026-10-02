@@ -112,9 +112,9 @@ class CatalogIcons(QQuickImageProvider):
         painter = QPainter(image)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(QColor("#283852"))
+        painter.setBrush(QColor("#2c332e"))
         painter.drawRoundedRect(2, 2, 44, 44, 12, 12)
-        painter.setPen(QColor("#aecaff"))
+        painter.setPen(QColor("#b3caaa"))
         painter.setFont(QFont("Segoe UI", 20))
         painter.drawText(
             QRect(0, 0, 48, 48),

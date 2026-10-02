@@ -3,14 +3,18 @@
 from __future__ import annotations
 
 import json
+import ntpath
 import os
 import sqlite3
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import uuid4
 
-from .objects import CatalogObject, DiscoveredObject, ScanResult
+from .objects import CatalogObject, DiscoveredObject, ScanResult, is_maintenance, launch_identity
+
+WINDOWS_SOURCES = {"start_menu_user", "start_menu_common", "start_apps"}
+REFRESH_INTERVAL = timedelta(hours=24)
 
 
 def default_data_dir() -> Path:
@@ -30,7 +34,7 @@ class Catalog:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as db:
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version not in (0, 1):
+            if version not in (0, 1, 2, 3):
                 raise RuntimeError(f"Unsupported catalog schema: {version}")
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS objects (
@@ -49,9 +53,116 @@ class Catalog:
                     key TEXT PRIMARY KEY,
                     value TEXT NOT NULL
                 );
-                PRAGMA user_version=1;
             """)
             db.execute("PRAGMA journal_mode=WAL")
+            if version < 3:
+                self._clean_legacy_catalog(db)
+                db.execute("PRAGMA user_version=3")
+
+    def _clean_legacy_catalog(self, db):
+        """One cheap upgrade removes old uninstallers and joins exact desktop commands."""
+        items = [self._decode(row) for row in db.execute("SELECT payload FROM objects")]
+        commands: dict[str, set[str]] = {}
+        desktop_commands: dict[str, set[str]] = {}
+        identities = {}
+        for item in items:
+            if item.source == "manual":
+                continue
+            resolved = item.resolved_target
+            if (
+                not resolved
+                and item.launch_type == "shortcut"
+                and item.icon_target.lower().endswith(".exe")
+            ):
+                # Schema 1's discovery stored the actual shortcut target in icon_target.
+                resolved = item.icon_target
+            if is_maintenance(item.name, resolved or item.launch_target, item.arguments):
+                db.execute("DELETE FROM objects WHERE object_id=?", (item.object_id,))
+                continue
+            if item.launch_type == "shortcut" and resolved:
+                identity = launch_identity(
+                    "executable" if Path(resolved).suffix.lower() == ".exe" else "file",
+                    resolved,
+                    item.arguments,
+                    item.working_directory,
+                )
+                old = json.loads(item.identity)
+                if old[0] == "app_id" and not item.arguments:
+                    commands.setdefault(old[1].casefold(), set()).add(identity)
+                if not item.arguments and Path(resolved).suffix.lower() == ".exe":
+                    desktop_commands.setdefault(
+                        ntpath.normcase(ntpath.normpath(resolved)), set()
+                    ).add(identity)
+                item.resolved_target = resolved
+                identities[item.object_id] = identity
+        groups: dict[str, list[CatalogObject]] = {}
+        for item in items:
+            if (
+                is_maintenance(
+                    item.name,
+                    item.resolved_target or item.icon_target or item.launch_target,
+                    item.arguments,
+                )
+                and item.source != "manual"
+            ):
+                continue
+            identity = identities.get(item.object_id, item.identity)
+            if item.launch_type == "app_id" and item.source != "manual":
+                matches = commands.get(item.launch_target.casefold(), set())
+                if len(matches) == 1:
+                    identity = next(iter(matches))
+            elif (
+                item.launch_type == "executable"
+                and item.source == "start_apps"
+                and not item.arguments
+            ):
+                matches = desktop_commands.get(
+                    ntpath.normcase(ntpath.normpath(item.launch_target)), set()
+                )
+                if len(matches) == 1:
+                    identity = next(iter(matches))
+                    item.working_directory = json.loads(identity)[3]
+            groups.setdefault(identity, []).append(item)
+        for identity, copies in groups.items():
+            # Keep the ID with edited metadata, then the first original ID.
+            copies.sort(key=lambda item: (not bool(item.overrides), not item.favorite))
+            keeper = copies[0]
+            shortcut = next(
+                (
+                    item
+                    for item in copies
+                    if item.launch_type == "shortcut" and Path(item.launch_target).exists()
+                ),
+                None,
+            )
+            if shortcut and keeper.launch_type != "shortcut":
+                for key in (
+                    "launch_type",
+                    "launch_target",
+                    "arguments",
+                    "working_directory",
+                    "icon_target",
+                    "resolved_target",
+                ):
+                    setattr(keeper, key, getattr(shortcut, key))
+            for copy in copies[1:]:
+                for key in copy.overrides:
+                    if key not in keeper.overrides:
+                        setattr(keeper, key, getattr(copy, key))
+                keeper.overrides = tuple(sorted(set(keeper.overrides) | set(copy.overrides)))
+                keeper.favorite |= copy.favorite
+                keeper.enabled &= copy.enabled
+                keeper.available |= copy.available
+                db.execute(
+                    "UPDATE sources SET object_id=? WHERE object_id=?",
+                    (keeper.object_id, copy.object_id),
+                )
+                db.execute("DELETE FROM objects WHERE object_id=?", (copy.object_id,))
+            keeper.identity = identity
+            self._save(db, keeper)
+        # Refresh once after an upgrade: new discovery policy and builtin aliases need applying.
+        if items:
+            db.execute("INSERT OR REPLACE INTO settings VALUES ('last_successful_scan', 'null')")
 
     @contextmanager
     def connection(self):
@@ -104,6 +215,12 @@ class Catalog:
             for found in result.objects:
                 if found.source not in successful:
                     continue
+                if found.source != "manual" and is_maintenance(
+                    found.name,
+                    found.resolved_target or found.icon_target or found.launch_target,
+                    found.arguments,
+                ):
+                    continue
                 row = db.execute(
                     "SELECT payload FROM objects WHERE identity=?", (found.identity,)
                 ).fetchone()
@@ -131,6 +248,7 @@ class Catalog:
                         "working_directory",
                         "identity",
                         "icon_target",
+                        "resolved_target",
                     ):
                         if preserve_shortcut and key in (
                             "launch_type",
@@ -138,6 +256,7 @@ class Catalog:
                             "arguments",
                             "working_directory",
                             "icon_target",
+                            "resolved_target",
                         ):
                             continue
                         if key in ("description", "description_source", "aliases") and not getattr(
@@ -171,12 +290,40 @@ class Catalog:
                 elif item.source == "manual" and item.launch_type != "app_id":
                     item.available = Path(item.launch_target).exists()
                     self._save(db, item)
-            db.execute(
-                "INSERT INTO settings VALUES ('last_scan', ?) "
-                "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
-                (json.dumps({"at": now, "errors": result.errors}),),
-            )
+            if successful & WINDOWS_SOURCES or any(
+                key.split(":", 1)[0] in WINDOWS_SOURCES for key in result.errors
+            ):
+                db.execute(
+                    "INSERT INTO settings VALUES ('last_scan', ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (
+                        json.dumps(
+                            {"at": now, "errors": result.errors, "sources": sorted(successful)}
+                        ),
+                    ),
+                )
+            if WINDOWS_SOURCES <= successful:
+                db.execute(
+                    "INSERT INTO settings VALUES ('last_successful_scan', ?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (json.dumps(now),),
+                )
         return len(self.items())
+
+    def needs_refresh(self, now: datetime | None = None) -> bool:
+        """A cached catalog is usable immediately; refresh only when Windows metadata is stale."""
+        stamp = self.setting("last_successful_scan")
+        if not stamp:
+            return True
+        try:
+            last = datetime.fromisoformat(stamp)
+            if last.tzinfo is None:
+                return True
+        except (TypeError, ValueError):
+            return True
+        current = now or datetime.now(timezone.utc)
+        age = current - last
+        return age >= REFRESH_INTERVAL or age < timedelta(0)
 
     def add_path(self, path: Path | str, kind: str | None = None) -> CatalogObject:
         target = Path(path).expanduser().resolve()

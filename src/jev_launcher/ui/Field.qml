@@ -4,19 +4,23 @@ import QtQuick.Controls
 TextField {
     id: control
     property bool dark: true
-    implicitHeight: 40
-    color: dark ? "#edf1f7" : "#182536"
-    placeholderTextColor: dark ? "#8290a5" : "#748297"
-    selectionColor: "#41649a"
-    selectedTextColor: "white"
-    font.family: "Segoe UI"
-    font.pixelSize: 14
+    Theme { id: colors; dark: control.dark }
+    implicitHeight: 42
+    color: colors.ink
+    placeholderTextColor: colors.subtle
+    selectionColor: colors.accent
+    selectedTextColor: colors.accentInk
+    font.family: colors.family
+    font.pixelSize: 13
+    selectByMouse: true
     leftPadding: 12
     rightPadding: 12
+    topPadding: 9
+    bottomPadding: 9
     background: Rectangle {
-        radius: 9
-        color: control.dark ? "#151e2c" : "#ffffff"
-        border.color: control.activeFocus ? "#83adff" : control.dark ? "#344055" : "#cbd5e3"
+        radius: 8
+        color: colors.input
+        border.color: control.activeFocus ? colors.accent : colors.line
         border.width: 1
     }
 }

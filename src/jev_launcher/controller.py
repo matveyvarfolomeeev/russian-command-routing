@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 from PySide6.QtCore import Property, QObject, Signal, Slot
@@ -11,6 +12,7 @@ from PySide6.QtWidgets import QFileDialog
 from . import config
 from .audio import Recorder
 from .discovery import scan_windows
+from .hotkey import DEFAULT_HOTKEY
 from .jobs import Jobs
 from .launch import launch_by_id
 from .search import filter_catalog
@@ -144,7 +146,15 @@ class Controller(QObject):
 
     @Property(str, notify=stateChanged)
     def hotkeyText(self):
-        return self.catalog.setting("hotkey", "Ctrl+Alt+Space")
+        return self.catalog.setting("hotkey", DEFAULT_HOTKEY)
+
+    @Property(bool, notify=stateChanged)
+    def hotkeyRegistered(self):
+        return bool(self.hotkey and self.hotkey.registered)
+
+    @Property(str, notify=stateChanged)
+    def hotkeyStatus(self):
+        return self.hotkey.status_text if self.hotkey else "Горячая клавиша отключена"
 
     @Property(str, notify=stateChanged)
     def theme(self):
@@ -165,7 +175,27 @@ class Controller(QObject):
     @Property(str, notify=stateChanged)
     def lastScan(self):
         stamp = self.catalog.setting("last_scan", {}).get("at", "")
-        return stamp[:16].replace("T", " ") + " UTC" if stamp else "Ещё не обновлялся"
+        if not stamp:
+            return "Ещё не обновлялся"
+        try:
+            return datetime.fromisoformat(stamp).astimezone().strftime("%d.%m.%Y %H:%M")
+        except (TypeError, ValueError):
+            return "Ещё не обновлялся"
+
+    @Property(bool, notify=stateChanged)
+    def catalogCached(self):
+        return bool(self._all)
+
+    @Property(str, notify=stateChanged)
+    def catalogState(self):
+        if self._scanning:
+            return "Обновляется в фоне"
+        return "Локальный каталог" if self._all else "Каталог пуст"
+
+    @Slot()
+    def refreshIfStale(self):
+        if self.catalog.needs_refresh():
+            self.refresh()
 
     @Slot()
     def refresh(self):

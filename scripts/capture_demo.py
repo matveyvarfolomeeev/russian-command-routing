@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication
 
 from jev_launcher.app import create_window
 from jev_launcher.catalog import Catalog
+from jev_launcher.hotkey import DEFAULT_HOTKEY
 from jev_launcher.objects import DiscoveredObject, ScanResult
 
 
@@ -18,6 +19,8 @@ def main():
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     catalog = Catalog("artifacts/demo-preview/catalog.sqlite3")
+    catalog.set_setting("hotkey", DEFAULT_HOTKEY)
+    catalog.set_setting("theme", "dark")
     examples = [
         (
             "Проект по ML",
@@ -96,7 +99,7 @@ def main():
     QTest.qWait(100)
     assert window.grabWindow().save(str(args.output_dir / "editor.png"))
     window.findChild(QObject, "objectEditor").close()
-    controller.saveSettings("Ctrl+Alt+Space", "light", "", "", False)
+    controller.saveSettings(DEFAULT_HOTKEY, "light", "", "", False)
     navigation.setProperty("currentIndex", 0)
     QTest.qWait(100)
     assert window.grabWindow().save(str(args.output_dir / "light.png"))

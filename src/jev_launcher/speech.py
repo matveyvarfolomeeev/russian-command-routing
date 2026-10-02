@@ -42,6 +42,7 @@ def transcribe(wav: bytes, api_key: str, *, timeout: float = 30) -> str:
         headers={
             "Authorization": "Bearer " + api_key.strip(),
             "Content-Type": "multipart/form-data; boundary=" + boundary,
+            "User-Agent": "JevLauncher/0.1",
         },
         method="POST",
     )
@@ -55,7 +56,7 @@ def transcribe(wav: bytes, api_key: str, *, timeout: float = 30) -> str:
     except urllib.error.HTTPError as exc:
         messages = {
             401: "Groq отклонил API-ключ. Проверьте его в настройках.",
-            403: "Этот аккаунт Groq не имеет доступа к распознаванию.",
+            403: "Groq отклонил запрос. Проверьте доступ к сервису и попробуйте ещё раз.",
             413: "Запись слишком большая для сервиса.",
             429: "Достигнут лимит Groq. Попробуйте позже.",
         }

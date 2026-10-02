@@ -31,6 +31,7 @@ def test_request_uses_expected_model_file_and_language(monkeypatch):
     request, timeout = requests[0]
     assert request.full_url == "https://api.groq.com/openai/v1/audio/transcriptions"
     assert request.get_header("Authorization") == "Bearer example-test-key"
+    assert request.get_header("User-agent") == "JevLauncher/0.1"
     assert b"whisper-large-v3-turbo" in request.data
     assert b'name="language"\r\n\r\nru' in request.data
     assert wav_bytes() in request.data
