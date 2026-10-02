@@ -1,4 +1,6 @@
+import os
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -26,13 +28,17 @@ def test_fixed_helper_hidden_and_bounded(monkeypatch):
         )
 
     monkeypatch.setattr(discovery.subprocess, "run", run)
-    result = discovery.scan_windows()
+    roots = ["D:\\Projects with spaces", 'D:\\quoted " path']
+    result = discovery.scan_windows(roots)
     assert result.successful_sources == ["start_apps"]
     args, kwargs = calls[0]
     assert "-EncodedCommand" in args
     assert kwargs["creationflags"] == subprocess.CREATE_NO_WINDOW
     assert kwargs["timeout"] == 45
     assert "shell" not in kwargs
+    import json
+
+    assert json.loads(kwargs["env"]["JEV_LAUNCHER_FOLDER_ROOTS"]) == roots
 
 
 def test_desktop_startapp_path_is_an_executable(tmp_path):
@@ -267,3 +273,133 @@ def test_invalid_hotkeys(text):
 def test_hotkey_modifiers_and_function_key():
     assert parse_hotkey("Ctrl+Alt+Space") == (0x4003, 0x20)
     assert parse_hotkey("Ctrl+Shift+F12") == (0x4006, 0x7B)
+
+
+@pytest.mark.parametrize("registration", ["Discord.App", "{System-GUID}\\Discord"])
+def test_registered_command_with_arguments_joins_shortcut(tmp_path, registration):
+    target = tmp_path / "Update.exe"
+    target.touch()
+    entries = [
+        {
+            "name": "Discord",
+            "launch_type": "shortcut",
+            "launch_target": "Discord.lnk",
+            "resolved_target": str(target),
+            "raw_arguments": "--processStart Discord.exe",
+            "working_directory": str(tmp_path),
+            "app_id": "Discord.App",
+            "source": "start_menu_user",
+            "source_key": "shortcut:discord",
+        },
+        {
+            "name": "Discord",
+            "launch_type": "app_id",
+            "launch_target": registration,
+            "resolved_target": str(target),
+            "raw_arguments": "--processStart Discord.exe",
+            "source": "start_apps",
+            "source_key": "registered:discord",
+        },
+    ]
+    result = discovery.parse_scan({"entries": entries})
+    assert len({item.identity for item in result.objects}) == 1
+    assert result.objects[1].arguments == ("--processStart", "Discord.exe")
+    assert Path(result.objects[1].working_directory) == tmp_path
+
+
+def test_advertised_msi_shortcut_uses_installed_component(tmp_path, monkeypatch):
+    target = tmp_path / "SharpKeys.exe"
+    target.touch()
+    calls = []
+    monkeypatch.setattr(
+        discovery, "resolve_advertised_shortcut", lambda path: calls.append(path) or str(target)
+    )
+    result = discovery.parse_scan(
+        {
+            "entries": [
+                {
+                    "name": "SharpKeys",
+                    "launch_type": "shortcut",
+                    "launch_target": "SharpKeys.lnk",
+                    "resolved_target": r"C:\Windows\Installer\{GUID}\fake.exe",
+                    "source": "start_menu_common",
+                    "source_key": "link",
+                    "working_directory": str(tmp_path),
+                },
+                {
+                    "name": "SharpKeys",
+                    "launch_type": "app_id",
+                    "launch_target": "Opaque.ID",
+                    "resolved_target": str(target),
+                    "source": "start_apps",
+                    "source_key": "registered",
+                },
+            ]
+        }
+    )
+    assert calls == ["SharpKeys.lnk"]
+    assert len({item.identity for item in result.objects}) == 1
+    assert result.objects[0].resolved_target == str(target)
+
+
+def test_folder_registration_ignores_irrelevant_shortcut_cwd(tmp_path):
+    result = discovery.parse_scan(
+        {
+            "entries": [
+                {
+                    "name": "Logs",
+                    "launch_type": "shortcut",
+                    "launch_target": "Logs.lnk",
+                    "resolved_target": str(tmp_path),
+                    "working_directory": r"C:\Program Files",
+                    "source": "start_menu_user",
+                    "source_key": "link",
+                },
+                {
+                    "name": "Logs",
+                    "launch_type": "app_id",
+                    "launch_target": str(tmp_path),
+                    "source": "start_apps",
+                    "source_key": "registered",
+                },
+            ]
+        }
+    )
+    assert len({item.identity for item in result.objects}) == 1
+    assert all(item.kind == "folder" for item in result.objects)
+
+
+def test_shell_namespace_registration_stays_an_app():
+    namespace = "::{645FF040-5081-101B-9F08-00AA002F954E}"
+    result = discovery.parse_scan(
+        {
+            "entries": [
+                {
+                    "name": "Корзина",
+                    "launch_type": "shortcut",
+                    "launch_target": "Recycle.lnk",
+                    "app_id": namespace,
+                    "source": "start_menu_user",
+                    "source_key": "link",
+                },
+                {
+                    "name": "Корзина",
+                    "launch_type": "app_id",
+                    "launch_target": namespace,
+                    "resolved_target": namespace,
+                    "source": "start_apps",
+                    "source_key": "registered",
+                },
+            ]
+        }
+    )
+    assert len({item.identity for item in result.objects}) == 1
+    assert all(item.kind == "app" for item in result.objects)
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows discovery integration")
+def test_real_helper_accepts_empty_project_roots():
+    result = discovery.scan_windows([])
+    assert "project_folders" in result.successful_sources
+    assert "project_folders" not in result.errors
+    assert not any(item.source == "project_folders" for item in result.objects)

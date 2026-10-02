@@ -13,7 +13,13 @@ from uuid import uuid4
 
 from .objects import CatalogObject, DiscoveredObject, ScanResult, is_maintenance, launch_identity
 
-WINDOWS_SOURCES = {"start_menu_user", "start_menu_common", "start_apps"}
+WINDOWS_SOURCES = {
+    "start_menu_user",
+    "start_menu_common",
+    "start_apps",
+    "known_folders",
+    "project_folders",
+}
 REFRESH_INTERVAL = timedelta(hours=24)
 
 
@@ -34,7 +40,7 @@ class Catalog:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as db:
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version not in (0, 1, 2, 3):
+            if version not in (0, 1, 2, 3, 4):
                 raise RuntimeError(f"Unsupported catalog schema: {version}")
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS objects (
@@ -57,7 +63,12 @@ class Catalog:
             db.execute("PRAGMA journal_mode=WAL")
             if version < 3:
                 self._clean_legacy_catalog(db)
-                db.execute("PRAGMA user_version=3")
+            if version < 4:
+                # Apply enriched Shell metadata and automatic folders on the next scan.
+                db.execute(
+                    "INSERT OR REPLACE INTO settings VALUES ('last_successful_scan', 'null')"
+                )
+                db.execute("PRAGMA user_version=4")
 
     def _clean_legacy_catalog(self, db):
         """One cheap upgrade removes old uninstallers and joins exact desktop commands."""
@@ -124,45 +135,94 @@ class Catalog:
                     item.working_directory = json.loads(identity)[3]
             groups.setdefault(identity, []).append(item)
         for identity, copies in groups.items():
-            # Keep the ID with edited metadata, then the first original ID.
-            copies.sort(key=lambda item: (not bool(item.overrides), not item.favorite))
-            keeper = copies[0]
-            shortcut = next(
-                (
-                    item
-                    for item in copies
-                    if item.launch_type == "shortcut" and Path(item.launch_target).exists()
-                ),
-                None,
-            )
-            if shortcut and keeper.launch_type != "shortcut":
-                for key in (
-                    "launch_type",
-                    "launch_target",
-                    "arguments",
-                    "working_directory",
-                    "icon_target",
-                    "resolved_target",
-                ):
-                    setattr(keeper, key, getattr(shortcut, key))
-            for copy in copies[1:]:
-                for key in copy.overrides:
-                    if key not in keeper.overrides:
-                        setattr(keeper, key, getattr(copy, key))
-                keeper.overrides = tuple(sorted(set(keeper.overrides) | set(copy.overrides)))
-                keeper.favorite |= copy.favorite
-                keeper.enabled &= copy.enabled
-                keeper.available |= copy.available
-                db.execute(
-                    "UPDATE sources SET object_id=? WHERE object_id=?",
-                    (keeper.object_id, copy.object_id),
-                )
-                db.execute("DELETE FROM objects WHERE object_id=?", (copy.object_id,))
-            keeper.identity = identity
-            self._save(db, keeper)
+            self._merge_copies(db, copies, identity)
         # Refresh once after an upgrade: new discovery policy and builtin aliases need applying.
         if items:
             db.execute("INSERT OR REPLACE INTO settings VALUES ('last_successful_scan', 'null')")
+
+    def _merge_copies(self, db, copies, identity) -> CatalogObject:
+        """Join aliases physically, preserving edited IDs and every source reference."""
+        copies.sort(
+            key=lambda item: (
+                not bool(item.overrides),
+                not item.favorite,
+                item.enabled,
+                item.source != "manual",
+                item.launch_type != "shortcut",
+            )
+        )
+        keeper = copies[0]
+        shortcut = next(
+            (
+                item
+                for item in copies
+                if item.launch_type == "shortcut" and Path(item.launch_target).exists()
+            ),
+            None,
+        )
+        if shortcut and keeper.launch_type != "shortcut":
+            for key in (
+                "launch_type",
+                "launch_target",
+                "arguments",
+                "working_directory",
+                "icon_target",
+                "resolved_target",
+            ):
+                setattr(keeper, key, getattr(shortcut, key))
+        for copy in copies[1:]:
+            for key in copy.overrides:
+                if key not in keeper.overrides:
+                    setattr(keeper, key, getattr(copy, key))
+            keeper.overrides = tuple(sorted(set(keeper.overrides) | set(copy.overrides)))
+            keeper.favorite |= copy.favorite
+            keeper.enabled &= copy.enabled
+            keeper.available |= copy.available
+            db.execute(
+                "UPDATE sources SET object_id=? WHERE object_id=?",
+                (keeper.object_id, copy.object_id),
+            )
+            db.execute("DELETE FROM objects WHERE object_id=?", (copy.object_id,))
+        keeper.identity = identity
+        command_type = json.loads(identity)[0]
+        keeper.kind = (
+            "app" if command_type in ("executable", "shortcut", "app_id") else command_type
+        )
+        self._save(db, keeper)
+        return keeper
+
+    def _clean_orphaned_copies(self, db):
+        """Older scans could move a source reference and leave an unused duplicate behind."""
+        rows = db.execute(
+            "SELECT payload FROM objects o WHERE NOT EXISTS "
+            "(SELECT 1 FROM sources s WHERE s.object_id=o.object_id)"
+        ).fetchall()
+        for row in rows:
+            orphan = self._decode(row)
+            if orphan.source == "manual":
+                continue
+            command = launch_identity(
+                orphan.launch_type, orphan.launch_target, orphan.arguments, orphan.working_directory
+            )
+            candidates = [
+                self._decode(row)
+                for row in db.execute(
+                    "SELECT payload FROM objects o WHERE EXISTS "
+                    "(SELECT 1 FROM sources s WHERE s.object_id=o.object_id)"
+                )
+            ]
+            matches = [
+                item
+                for item in candidates
+                if launch_identity(
+                    item.launch_type, item.launch_target, item.arguments, item.working_directory
+                )
+                == command
+            ]
+            if len({item.identity for item in matches}) == 1:
+                self._merge_copies(db, [*matches, orphan], matches[0].identity)
+            elif not orphan.overrides and not orphan.favorite and orphan.enabled:
+                db.execute("DELETE FROM objects WHERE object_id=?", (orphan.object_id,))
 
     @contextmanager
     def connection(self):
@@ -224,21 +284,29 @@ class Catalog:
                 row = db.execute(
                     "SELECT payload FROM objects WHERE identity=?", (found.identity,)
                 ).fetchone()
-                if row is None:
-                    row = db.execute(
-                        "SELECT o.payload FROM objects o JOIN sources s ON o.object_id=s.object_id "
-                        "WHERE s.source_key=?",
-                        (found.source_key,),
-                    ).fetchone()
+                source_row = db.execute(
+                    "SELECT o.payload FROM objects o JOIN sources s ON o.object_id=s.object_id "
+                    "WHERE s.source_key=?",
+                    (found.source_key,),
+                ).fetchone()
+                if row and source_row:
+                    existing, previous = self._decode(row), self._decode(source_row)
+                    if existing.object_id != previous.object_id:
+                        self._merge_copies(db, [existing, previous], found.identity)
+                        row = db.execute(
+                            "SELECT payload FROM objects WHERE identity=?", (found.identity,)
+                        ).fetchone()
+                row = row or source_row
                 if row:
                     item = self._decode(row)
                     preserve_shortcut = (
-                        found.launch_type in ("app_id", "executable", "file")
+                        found.launch_type in ("app_id", "executable", "file", "folder")
                         and item.launch_type == "shortcut"
                         and Path(item.launch_target).exists()
                     )
                     for key in (
                         "name",
+                        "kind",
                         "description",
                         "description_source",
                         "aliases",
@@ -258,6 +326,14 @@ class Catalog:
                             "icon_target",
                             "resolved_target",
                         ):
+                            continue
+                        if (
+                            preserve_shortcut
+                            and key == "identity"
+                            and found.launch_type == "app_id"
+                            and not found.resolved_target
+                        ):
+                            # Missing Shell metadata must not split an already resolved alias.
                             continue
                         if key in ("description", "description_source", "aliases") and not getattr(
                             found, key
@@ -279,6 +355,7 @@ class Catalog:
                     "object_id=excluded.object_id, present=1",
                     (found.source_key, found.source, item.object_id),
                 )
+            self._clean_orphaned_copies(db)
             for row in db.execute("SELECT payload FROM objects").fetchall():
                 item = self._decode(row)
                 has_source = db.execute(

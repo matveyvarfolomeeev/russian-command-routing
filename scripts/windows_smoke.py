@@ -156,6 +156,7 @@ def packaged_check(executable: Path, root: Path, application):
             return None
 
         catalog = wait_for(scan_completed, 50)
+        assert not catalog.needs_refresh(), "Packaged catalog did not complete all sources"
         catalog_ready_ms = round((time.perf_counter() - started) * 1000)
         image = application.primaryScreen().grabWindow(handle)
         assert not image.isNull() and image.save(str(root / "packaged.png"))
@@ -190,6 +191,7 @@ def packaged_check(executable: Path, root: Path, application):
 def cached_start_check(executable: Path, root: Path):
     """Same packaged process with an existing catalog; no fresh scan is expected."""
     catalog = Catalog(root / "packaged-data" / "catalog.sqlite3")
+    assert not catalog.needs_refresh(), "Cached start requires a fully refreshed catalog"
     before = catalog.setting("last_scan")
     started = time.perf_counter()
     process = subprocess.Popen(

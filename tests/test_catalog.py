@@ -331,3 +331,162 @@ def test_schema2_preserves_distinct_shortcut_cwd_variants(catalog, tmp_path):
         db.execute("PRAGMA user_version=2")
     upgraded = Catalog(catalog.path)
     assert len(upgraded.items()) == 3
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_scan_consolidates_previous_source_records_and_preserves_edits(catalog, tmp_path, reverse):
+    shortcut = tmp_path / "App.lnk"
+    shortcut.touch()
+    link = DiscoveredObject(
+        name="App",
+        launch_type="shortcut",
+        launch_target=str(shortcut),
+        resolved_target=str(tmp_path / "App.exe"),
+        source="start_menu_common",
+        source_key="app:link",
+        identity=launch_identity("executable", str(tmp_path / "App.exe")),
+    )
+    registered = DiscoveredObject(
+        name="App",
+        launch_type="app_id",
+        launch_target="Opaque.AppID",
+        source="start_apps",
+        source_key="app:registered",
+    )
+    sources = ["start_menu_common", "start_apps"]
+    catalog.merge_scan(ScanResult([link, registered], sources))
+    registered_id = next(i.object_id for i in catalog.items() if i.launch_type == "app_id")
+    catalog.update(
+        registered_id,
+        description="Мой инструмент",
+        aliases=["мой апп"],
+        favorite=True,
+        enabled=False,
+    )
+    refreshed = [link, replace(registered, identity=link.identity)]
+    if reverse:
+        refreshed.reverse()
+    for _ in range(2):
+        catalog.merge_scan(ScanResult(refreshed, sources))
+        assert len(catalog.items()) == 1
+        item = catalog.get(registered_id)
+        assert item.description == "Мой инструмент" and item.aliases == ("мой апп",)
+        assert item.favorite and not item.enabled
+        assert item.launch_type == "shortcut" and item.launch_target == str(shortcut)
+    with catalog.connection() as db:
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM sources WHERE object_id=?", (registered_id,)
+            ).fetchone()[0]
+            == 2
+        )
+
+
+def test_schema3_upgrade_refreshes_folders_without_changing_settings(catalog):
+    catalog.merge_scan(scan(discovered(), sources=WINDOWS_SOURCES))
+    catalog.set_setting("protected_key", {"ciphertext": "encrypted-example"})
+    with catalog.connection() as db:
+        db.execute("PRAGMA user_version=3")
+    upgraded = Catalog(catalog.path)
+    assert upgraded.needs_refresh()
+    assert upgraded.setting("protected_key") == {"ciphertext": "encrypted-example"}
+    assert len(upgraded.items()) == 1
+
+
+def test_cli_project_roots_are_persisted_and_used_on_next_scan(
+    catalog, tmp_path, monkeypatch, capsys
+):
+    from jev_launcher import discovery
+
+    calls = []
+    monkeypatch.setattr(
+        discovery, "scan_windows", lambda roots: calls.append(roots) or ScanResult()
+    )
+    root = tmp_path / "Проекты с пробелами"
+    root.mkdir()
+    assert main(["--db", str(catalog.path), "scan", "--folder-root", str(root)]) == 0
+    assert main(["--db", str(catalog.path), "scan"]) == 0
+    assert calls == [[str(root)], [str(root)]]
+    assert catalog.setting("folder_roots") == [str(root)]
+    capsys.readouterr()
+
+
+def test_manual_folder_edits_survive_automatic_folder_discovery(catalog, tmp_path):
+    item = catalog.add_path(tmp_path)
+    catalog.update(item.object_id, name="Моя рабочая папка", aliases=["мой проект"])
+    auto = DiscoveredObject(
+        name="Документы",
+        launch_target=str(tmp_path),
+        launch_type="folder",
+        kind="folder",
+        source="known_folders",
+        source_key="known_folders:documents",
+    )
+    catalog.merge_scan(ScanResult([auto], ["known_folders"]))
+    assert len(catalog.items()) == 1
+    assert catalog.get(item.object_id).name == "Моя рабочая папка"
+    assert catalog.get(item.object_id).aliases == ("мой проект",)
+
+
+def test_old_orphaned_shortcut_joins_live_copy_with_edits(catalog, tmp_path):
+    from jev_launcher.objects import CatalogObject
+
+    shortcut = tmp_path / "Help.lnk"
+    shortcut.touch()
+    found = DiscoveredObject(
+        name="Help",
+        launch_type="shortcut",
+        launch_target=str(shortcut),
+        kind="file",
+        source="start_menu_common",
+        source_key="help:shortcut",
+        identity=launch_identity("file", str(tmp_path / "help.chm")),
+    )
+    catalog.merge_scan(ScanResult([found], ["start_menu_common"]))
+    live_id = catalog.items()[0].object_id
+    orphan = replace(
+        catalog.get(live_id),
+        object_id="edited-orphan",
+        identity=launch_identity("executable", str(tmp_path / "help.chm")),
+    )
+    assert isinstance(orphan, CatalogObject)
+    with catalog.connection() as db:
+        catalog._save(db, orphan)
+    catalog.update(orphan.object_id, description="Моя справка", enabled=False)
+    catalog.merge_scan(ScanResult([found], ["start_menu_common"]))
+    assert len(catalog.items()) == 1
+    kept = catalog.get(orphan.object_id)
+    assert kept.description == "Моя справка" and not kept.enabled
+    assert kept.kind == "file" and kept.available
+
+
+def test_temporarily_missing_registration_metadata_keeps_resolved_identity(catalog, tmp_path):
+    shortcut = tmp_path / "App.lnk"
+    shortcut.touch()
+    link = DiscoveredObject(
+        name="App",
+        launch_type="shortcut",
+        launch_target=str(shortcut),
+        resolved_target=str(tmp_path / "App.exe"),
+        source="start_menu_common",
+        source_key="app:link",
+        identity=launch_identity("executable", str(tmp_path / "App.exe")),
+    )
+    opaque = DiscoveredObject(
+        name="App",
+        launch_type="app_id",
+        launch_target="Opaque.AppID",
+        source="start_apps",
+        source_key="app:registered",
+    )
+    sources = ["start_menu_common", "start_apps"]
+    catalog.merge_scan(
+        ScanResult(
+            [link, replace(opaque, identity=link.identity, resolved_target=link.resolved_target)],
+            sources,
+        )
+    )
+    old_id = catalog.items()[0].object_id
+    catalog.merge_scan(ScanResult([link, opaque], sources))
+    assert len(catalog.items()) == 1
+    assert catalog.get(old_id).identity == link.identity

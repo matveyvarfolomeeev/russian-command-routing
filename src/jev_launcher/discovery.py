@@ -33,6 +33,32 @@ def split_windows_arguments(arguments: str) -> tuple[str, ...]:
         kernel.LocalFree(ctypes.cast(argv, ctypes.c_void_p))
 
 
+def resolve_advertised_shortcut(shortcut: str) -> str:
+    """Query installed MSI components; these APIs never install or repair anything.
+
+    https://learn.microsoft.com/windows/win32/api/msi/nf-msi-msigetshortcuttargetw
+    """
+    if os.name != "nt":
+        return ""
+    msi = ctypes.WinDLL("msi")
+    msi.MsiGetShortcutTargetW.argtypes = [ctypes.c_wchar_p] * 4
+    msi.MsiGetShortcutTargetW.restype = ctypes.c_uint
+    msi.MsiGetComponentPathW.argtypes = [
+        ctypes.c_wchar_p,
+        ctypes.c_wchar_p,
+        ctypes.c_wchar_p,
+        ctypes.POINTER(ctypes.c_uint),
+    ]
+    msi.MsiGetComponentPathW.restype = ctypes.c_int
+    product, feature, component = (ctypes.create_unicode_buffer(256) for _ in range(3))
+    if msi.MsiGetShortcutTargetW(shortcut, product, feature, component):
+        return ""
+    target = ctypes.create_unicode_buffer(32768)
+    size = ctypes.c_uint(len(target))
+    state = msi.MsiGetComponentPathW(product.value, component.value, target, ctypes.byref(size))
+    return target.value if state == 3 and Path(target.value).exists() else ""
+
+
 def parse_scan(payload: dict) -> ScanResult:
     known = json.loads((RESOURCES / "known_apps.json").read_text(encoding="utf-8"))
     result = ScanResult(
@@ -42,63 +68,68 @@ def parse_scan(payload: dict) -> ScanResult:
     entries = payload.get("entries", [])
     if isinstance(entries, dict):
         entries = [entries]
-    # An AppUserModel.ID can differ between two shortcuts launching the same desktop app.
-    # Match it to the actual command only when shortcut metadata identifies one command.
+    entries = [dict(entry) for entry in entries]
+    for entry in entries:
+        # WScript reports installer resources for advertised shortcuts, not the real target.
+        if (
+            entry["launch_type"] == "shortcut"
+            and "\\installer\\" in (entry.get("resolved_target") or "").casefold()
+        ):
+            actual = resolve_advertised_shortcut(entry["launch_target"])
+            if actual:
+                entry["resolved_target"] = actual
+                entry["icon_target"] = actual
+    # Shell registration supplies the executable and argv behind opaque/GUID AppIDs.
+    # A registration joins a shortcut only when its command is unambiguous.
     app_commands: dict[str, set[str]] = {}
-    desktop_commands: dict[str, set[str]] = {}
+    desktop_commands: dict[tuple[str, tuple[str, ...]], set[str]] = {}
     for entry in entries:
         resolved = entry.get("resolved_target") or ""
         arguments = split_windows_arguments(entry.get("raw_arguments") or "")
         app_id = entry.get("app_id")
-        if entry["launch_type"] == "shortcut" and resolved and not arguments:
-            command = launch_identity(
-                "executable" if ntpath.splitext(resolved)[1].casefold() == ".exe" else "file",
-                resolved,
-                (),
-                entry.get("working_directory") or "",
-            )
+        if entry["launch_type"] == "shortcut" and resolved:
+            command = command_identity(resolved, arguments, entry.get("working_directory") or "")
             if app_id:
                 app_commands.setdefault(app_id.casefold(), set()).add(command)
-            if ntpath.splitext(resolved)[1].casefold() == ".exe":
-                desktop_commands.setdefault(ntpath.normcase(ntpath.normpath(resolved)), set()).add(
-                    command
-                )
+            desktop_commands.setdefault((path_key(resolved), arguments), set()).add(command)
     for entry in entries:
         target = entry["launch_target"]
         launch_type = entry["launch_type"]
-        kind = "app"
+        kind = "folder" if launch_type == "folder" else "app"
         resolved = entry.get("resolved_target") or ""
         arguments = split_windows_arguments(entry.get("raw_arguments") or "")
         cwd = entry.get("working_directory") or ""
         if is_maintenance(entry["name"], resolved or target, arguments):
             continue
-        # Get-StartApps also returns absolute executable/document paths for desktop entries.
-        if launch_type == "app_id" and Path(target).is_file():
-            launch_type = "executable" if Path(target).suffix.lower() == ".exe" else "file"
-            kind = "app" if launch_type == "executable" else "file"
+        # Get-StartApps may return a directory, document or executable instead of an AppID.
+        if launch_type == "app_id" and Path(target).exists():
+            launch_type = target_type(target)
+            kind = "app" if launch_type == "executable" else launch_type
             resolved = target
             cwd = str(Path(target).parent) if launch_type == "executable" else ""
         identity = ""
         if launch_type == "shortcut" and resolved:
-            identity = launch_identity(
-                "executable" if ntpath.splitext(resolved)[1].casefold() == ".exe" else "file",
-                resolved,
-                arguments,
-                cwd,
+            identity = command_identity(resolved, arguments, cwd)
+            kind = (
+                "folder"
+                if target_type(resolved) == "folder"
+                else ("app" if target_type(resolved) == "executable" else "file")
             )
-        elif launch_type == "shortcut" and entry.get("app_id") and not arguments:
+        elif launch_type == "shortcut" and entry.get("app_id"):
             identity = launch_identity("app_id", entry["app_id"])
-        elif launch_type == "app_id":
+        if entry["launch_type"] == "app_id":
             commands = app_commands.get(target.casefold(), set())
+            if not commands and resolved:
+                commands = desktop_commands.get((path_key(resolved), arguments), set())
             if len(commands) == 1:
                 identity = next(iter(commands))
-        elif launch_type == "executable" and entry["launch_type"] == "app_id":
-            # Get-StartApps provides no cwd. A single no-argument shortcut is authoritative;
-            # multiple explicit cwd/profile variants remain separate candidates.
-            commands = desktop_commands.get(ntpath.normcase(ntpath.normpath(target)), set())
-            if len(commands) == 1:
-                identity = next(iter(commands))
-                cwd = json.loads(identity)[3]
+                command_type, canonical_target, argv, cwd = json.loads(identity)
+                arguments = tuple(argv)
+                resolved = resolved or canonical_target
+                kind = "app" if command_type in ("executable", "app_id") else command_type
+            elif resolved and not resolved.startswith(("shell:", "::{")):
+                identity = command_identity(resolved, arguments, cwd)
+                kind = "app" if target_type(resolved) == "executable" else target_type(resolved)
         builtin = known.get(ntpath.basename(resolved).casefold(), {})
         if not builtin:
             app_id = target.casefold()
@@ -116,11 +147,11 @@ def parse_scan(payload: dict) -> ScanResult:
                 source_key=entry["source_key"],
                 description=description,
                 description_source="builtin" if builtin else ("metadata" if description else ""),
-                aliases=tuple(builtin.get("aliases", ())),
+                aliases=tuple(builtin.get("aliases", entry.get("aliases", ()))),
                 arguments=arguments,
                 working_directory=cwd,
                 identity=identity,
-                icon_target=entry.get("icon_target") or target,
+                icon_target=entry.get("icon_target") or resolved or target,
                 resolved_target=resolved,
                 available=True if launch_type == "app_id" else Path(target).exists(),
             )
@@ -128,7 +159,23 @@ def parse_scan(payload: dict) -> ScanResult:
     return result
 
 
-def scan_windows() -> ScanResult:
+def path_key(target: str) -> str:
+    return ntpath.normcase(ntpath.normpath(os.path.expandvars(target)))
+
+
+def target_type(target: str) -> str:
+    if Path(target).is_dir():
+        return "folder"
+    return "executable" if ntpath.splitext(target)[1].casefold() == ".exe" else "file"
+
+
+def command_identity(target: str, arguments: tuple[str, ...], cwd: str) -> str:
+    kind = target_type(target)
+    # Document/folder Shell opens do not use the shortcut's working directory.
+    return launch_identity(kind, target, arguments, cwd if kind == "executable" else "")
+
+
+def scan_windows(folder_roots: list[str] | None = None) -> ScanResult:
     if os.name != "nt":
         raise RuntimeError("Сбор приложений поддерживается только в Windows")
     powershell = Path(os.environ.get("SystemRoot", r"C:\Windows")) / (
@@ -147,6 +194,7 @@ def scan_windows() -> ScanResult:
             errors="replace",
             timeout=45,
             creationflags=subprocess.CREATE_NO_WINDOW,
+            env={**os.environ, "JEV_LAUNCHER_FOLDER_ROOTS": json.dumps(folder_roots or [])},
             check=False,
         )
     except subprocess.TimeoutExpired as exc:

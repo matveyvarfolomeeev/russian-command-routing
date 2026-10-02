@@ -24,6 +24,8 @@ SOURCE_NAMES = {
     "start_apps": "Приложения Windows",
     "start_menu_user": "Меню Пуск",
     "start_menu_common": "Общее меню Пуск",
+    "known_folders": "Папки Windows",
+    "project_folders": "Папки проектов",
 }
 
 
@@ -202,10 +204,11 @@ class Controller(QObject):
         if self._scanning:
             return
         self._scanning = True
-        self._message("Собираем приложения из Windows…")
+        self._message("Собираем приложения и папки из Windows…")
 
         def work():
-            result = scan_windows()
+            roots = self.catalog.setting("folder_roots", [])
+            result = scan_windows(roots) if roots else scan_windows()
             self.catalog.merge_scan(result)
             return result
 

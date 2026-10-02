@@ -27,7 +27,13 @@ def main(argv=None) -> int:
         "--db", type=Path, help="Catalog database; default is the application catalog"
     )
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("scan", help="Refresh Windows application sources")
+    scan = commands.add_parser("scan", help="Refresh Windows applications and folders")
+    scan.add_argument(
+        "--folder-root",
+        action="append",
+        type=Path,
+        help="Save project roots to index (root and immediate subfolders); repeatable",
+    )
     commands.add_parser("list", help="Print the complete enabled/available catalog")
     export = commands.add_parser("export", help="Export a stable model-facing snapshot")
     export.add_argument("--output", type=Path, required=True)
@@ -41,7 +47,14 @@ def main(argv=None) -> int:
         if args.command == "scan":
             from .discovery import scan_windows
 
-            result = scan_windows()
+            if args.folder_root is not None:
+                roots = [str(path.expanduser().resolve()) for path in args.folder_root]
+                if any(not Path(root).is_dir() for root in roots):
+                    raise ValueError("Каждая папка проектов должна существовать")
+                catalog.set_setting("folder_roots", list(dict.fromkeys(roots)))
+                catalog.set_setting("last_successful_scan", None)
+            roots = catalog.setting("folder_roots", [])
+            result = scan_windows(roots) if roots else scan_windows()
             catalog.merge_scan(result)
             output = {
                 "objects": len(catalog.items()),
