@@ -52,7 +52,7 @@
     "results/calibration/predictions.jsonl.gz": "fd9dcfd1b601d9ac5df0de64503dc3b1d559c254b1736ef821bb23024bb811c7",
     "results/independent-v1/predictions.jsonl.gz": "ad4e262bb76aaf70aaa7aa80a29ae83beb60c7b2fd63d119fb50459acc322ade",
     "results/independent-v1/summary.json": "6714327245b97f9529b3273425838034b62e97f8f5ae7c9b1cb39377128049e4",
-    "results/README.md": "68eb677e0e5bbaa3f662a5407c775052a387e06e3a1b089f8870dfb62a4f2ff4",
+    "results/README.md": "11c971e2d8acf7d613f8752f3f520aa7e3d845cf942f5c0a978e911c4e08fe13",
     "results/source-models.json": "a42814b4bb97b7c16e88d068f10154277d606b47c553d14833b2946d3c02a3de",
     "results/training/clean-first-v1/training.jsonl.gz": "408d7180b07655159928c6838500ce2e85680966a75fc63431bb46ac44bfb8eb",
     "results/training/e5-small-clean-first-v1/training.jsonl.gz": "701a1dc5d718342ac16dd94e857f16058589b71918c47eacae08010b18d5a071",
@@ -71,7 +71,7 @@
     "results/training-runs.json": "950d58b829075e424a8e5763ba115a4a244019e5f43ce0e850b603df979b0323"
   },
   "local_provenance_sha256": {
-    "docs/EXPERIMENT_REGISTRY.json": "f2e74708d7050018092f8761825b1c8e855229121d355c333f56a7bcff15ebb7",
+    "artifacts/research-notes/docs/EXPERIMENT_REGISTRY.json": "f2e74708d7050018092f8761825b1c8e855229121d355c333f56a7bcff15ebb7",
     "artifacts/kaggle/independent-v1/comparison.json": "51d67d74741e765a7a5211f4d3ef8a489a75874b54860fec80125489b66aa4a6",
     "artifacts/kaggle/independent-v1/fixed-checkpoints.json": "9576159c6d7e06c1715adfc247f321e0a7583921f41997868dd795c1626eef1b",
     "artifacts/kaggle/independent-v1/e5-predictions.jsonl": "2d06e6dbf7c3f3c3f5779476686474b89274766125e88d4dfde17eafff1c36be",

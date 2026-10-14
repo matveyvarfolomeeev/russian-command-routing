@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import gzip
 import json
 from pathlib import Path
@@ -48,8 +49,8 @@ def public_prediction(row):
     return value
 
 
-def export():
-    registry = load(source(ROOT / "docs/EXPERIMENT_REGISTRY.json"))
+def export(registry_path):
+    registry = load(source(registry_path))
     independent = ROOT / "artifacts/kaggle/independent-v1"
     comparison = load(source(independent / "comparison.json"))
     fixed = load(source(independent / "fixed-checkpoints.json"))
@@ -167,4 +168,7 @@ def export():
 
 
 if __name__ == "__main__":
-    export()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--registry", type=Path,
+                        default=ROOT / "artifacts/research-notes/docs/EXPERIMENT_REGISTRY.json")
+    export(parser.parse_args().registry)
