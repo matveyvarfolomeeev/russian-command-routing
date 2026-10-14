@@ -41,7 +41,8 @@ python -m venv .venv
 $env:QT_QPA_PLATFORM = 'offscreen'
 $env:QT_QUICK_BACKEND = 'software'
 .\.venv\Scripts\python.exe -m ruff check src tests scripts
-.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m pytest -q --ignore=tests/test_quick.py --ignore=tests/test_ui.py
+.\.venv\Scripts\python.exe -m pytest -q tests/test_quick.py tests/test_ui.py
 ```
 
 The base environment runs dataset, training-contract, model-worker, launch-boundary and Qt/UI checks. Four tensor/gradient tests in `test_e5_training.py` additionally need PyTorch. `test_laya_cpu_weights.py` needs PyTorch, safetensors and the historical native loader on `PYTHONPATH`. These optional skips are reported explicitly; base CI does not claim GPU or native-weight parity.
@@ -49,6 +50,8 @@ The base environment runs dataset, training-contract, model-worker, launch-bound
 The [workflow](../.github/workflows/ci.yml) has a standard-library public-evidence job on Linux and the base test suite on Windows.
 
 Headless Qt tests explicitly use the software scene-graph backend, avoiding dependence on the desktop window manager and GPU renderer. This setting applies to tests; the application retains its ordinary rendering configuration. [Qt software adaptation](https://doc.qt.io/qt-6/qtquick-visualcanvas-adaptations-software.html).
+
+The two pytest commands cover every test. Session/QML integration runs in a separate process because the verified PySide6 runtime showed a headless QML initialization crash after the preceding non-UI suite, while the isolated session/UI suite passed. This is a test-process isolation measure; a monolithic headless run is not reported as passing.
 
 ## 4. Build a portable E5 training bundle
 

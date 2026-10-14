@@ -40,4 +40,7 @@ jobs:
       - run: python -m pip install -r requirements-dev.lock
       - run: python -m pip install --no-deps -e .
       - run: python -m ruff check src tests scripts
-      - run: python -m pytest -q
+      - name: Dataset, training and host-contract tests
+        run: python -m pytest -q --ignore=tests/test_quick.py --ignore=tests/test_ui.py
+      - name: Qt session and QML integration tests in a separate process
+        run: python -m pytest -q tests/test_quick.py tests/test_ui.py
