@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-stt-train-v1",
+  "created_on": "2026-10-04",
+  "privacy": "shareable_fictional",
+  "split": "train_only",
+  "query_source": "artificial_stt_text_errors",
+  "files": {
+    "catalogs.jsonl": "6ff0fe21b5decdd9fc3cf589ec42721e25037aba3e997ba436232a861a6c197e",
+    "operators.json": "aa722c783e606c90058f16733fb788266bc46026387d384cf2b4a557c17379ca",
+    "train.jsonl": "0363131ec342f3cd4f1de52b65f16ca6ad66d1b218a276546a891d3d346c71c0"
+  },
+  "parent_dataset": {
+    "path": "data/training/launcher-train-v1",
+    "files": {
+      "catalogs.jsonl": "6ff0fe21b5decdd9fc3cf589ec42721e25037aba3e997ba436232a861a6c197e",
+      "manifest.json": "757d565949612efd2d5061c1b9cad08238df2eca78cc21e653088511b88176e1",
+      "profiles.json": "e34afe6920272f60a544568e04ecc8ad33d7df48441c99e0d2d440c3a7b40a5e",
+      "train.jsonl": "262a48b2dbb45ae48e3431b7c936890946376f64041f7f6884c6f6ee36a4b1bf"
+    },
+    "rows": 5664,
+    "clean_queries": 5664
+  },
+  "statistics": {
+    "catalogs": 8,
+    "objects_per_catalog": {
+      "177": 8
+    },
+    "rows": 16992,
+    "seed_queries": 708,
+    "target_families": 117,
+    "target_objects": 1416,
+    "unique_normalized_queries": 15999,
+    "actions": {
+      "open": 16992
+    },
+    "kinds": {
+      "app": 13344,
+      "folder": 1920,
+      "file": 1728
+    },
+    "sources": {
+      "simulated_stt_text": 16992
+    },
+    "tags": {
+      "app": 13344,
+      "alias": 4248,
+      "stt_simulation": 16992,
+      "phonetic_name": 6176,
+      "folder": 1920,
+      "exact_name": 4248,
+      "word_split": 1656,
+      "variant": 3936,
+      "word_merge": 1656,
+      "command_dropout": 1230,
+      "filler": 1968,
+      "file": 1728,
+      "phonetic_word": 3696,
+      "semantic": 4560,
+      "spoken_acronym": 536,
+      "punctuation_and_case": 468,
+      "script_transcription": 1656,
+      "word_repeat": 1998,
+      "command_mishearing": 1456,
+      "spoken_number": 160
+    },
+    "rejected_candidates": {
+      "duplicate_or_clean_query": 1115,
+      "ambiguous_phonetic_name": 510
+    },
+    "operator_occurrences": {
+      "phonetic_name": 6176,
+      "script_transcription": 1656,
+      "command_dropout": 1230,
+      "word_split": 1656,
+      "filler": 1968,
+      "phonetic_word": 3696,
+      "word_merge": 1656,
+      "punctuation_and_case": 468,
+      "word_repeat": 1998,
+      "spoken_acronym": 536,
+      "command_mishearing": 1456,
+      "spoken_number": 160
+    },
+    "parent_rows": 5664,
+    "severity": {
+      "single": 11328,
+      "composed": 5664
+    }
+  },
+  "evaluation_guard": [
+    {
+      "dataset_id": "launcher-v1-synthetic",
+      "path": "data/benchmarks/launcher-v1/synthetic",
+      "files": {
+        "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+        "validation.jsonl": "41bd8ed21d32a25fd2726fd61816b4467beb10fabc95f1ff587cdc93a2a9759f",
+        "test.jsonl": "c419ef9fc564e80d1d7f168efbb97e3936883ee9df537d609e4130e393707484",
+        "manifest.json": "c0868c73b76a38b0f4d77ba706a2f4dfcf1906bf8d07d000911c914ca7e62068"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-v1-real",
+      "path": "artifacts/benchmarks/launcher-v1/real",
+      "files": {
+        "catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+        "validation.jsonl": "6d3e8317eafcd5ce6a4a1ec6c19a8759b76606bf4487b6d1db8e52e25a155872",
+        "test.jsonl": "aeb9d2d37080fc32e4f6da765a4c5dfed7b7f630e62031f1bbd90aaaae088ce3",
+        "manifest.json": "430593899efdd0a02707f274b6b8c1e515d46c284e35ce70882a5aaf21419c15"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-basic-v1-synthetic",
+      "path": "data/benchmarks/launcher-basic-v1/synthetic",
+      "files": {
+        "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+        "validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+        "test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4",
+        "manifest.json": "64b7f818bc0de29032f37901999a3bfc2ac9e9da9cea10a5706e3b0d795505a6"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-basic-v1-real",
+      "path": "artifacts/benchmarks/launcher-basic-v1/real",
+      "files": {
+        "catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+        "validation.jsonl": "5a67a5b77f1922013b3006b707d4fe70f30f8c71be9749b1a9bb031314ad4390",
+        "test.jsonl": "57db3e38e0d17f8a3c97cf523bda1f3d45f47302218d079f2450e8671fb4d40a",
+        "manifest.json": "014d1aeba0a51b4b81253b90925e117b889ffc20a05e3f7eec955c37ad7b5fbe"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-asr-v1-synthetic",
+      "path": "data/benchmarks/launcher-asr-v1/synthetic",
+      "files": {
+        "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+        "validation.jsonl": "635d3e82ccbb21a314e250b8f78b9d6bcb2478c798964226d9c20bf5c7fe5cc4",
+        "test.jsonl": "b68ddabaabd460ef50d3c8c85d9a90859c40a9a83a832b49fc0163bb3748f9ff",
+        "manifest.json": "9b70811871ee72dda3452c6430b52fdbbbc8d60c0b99fb15f89df86583b4ff34"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-asr-v1-real",
+      "path": "artifacts/benchmarks/launcher-asr-v1/real",
+      "files": {
+        "catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+        "validation.jsonl": "92e736dae769f8d242c37e33af2e37d724cdad27407d1939d85266ca608ebc71",
+        "test.jsonl": "21e9720c4b862a1189106b0b060f85d3937c975eb548820b7e8a9b85bdce1cb7",
+        "manifest.json": "adf176cfe820b0271a351fa698efaf2ad82df85d90e413897037533725b7cc1e"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    }
+  ],
+  "protocol": {
+    "allowed_actions": [
+      "open"
+    ],
+    "require_unique_target": true,
+    "model_input": [
+      "query",
+      "full_catalog.objects"
+    ],
+    "private_annotation_fields": [
+      "augmentation",
+      "catalog_id",
+      "expected_action",
+      "expected_object_id",
+      "group_id",
+      "id",
+      "input_type",
+      "rationale",
+      "seed_id",
+      "source",
+      "tags"
+    ],
+    "candidate_order": "Deterministic independent shuffle per row ID at export",
+    "split_rule": "Train only; related views retain parent group_id. Never randomly split augmented rows.",
+    "label_preservation": "Retain the original target; keep all distinguishing qualifiers. Phonetic name edits are screened against rival brands; no deletion of identity words or arbitrary hallucinations."
+  },
+  "annotation_review": {
+    "status": "author_reviewed_rules_and_parent_labels",
+    "independent": false,
+    "reviewer": "Codex (dataset author)",
+    "method": "Inherited authored parent labels; reversible boundary/script/number edits, protected variant words and conservative one-edit brand screen. No independent human annotation of each generated row."
+  },
+  "limitations": [
+    "No speech/audio or STT API used to generate these training rows; simulated errors are not a measured provider confusion distribution.",
+    "Augmented views and eight catalog instantiations are correlated; row count is not the number of independent linguistic scenarios.",
+    "Exact query/target separation is checked against frozen evaluation data; shared task purposes and command templates remain.",
+    "Only recoverable, uniquely intended open requests; unrecoverable ASR, clarification and refusal are outside this training version.",
+    "No model training or GPU runtime verification performed."
+  ]
+}

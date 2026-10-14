@@ -1,0 +1,1247 @@
+{
+  "schema_version": 1,
+  "catalog_hash": "e192ad8d46c932529da72482bc587263f1e4519b8618dcc4bde32315bc3f5322",
+  "objects": [
+    {
+      "object_id": "transfer-v1-6486d25360dd15fc5335",
+      "name": "Шаврел",
+      "kind": "app",
+      "description": "Построение родословной с родственниками, браками и датами жизни.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5ccb525f695005e9f702",
+      "name": "Ральника",
+      "kind": "app",
+      "description": "Редактор нотных партитур с тактами, голосами и печатью нот.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ca0786150cc11c16677b",
+      "name": "Коврет",
+      "kind": "app",
+      "description": "Создание швейных выкроек по меркам и раскладка деталей на ткани.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b627ceadb9531fd01dff",
+      "name": "Зельтро",
+      "kind": "app",
+      "description": "Проектирование печатных плат: дорожки, компоненты и проверка соединений.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-73fc17f98415e8474f86",
+      "name": "Фиркел",
+      "kind": "app",
+      "description": "Составление шахматных задач с заданными позициями и решениями.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-64a7c0fc61f4b3f22fc8",
+      "name": "Бренало",
+      "kind": "app",
+      "description": "Редактор сеток кроссвордов со словами, пересечениями и подсказками.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f987211987cc55dfa8e3",
+      "name": "Вельсар",
+      "kind": "app",
+      "description": "Журнал комнатных растений с расписанием полива и пересадки.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b98e812ed9a6ca15e6a5",
+      "name": "Гравель",
+      "kind": "app",
+      "description": "Моделирование движения планет по орбитам с изменением массы и скорости.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-793a5d026836ccd8d9c3",
+      "name": "Кирвоса",
+      "kind": "app",
+      "description": "Печать транспортных этикеток с адресом получателя и номером отправления.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4a93ad172530fa95db2a",
+      "name": "Терлун",
+      "kind": "app",
+      "description": "Сбор чеков покупок с суммами, датами и категориями расходов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-0f52fc046a0e1f11c5ac",
+      "name": "Морсель",
+      "kind": "app",
+      "description": "Конструктор гербов со щитами, геральдическими фигурами и цветами.",
+      "aliases": [
+        "Morsel"
+      ]
+    },
+    {
+      "object_id": "transfer-v1-c5479c858b13c2e2bc84",
+      "name": "Дравита",
+      "kind": "app",
+      "description": "Разметка глав подкаста с названиями и временными метками эпизодов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-209e40bfbfd45d597008",
+      "name": "Сенкало",
+      "kind": "app",
+      "description": "Редактор субтитров с репликами, временем появления и исчезновения.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-8e2148e97257969ff324",
+      "name": "Лумерис",
+      "kind": "app",
+      "description": "Редактор шрифтов: контуры букв, интервалы и кернинг пар символов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-87dfd7fa25b3da695d1e",
+      "name": "Нерфаль",
+      "kind": "app",
+      "description": "Проверка STL моделей на отверстия и восстановление замкнутой сетки.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-db4567982016b17e77ff",
+      "name": "Пирвела",
+      "kind": "app",
+      "description": "Черчение двумерных планов помещений со стенами, дверями и размерами.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-c7edcb0217ff4d98f30f",
+      "name": "Сарвун",
+      "kind": "app",
+      "description": "Редактор игровых карт: изменение рельефа, объектов и стартовых точек.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9757376b006a9af7f37d",
+      "name": "Женкори",
+      "kind": "app",
+      "description": "Составление пошаговых инструкций сборки моделей из конструктора.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-917edecfdf46bf46ff23",
+      "name": "Ольтев",
+      "kind": "app",
+      "description": "Лётный журнал с датами полётов, самолётами и налётом в часах.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-eb49a2f8bb27fc518487",
+      "name": "Урсема",
+      "kind": "app",
+      "description": "Журнал геокешинга с координатами тайников и отметками находок.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-c6caa6da2b106c68486c",
+      "name": "Ворсани",
+      "kind": "app",
+      "description": "Журнал астрономических наблюдений с объектами, телескопами и условиями.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-a7c224a738b937e897bb",
+      "name": "Керзав",
+      "kind": "app",
+      "description": "Разметка изображений ограничивающими рамками и классами объектов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-15a5550465274ab5f29e",
+      "name": "Риншело",
+      "kind": "app",
+      "description": "Калибровка датчиков по эталонным измерениям и построение поправочных кривых.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f83786376f6451d3d7c2",
+      "name": "Фелтар",
+      "kind": "app",
+      "description": "Визуализация регулярных выражений в виде автоматов и переходов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-28a0203ef8625c568692",
+      "name": "Таврель",
+      "kind": "app",
+      "description": "Сравнение редакций текстовых документов с выделением добавлений и удалений.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-62de5450926307c423f0",
+      "name": "Келмора",
+      "kind": "app",
+      "description": "Пакетное создание QR кодов из списка ссылок с сохранением изображений.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-2acfe4ef95c9f2a375b1",
+      "name": "Шорвен",
+      "kind": "app",
+      "description": "Редактор пользовательских словарей проверки орфографии.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-06062fa9fb879f19bd17",
+      "name": "Дарсило",
+      "kind": "app",
+      "description": "Предпросмотр HTML рассылок в разных почтовых клиентах без отправки писем.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5b3441b119b807603c7c",
+      "name": "Зарвена",
+      "kind": "app",
+      "description": "Отслеживание цен сохранённых товаров и уведомления об изменении стоимости.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fb2049c70fa9a73b3a30",
+      "name": "Гелвори",
+      "kind": "app",
+      "description": "Построение карт идей с узлами, связями и сворачиванием ветвей.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5b313bce0e911e394979",
+      "name": "Нолвира",
+      "kind": "app",
+      "description": "Рисование схем электрических соединений со стандартными символами.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-daaabe6c628550f40d70",
+      "name": "Улькор",
+      "kind": "app",
+      "description": "Сборка установочных пакетов Windows с мастером установки и списком файлов.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-3f7defc9fe5c77372f44",
+      "name": "Чарвели",
+      "kind": "app",
+      "description": "Составление школьного расписания с кабинетами, классами и учителями.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d3c782c308a4b6fa2a02",
+      "name": "Бельмар",
+      "kind": "app",
+      "description": "Каталог домашних книг с авторами, полками и отметками выдачи.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ebcf59d51e8d52255446",
+      "name": "Рештова",
+      "kind": "app",
+      "description": "Репетиция театральных ролей с репликами персонажей и подсказками текста.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-241a499c712f4dd767e9",
+      "name": "Журек-01 — персональный",
+      "kind": "app",
+      "description": "Адресная книга организаций. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-500cbd64dc35f788a9e5",
+      "name": "Журек-01 — общий",
+      "kind": "app",
+      "description": "Адресная книга организаций. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-41b88b9ef71d283cf5bc",
+      "name": "Журек-02 — персональный",
+      "kind": "app",
+      "description": "Проигрыватель локальной музыки. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4b184ca0f66b43ce1d58",
+      "name": "Журек-02 — общий",
+      "kind": "app",
+      "description": "Проигрыватель локальной музыки. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ad038a023032bee9460e",
+      "name": "Журек-03 — персональный",
+      "kind": "app",
+      "description": "Рисование эскизов одежды. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-39055ce92d41e15fb303",
+      "name": "Журек-03 — общий",
+      "kind": "app",
+      "description": "Рисование эскизов одежды. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-91ade2278bb703731770",
+      "name": "Журек-04 — персональный",
+      "kind": "app",
+      "description": "Расчёт сопротивлений цепей. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-686d81fe5f45086d7996",
+      "name": "Журек-04 — общий",
+      "kind": "app",
+      "description": "Расчёт сопротивлений цепей. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7efc1f3ae2296e299470",
+      "name": "Журек-05 — персональный",
+      "kind": "app",
+      "description": "Игра в шахматы. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fb6b9b3d0a36f3be6075",
+      "name": "Журек-05 — общий",
+      "kind": "app",
+      "description": "Игра в шахматы. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4ac64b29e3b53194dbdf",
+      "name": "Журек-06 — персональный",
+      "kind": "app",
+      "description": "Игра со словами. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-187bfdad61ecd264f614",
+      "name": "Журек-06 — общий",
+      "kind": "app",
+      "description": "Игра со словами. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-db276f3c35da1658a60d",
+      "name": "Журек-07 — персональный",
+      "kind": "app",
+      "description": "Общий календарь событий. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d41c868206ad3f65dfa0",
+      "name": "Журек-07 — общий",
+      "kind": "app",
+      "description": "Общий календарь событий. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d9d768998a722c41aabe",
+      "name": "Журек-08 — персональный",
+      "kind": "app",
+      "description": "Карта звёздного неба. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7e550af364a451883ded",
+      "name": "Журек-08 — общий",
+      "kind": "app",
+      "description": "Карта звёздного неба. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-630955ea8d72860a531d",
+      "name": "Журек-09 — персональный",
+      "kind": "app",
+      "description": "История доставки посылок. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9fbc2a56863f4aac1d8f",
+      "name": "Журек-09 — общий",
+      "kind": "app",
+      "description": "История доставки посылок. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b672d4aeeff724d6cbfe",
+      "name": "Журек-10 — персональный",
+      "kind": "app",
+      "description": "Выписка новых счетов. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-6e423cb13362656fa906",
+      "name": "Журек-10 — общий",
+      "kind": "app",
+      "description": "Выписка новых счетов. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-470a3def523ca03529ff",
+      "name": "Журек-11 — персональный",
+      "kind": "app",
+      "description": "Толковый словарь. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1c9e1618c0216abda3e1",
+      "name": "Журек-11 — общий",
+      "kind": "app",
+      "description": "Толковый словарь. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7013047d1c91118e5202",
+      "name": "Журек-12 — персональный",
+      "kind": "app",
+      "description": "Монтаж звуковых дорожек. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-2647f0c48db76d7bbf19",
+      "name": "Журек-12 — общий",
+      "kind": "app",
+      "description": "Монтаж звуковых дорожек. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-bc8ceb5246baa1d48293",
+      "name": "Журек-13 — персональный",
+      "kind": "app",
+      "description": "Просмотр видео. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-15a70ececd482ce9b66e",
+      "name": "Журек-13 — общий",
+      "kind": "app",
+      "description": "Просмотр видео. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-3d1fc1324df048eba46e",
+      "name": "Журек-14 — персональный",
+      "kind": "app",
+      "description": "Редактор форматированного текста. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ad903646a362cda8a50d",
+      "name": "Журек-14 — общий",
+      "kind": "app",
+      "description": "Редактор форматированного текста. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5080389ddb402ecd353a",
+      "name": "Журек-15 — персональный",
+      "kind": "app",
+      "description": "Подготовка слоёв для 3D принтера. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1fbc828cf372a3a8c041",
+      "name": "Журек-15 — общий",
+      "kind": "app",
+      "description": "Подготовка слоёв для 3D принтера. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-c6396f9c08e512d95683",
+      "name": "Журек-16 — персональный",
+      "kind": "app",
+      "description": "Визуализация интерьера. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4ea08ce0ebd151726290",
+      "name": "Журек-16 — общий",
+      "kind": "app",
+      "description": "Визуализация интерьера. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-69f88a781091ae93ce52",
+      "name": "Журек-17 — персональный",
+      "kind": "app",
+      "description": "Запуск компьютерных игр. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-60bbc421854fa319afd7",
+      "name": "Журек-17 — общий",
+      "kind": "app",
+      "description": "Запуск компьютерных игр. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-496257bd315f9b569e0b",
+      "name": "Журек-18 — персональный",
+      "kind": "app",
+      "description": "Галерея моделей конструктора. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-a37c95bac1a0f7e93bfc",
+      "name": "Журек-18 — общий",
+      "kind": "app",
+      "description": "Галерея моделей конструктора. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-057844c4251d7387bda2",
+      "name": "Журек-19 — персональный",
+      "kind": "app",
+      "description": "Поиск авиабилетов. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-bc13d1c473b564982fa5",
+      "name": "Журек-19 — общий",
+      "kind": "app",
+      "description": "Поиск авиабилетов. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1fd44ca979a6204ffc52",
+      "name": "Журек-20 — персональный",
+      "kind": "app",
+      "description": "Прокладка маршрутов по карте. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-64a210148390a9238fbf",
+      "name": "Журек-20 — общий",
+      "kind": "app",
+      "description": "Прокладка маршрутов по карте. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-a56b3fdcd804129ad424",
+      "name": "Журек-21 — персональный",
+      "kind": "app",
+      "description": "Просмотр галереи фотографий. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d88057120c9fb26d4f2e",
+      "name": "Журек-21 — общий",
+      "kind": "app",
+      "description": "Просмотр галереи фотографий. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7528ff2b49b34c9af791",
+      "name": "Журек-22 — персональный",
+      "kind": "app",
+      "description": "Мониторинг температуры компьютера. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-8fafcfc90fde0493f477",
+      "name": "Журек-22 — общий",
+      "kind": "app",
+      "description": "Мониторинг температуры компьютера. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-35c5c791e8590e0611f9",
+      "name": "Журек-23 — персональный",
+      "kind": "app",
+      "description": "Редактор исходного кода. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-eafff6bc1b3fd88a018e",
+      "name": "Журек-23 — общий",
+      "kind": "app",
+      "description": "Редактор исходного кода. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-98d31d34938c3d19d6a8",
+      "name": "Журек-24 — персональный",
+      "kind": "app",
+      "description": "Сравнение содержимого папок. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5a79ef88acb58daf9b2b",
+      "name": "Журек-24 — общий",
+      "kind": "app",
+      "description": "Сравнение содержимого папок. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9ca3ad1869dcc46c745f",
+      "name": "Журек-25 — персональный",
+      "kind": "app",
+      "description": "Проверка орфографии текста. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-6cfda8be8990eeb427f5",
+      "name": "Журек-25 — общий",
+      "kind": "app",
+      "description": "Проверка орфографии текста. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-86bc1e491c69423c72ed",
+      "name": "Журек-26 — персональный",
+      "kind": "app",
+      "description": "Чтение и отправка электронной почты. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1327d58864505f5d39d9",
+      "name": "Журек-26 — общий",
+      "kind": "app",
+      "description": "Чтение и отправка электронной почты. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d57a800e67c81be9f227",
+      "name": "Журек-27 — персональный",
+      "kind": "app",
+      "description": "Учёт расходов. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-28489966d36af959e599",
+      "name": "Журек-27 — общий",
+      "kind": "app",
+      "description": "Учёт расходов. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-bf896d7e9a8e73297c32",
+      "name": "Журек-28 — персональный",
+      "kind": "app",
+      "description": "Текстовые заметки. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-36cd9fd4de10ae600c5f",
+      "name": "Журек-28 — общий",
+      "kind": "app",
+      "description": "Текстовые заметки. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-c376bf2614329fbe31b1",
+      "name": "Журек-29 — персональный",
+      "kind": "app",
+      "description": "Сборка исходного кода. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-8c2dad9ff868cfc34e3d",
+      "name": "Журек-29 — общий",
+      "kind": "app",
+      "description": "Сборка исходного кода. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-a6e483727ba0ca70090a",
+      "name": "Журек-30 — персональный",
+      "kind": "app",
+      "description": "Запуск тестов программ. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-cd9ddf6e4d741de54d98",
+      "name": "Журек-30 — общий",
+      "kind": "app",
+      "description": "Запуск тестов программ. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-064be6548293159c5115",
+      "name": "Журек-31 — персональный",
+      "kind": "app",
+      "description": "Календарь личных встреч. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ee75c5099660f865f8b5",
+      "name": "Журек-31 — общий",
+      "kind": "app",
+      "description": "Календарь личных встреч. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1908eee0206d85cc8539",
+      "name": "Журек-32 — персональный",
+      "kind": "app",
+      "description": "Чтение электронных книг. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f7ed910fec7a20ec7365",
+      "name": "Журек-32 — общий",
+      "kind": "app",
+      "description": "Чтение электронных книг. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-30770615cf91b3aa2126",
+      "name": "Журек-33 — персональный",
+      "kind": "app",
+      "description": "Копирование папок по расписанию. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-286f61d6fe9b00092dca",
+      "name": "Журек-33 — общий",
+      "kind": "app",
+      "description": "Копирование папок по расписанию. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-03a35aa59810c9f8abb2",
+      "name": "Журек-34 — персональный",
+      "kind": "app",
+      "description": "Распаковка архивов. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-cfaa38ba97083bd08cae",
+      "name": "Журек-34 — общий",
+      "kind": "app",
+      "description": "Распаковка архивов. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-066febed5b76147bbdd4",
+      "name": "Журек-35 — персональный",
+      "kind": "app",
+      "description": "Удалённое управление компьютером. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d4c76608101d823a361c",
+      "name": "Журек-35 — общий",
+      "kind": "app",
+      "description": "Удалённое управление компьютером. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4065a454387d4f1a83e8",
+      "name": "Журек-36 — персональный",
+      "kind": "app",
+      "description": "Экранная лупа. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5439a86b5ac452f5a6d6",
+      "name": "Журек-36 — общий",
+      "kind": "app",
+      "description": "Экранная лупа. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d8d3938fa98fa50fbfc5",
+      "name": "Журек-37 — персональный",
+      "kind": "app",
+      "description": "Запись экрана. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5b29e165c04e199b6e30",
+      "name": "Журек-37 — общий",
+      "kind": "app",
+      "description": "Запись экрана. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-cc6e9027880a1c5a6f65",
+      "name": "Журек-38 — персональный",
+      "kind": "app",
+      "description": "Настройка микрофона. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-12a042d8ca6efe57ec5b",
+      "name": "Журек-38 — общий",
+      "kind": "app",
+      "description": "Настройка микрофона. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d603982522071de50694",
+      "name": "Журек-39 — персональный",
+      "kind": "app",
+      "description": "Просмотр картографических слоёв. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-83e7f731a5b0c6273e17",
+      "name": "Журек-39 — общий",
+      "kind": "app",
+      "description": "Просмотр картографических слоёв. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-e05985ac042cba02589f",
+      "name": "Журек-40 — персональный",
+      "kind": "app",
+      "description": "Конвертация изображений. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-bf8dbe6a0ebb64cb8ab7",
+      "name": "Журек-40 — общий",
+      "kind": "app",
+      "description": "Конвертация изображений. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-bb7b1eea73c4e2703220",
+      "name": "Журек-41 — персональный",
+      "kind": "app",
+      "description": "Шифрование файлов. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b8c384f2255f2eaa84fc",
+      "name": "Журек-41 — общий",
+      "kind": "app",
+      "description": "Шифрование файлов. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b00dd86c7d51a258979b",
+      "name": "Журек-42 — персональный",
+      "kind": "app",
+      "description": "Проверка электронных подписей. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fc96b4e1b219fe5c18bf",
+      "name": "Журек-42 — общий",
+      "kind": "app",
+      "description": "Проверка электронных подписей. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4404dee1440d278b9a9e",
+      "name": "Журек-43 — персональный",
+      "kind": "app",
+      "description": "Создание диаграмм таблиц. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-e38838077508e08a7727",
+      "name": "Журек-43 — общий",
+      "kind": "app",
+      "description": "Создание диаграмм таблиц. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1335dbb21f2ea107f4ae",
+      "name": "Журек-44 — персональный",
+      "kind": "app",
+      "description": "Загрузка файлов из сети. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-6c58b252b89c76e8d3e9",
+      "name": "Журек-44 — общий",
+      "kind": "app",
+      "description": "Загрузка файлов из сети. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f5df46fd784aa95e5e2c",
+      "name": "Журек-45 — персональный",
+      "kind": "app",
+      "description": "Показ сетевых соединений. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-a3ea69abf4626cf0f1fe",
+      "name": "Журек-45 — общий",
+      "kind": "app",
+      "description": "Показ сетевых соединений. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-11fcc6136363f9c8fa2d",
+      "name": "Журек-46 — персональный",
+      "kind": "app",
+      "description": "Поиск файлов по содержимому. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-007f7863667783418844",
+      "name": "Журек-46 — общий",
+      "kind": "app",
+      "description": "Поиск файлов по содержимому. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ce33cfb2404ff3b88949",
+      "name": "Журек-47 — персональный",
+      "kind": "app",
+      "description": "Распознавание текста на сканах. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-02d845d8f97c14a11615",
+      "name": "Журек-47 — общий",
+      "kind": "app",
+      "description": "Распознавание текста на сканах. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f16c1fdd733147cf604b",
+      "name": "Журек-48 — персональный",
+      "kind": "app",
+      "description": "Перевод отдельных фраз. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fef6ee714f938e888e70",
+      "name": "Журек-48 — общий",
+      "kind": "app",
+      "description": "Перевод отдельных фраз. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fe8b1aec6ecc53b4a104",
+      "name": "Журек-49 — персональный",
+      "kind": "app",
+      "description": "Создание презентаций. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-882f85a3d1a767db1962",
+      "name": "Журек-49 — общий",
+      "kind": "app",
+      "description": "Создание презентаций. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-2df1e77f515199f378a3",
+      "name": "Журек-50 — персональный",
+      "kind": "app",
+      "description": "Измерение скорости накопителя. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-fa86de4c511f3b5af0aa",
+      "name": "Журек-50 — общий",
+      "kind": "app",
+      "description": "Измерение скорости накопителя. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ec3a7d1332b53e752929",
+      "name": "Журек-51 — персональный",
+      "kind": "app",
+      "description": "Показ расхода заряда батареи. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-ad4d52733ed357c15102",
+      "name": "Журек-51 — общий",
+      "kind": "app",
+      "description": "Показ расхода заряда батареи. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-19cabdd343f4c1fa8d2d",
+      "name": "Журек-52 — персональный",
+      "kind": "app",
+      "description": "Настройка яркости экрана. Режим данных: персональный.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-e6201a47c1bb153bf45f",
+      "name": "Журек-52 — общий",
+      "kind": "app",
+      "description": "Настройка яркости экрана. Режим данных: общий.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-dc13b1a60b3bf7773e46",
+      "name": "Кленовый маяк — чертежи",
+      "kind": "folder",
+      "description": "Папка с исходными чертежами проекта Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-c3623c10740d887bee5b",
+      "name": "Кленовый маяк — измерения",
+      "kind": "folder",
+      "description": "Папка таблиц измерений проекта Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-e25a9539de03bc5d415d",
+      "name": "Кленовый маяк — фотографии",
+      "kind": "folder",
+      "description": "Папка фотографий проекта Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7716eabfc93e706f0bc4",
+      "name": "Кленовый маяк — архивы",
+      "kind": "folder",
+      "description": "Папка старых архивов проекта Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7ded402804f853b96c76",
+      "name": "Вечерний атлас — чертежи",
+      "kind": "folder",
+      "description": "Папка с исходными чертежами проекта Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f6db03006ab3a4985ded",
+      "name": "Вечерний атлас — измерения",
+      "kind": "folder",
+      "description": "Папка таблиц измерений проекта Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-8e85969923f7178d9b30",
+      "name": "Вечерний атлас — фотографии",
+      "kind": "folder",
+      "description": "Папка фотографий проекта Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-27631708a5476f0a3b65",
+      "name": "Вечерний атлас — архивы",
+      "kind": "folder",
+      "description": "Папка старых архивов проекта Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9990fd1437b39349408a",
+      "name": "Синий парус — чертежи",
+      "kind": "folder",
+      "description": "Папка с исходными чертежами проекта Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d83d84dd183d71e56bbc",
+      "name": "Синий парус — измерения",
+      "kind": "folder",
+      "description": "Папка таблиц измерений проекта Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f0feaaaa4ee52204dde1",
+      "name": "Синий парус — фотографии",
+      "kind": "folder",
+      "description": "Папка фотографий проекта Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1d52e543a741b038938b",
+      "name": "Синий парус — архивы",
+      "kind": "folder",
+      "description": "Папка старых архивов проекта Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-66abf5b23b926f11af53",
+      "name": "Тихий склон — чертежи",
+      "kind": "folder",
+      "description": "Папка с исходными чертежами проекта Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b8cdc2407eda8899627f",
+      "name": "Тихий склон — измерения",
+      "kind": "folder",
+      "description": "Папка таблиц измерений проекта Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-42f4c540d3faf063e37a",
+      "name": "Тихий склон — фотографии",
+      "kind": "folder",
+      "description": "Папка фотографий проекта Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-d4ddd83df1cfe5c9a507",
+      "name": "Тихий склон — архивы",
+      "kind": "folder",
+      "description": "Папка старых архивов проекта Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-7956a858e10820349055",
+      "name": "Звонкий камень — чертежи",
+      "kind": "folder",
+      "description": "Папка с исходными чертежами проекта Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-afc812468fac6eb2a438",
+      "name": "Звонкий камень — измерения",
+      "kind": "folder",
+      "description": "Папка таблиц измерений проекта Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9dd37016eb4e87d37284",
+      "name": "Звонкий камень — фотографии",
+      "kind": "folder",
+      "description": "Папка фотографий проекта Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b8305a17c86e0ba767db",
+      "name": "Звонкий камень — архивы",
+      "kind": "folder",
+      "description": "Папка старых архивов проекта Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-1f80953232b3adbb922c",
+      "name": "Кленовый маяк — Схема питания.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: Схема питания, проект Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-338b4e33f78a81e9901e",
+      "name": "Кленовый маяк — Схема питания.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: Схема питания, проект Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-12b16f5196b76c7d1699",
+      "name": "Кленовый маяк — Схема питания.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: Схема питания, проект Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-405885c52b933e63f99b",
+      "name": "Вечерний атлас — Геоточки участка.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: Геоточки участка, проект Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-4b20b89f3d44550a8a1c",
+      "name": "Вечерний атлас — Геоточки участка.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: Геоточки участка, проект Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b4d1eee7a2d010319f15",
+      "name": "Вечерний атлас — Геоточки участка.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: Геоточки участка, проект Вечерний атлас.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-dbad0475ceef4de58215",
+      "name": "Синий парус — План расстановки.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: План расстановки, проект Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9a7ccbd6386c6088e030",
+      "name": "Синий парус — План расстановки.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: План расстановки, проект Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-70bad2c093bfab68a6d9",
+      "name": "Синий парус — План расстановки.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: План расстановки, проект Синий парус.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-b39087c52c6834cb1a35",
+      "name": "Тихий склон — Спецификация узла.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: Спецификация узла, проект Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-604f01e36dbf8098534b",
+      "name": "Тихий склон — Спецификация узла.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: Спецификация узла, проект Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9b23f9f15b1fd013dd88",
+      "name": "Тихий склон — Спецификация узла.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: Спецификация узла, проект Тихий склон.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-9e70f31ad1da886f62eb",
+      "name": "Звонкий камень — График поставок.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: График поставок, проект Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-5edc80413423bebd2e37",
+      "name": "Звонкий камень — График поставок.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: График поставок, проект Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-be6d2f5539f9114ae6b4",
+      "name": "Звонкий камень — График поставок.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: График поставок, проект Звонкий камень.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-e079a39acdb63c62af0c",
+      "name": "Кленовый маяк — Список деталей.pdf",
+      "kind": "file",
+      "description": "Утверждённая итоговая версия в PDF: Список деталей, проект Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-f425d5dc9f99c6720e7f",
+      "name": "Кленовый маяк — Список деталей.docx",
+      "kind": "file",
+      "description": "Рабочий редактируемый черновик: Список деталей, проект Кленовый маяк.",
+      "aliases": []
+    },
+    {
+      "object_id": "transfer-v1-0895cce480062be4d63e",
+      "name": "Кленовый маяк — Список деталей.zip",
+      "kind": "file",
+      "description": "Архив исходных материалов: Список деталей, проект Кленовый маяк.",
+      "aliases": []
+    }
+  ]
+}

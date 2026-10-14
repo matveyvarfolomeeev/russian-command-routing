@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-basic-v1-synthetic",
+  "created_on": "2026-10-03",
+  "revision": "open-only-basic",
+  "difficulty": "basic",
+  "privacy": "shareable_fictional",
+  "catalog_hash": "8eae415a091da95523f58421614f3103969d24b4feb8b88c29e19ee079ca8390",
+  "catalog_counts": {
+    "folder": 20,
+    "app": 139,
+    "file": 18
+  },
+  "splits": {
+    "validation": {
+      "rows": 50,
+      "actions": {
+        "open": 50
+      }
+    },
+    "test": {
+      "rows": 150,
+      "actions": {
+        "open": 150
+      }
+    }
+  },
+  "files": {
+    "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+    "test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4"
+  },
+  "query_source": "authored",
+  "annotation_review": {
+    "status": "author_reviewed",
+    "reviewer": "Codex (dataset author)",
+    "reviewed_on": "2026-10-03",
+    "reviewed_rows": 200,
+    "independent": false,
+    "method": "Second author pass over all 200 serialized natural queries and target IDs against the frozen catalog; positive version qualifiers, app/document/folder intent and corrected rows checked. No evaluated-model predictions used."
+  },
+  "split_method": "Same object families, targets, row counts and splits as launcher-v1, including across catalogs and difficulty sets.",
+  "group_count": 50,
+  "protocol": {
+    "model_input": [
+      "query",
+      "full_catalog.objects"
+    ],
+    "private_annotation_fields": [
+      "id",
+      "expected_action",
+      "expected_object_id",
+      "group_id",
+      "tags",
+      "source",
+      "rationale"
+    ],
+    "task": "forced top-1 selection of one uniquely specified catalog object",
+    "allowed_actions": [
+      "open"
+    ],
+    "require_unique_target": true,
+    "metric": "top1_accuracy",
+    "metric_definition": "Exactly matching object IDs / all split rows; no exclusion of abstentions, invalid IDs or failed predictions.",
+    "test_usage": "Held-out confirmation after validation settings are frozen."
+  },
+  "catalog_origin": "fully_fictional",
+  "comparison": {
+    "paired_with": "launcher-v1-synthetic",
+    "source_files": {
+      "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+      "validation.jsonl": "41bd8ed21d32a25fd2726fd61816b4467beb10fabc95f1ff587cdc93a2a9759f",
+      "test.jsonl": "c419ef9fc564e80d1d7f168efbb97e3936883ee9df537d609e4130e393707484"
+    },
+    "shared_normalized_queries": {
+      "validation": 17,
+      "test": 1
+    },
+    "independent_of_difficult_set": false,
+    "interpretation": "Basic and difficult profiles are separate slices of the same launcher task, not independent evidence or a usage-frequency sample."
+  }
+}

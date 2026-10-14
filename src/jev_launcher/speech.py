@@ -12,7 +12,9 @@ class SpeechError(RuntimeError):
     pass
 
 
-def transcribe(wav: bytes, api_key: str, *, timeout: float = 30) -> str:
+def transcribe(
+    wav: bytes, api_key: str, *, timeout: float = 30, model: str = "whisper-large-v3"
+) -> str:
     if not api_key.strip():
         raise SpeechError("Укажите ключ Groq в настройках или GROQ_API_KEY в окружении.")
     if not wav or len(wav) <= 44:
@@ -22,7 +24,7 @@ def transcribe(wav: bytes, api_key: str, *, timeout: float = 30) -> str:
     boundary = "jev-" + uuid4().hex
     parts = []
     for key, value in {
-        "model": "whisper-large-v3-turbo",
+        "model": model,
         "language": "ru",
         "response_format": "json",
     }.items():

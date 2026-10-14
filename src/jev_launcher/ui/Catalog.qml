@@ -24,7 +24,7 @@ ColumnLayout {
         editor.open()
     }
 
-    RowLayout {
+    ColumnLayout {
         Layout.fillWidth: true
         spacing: 8
         ColumnLayout {
@@ -48,6 +48,10 @@ ColumnLayout {
                 elide: Text.ElideRight
             }
         }
+        RowLayout {
+        Layout.fillWidth: true
+        spacing: 8
+        Item { Layout.fillWidth: true }
         AppButton { text: "+ Файл"; dark: page.dark; onClicked: controller.addPath(false) }
         AppButton { text: "+ Папка"; dark: page.dark; onClicked: controller.addPath(true) }
         AppButton {
@@ -56,6 +60,7 @@ ColumnLayout {
             dark: page.dark
             enabled: !controller.scanning
             onClicked: controller.refresh()
+        }
         }
     }
     Field {

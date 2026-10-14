@@ -39,6 +39,8 @@ experiments/runs/
 # Local editor and OS files
 .idea/
 .vscode/
+.vibe-wise/
+kaggle.json
 Thumbs.db
 Desktop.ini
 .DS_Store

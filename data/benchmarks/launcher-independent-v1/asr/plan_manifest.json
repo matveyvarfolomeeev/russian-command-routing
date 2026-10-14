@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-independent-v1-asr",
+  "created_on": "2026-10-06",
+  "source_dataset": "launcher-independent-v1-clean",
+  "source_files": {
+    "catalog.json": "cf67280d388225f3032f2750dd1f047014ea1fb5ae30f637d245d9618b4d1d0b",
+    "validation.jsonl": "6979da9d89daeb3d5d085e46355188481e619120871a2acca21653b09abacfc1",
+    "test.jsonl": "aa435bf6a9914fbbf3d51e79cd5e650e3c2e93d0489f069e2b8d51dd4281e15e",
+    "manifest.json": "d4aff876a77b7cc683b9f85ee40461975f526fea4e2d1e522d8b9fb092f659be"
+  },
+  "source_path": "data/benchmarks/launcher-independent-v1/clean",
+  "clean_queries_sha256": "644b4cc420924f1b3bfe560e5146078f94e2be601cdf0987838446162c95981d",
+  "asr": {
+    "provider": "groq",
+    "model": "whisper-large-v3",
+    "language": "ru",
+    "response_format": "json",
+    "prompt": null
+  },
+  "asr_client_sha256": "a4d72714f21085eba9b0031173e246d8fad75fbd8d292fe2fb22314010316973",
+  "authoring_sha256": "9197c6470a9aab69781e2273c4459e52329ff0660c2796b1ed870b264e043698",
+  "guard_source_files": {
+    "artifacts/benchmarks/asr-comparison-20261004/comparison.json": "cdbe6b9ea23f320bd4a86b414a98b8437f26db4675552824d8b4cbf8bb1541c0",
+    "artifacts/benchmarks/asr-comparison-20261004/responses.jsonl": "dd89227e16125e83857fe8e4685cccb3c0b6ceac297efa57522930cebb2d13ea",
+    "artifacts/benchmarks/asr-comparison-20261005/live-client.json": "b8dfc6bd90742b9c408e018ffb2843cf993c923cf32a40ecb2d728cd042a9667",
+    "artifacts/benchmarks/launcher-asr-v1/real/asr_review.jsonl": "6ff024fb408ac1f6923be7b09c7de5c0f5721bfe7de4984558ced6e91de64975",
+    "artifacts/benchmarks/launcher-asr-v1/real/catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+    "artifacts/benchmarks/launcher-asr-v1/real/clean_queries.jsonl": "1736009bfa157e6b1f34f04408df92903b10965a73efb0b60cbab5a2b97ff4b6",
+    "artifacts/benchmarks/launcher-asr-v1/real/manifest.json": "adf176cfe820b0271a351fa698efaf2ad82df85d90e413897037533725b7cc1e",
+    "artifacts/benchmarks/launcher-asr-v1/real/recordings.jsonl": "1dd94f4f93a64c50f950e198dc7c5c2e873de3be5b32accf7585ca8f20a35190",
+    "artifacts/benchmarks/launcher-asr-v1/real/test.jsonl": "21e9720c4b862a1189106b0b060f85d3937c975eb548820b7e8a9b85bdce1cb7",
+    "artifacts/benchmarks/launcher-asr-v1/real/transcriptions.jsonl": "17dd5642a4a2a23751bc44e35eab5cf7494dfb15e18471aba1e956c1bfba0193",
+    "artifacts/benchmarks/launcher-asr-v1/real/validation.jsonl": "92e736dae769f8d242c37e33af2e37d724cdad27407d1939d85266ca608ebc71",
+    "artifacts/benchmarks/launcher-basic-v1/real/catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+    "artifacts/benchmarks/launcher-basic-v1/real/manifest.json": "014d1aeba0a51b4b81253b90925e117b889ffc20a05e3f7eec955c37ad7b5fbe",
+    "artifacts/benchmarks/launcher-basic-v1/real/test.jsonl": "57db3e38e0d17f8a3c97cf523bda1f3d45f47302218d079f2450e8671fb4d40a",
+    "artifacts/benchmarks/launcher-basic-v1/real/validation.jsonl": "5a67a5b77f1922013b3006b707d4fe70f30f8c71be9749b1a9bb031314ad4390",
+    "artifacts/benchmarks/launcher-v1/real/catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+    "artifacts/benchmarks/launcher-v1/real/manifest.json": "430593899efdd0a02707f274b6b8c1e515d46c284e35ce70882a5aaf21419c15",
+    "artifacts/benchmarks/launcher-v1/real/test.jsonl": "aeb9d2d37080fc32e4f6da765a4c5dfed7b7f630e62031f1bbd90aaaae088ce3",
+    "artifacts/benchmarks/launcher-v1/real/validation.jsonl": "6d3e8317eafcd5ce6a4a1ec6c19a8759b76606bf4487b6d1db8e52e25a155872",
+    "data/benchmarks/launcher-asr-v1/synthetic/asr_review.jsonl": "979a4b1ceb69c47279a52b2cb1a16ea797c93b1be4d5bb382655a3f43e294943",
+    "data/benchmarks/launcher-asr-v1/synthetic/catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "data/benchmarks/launcher-asr-v1/synthetic/clean_queries.jsonl": "1a23d5db80cc89f3d12c2eac84c03a54589daf59ffa03392a21c800d930427f0",
+    "data/benchmarks/launcher-asr-v1/synthetic/manifest.json": "9b70811871ee72dda3452c6430b52fdbbbc8d60c0b99fb15f89df86583b4ff34",
+    "data/benchmarks/launcher-asr-v1/synthetic/recordings.jsonl": "4768f93f575ab53d138495f2999166df5e881efaa928e1c65adeeac966cedf90",
+    "data/benchmarks/launcher-asr-v1/synthetic/test.jsonl": "b68ddabaabd460ef50d3c8c85d9a90859c40a9a83a832b49fc0163bb3748f9ff",
+    "data/benchmarks/launcher-asr-v1/synthetic/transcriptions.jsonl": "fe1c84bbaeb4c188fc25cc3bd4ee0b532b88d81c0940c415c4cd36a642cbed94",
+    "data/benchmarks/launcher-asr-v1/synthetic/validation.jsonl": "635d3e82ccbb21a314e250b8f78b9d6bcb2478c798964226d9c20bf5c7fe5cc4",
+    "data/benchmarks/launcher-basic-v1/synthetic/catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "data/benchmarks/launcher-basic-v1/synthetic/manifest.json": "64b7f818bc0de29032f37901999a3bfc2ac9e9da9cea10a5706e3b0d795505a6",
+    "data/benchmarks/launcher-basic-v1/synthetic/test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4",
+    "data/benchmarks/launcher-basic-v1/synthetic/validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+    "data/benchmarks/launcher-transfer-v1/synthetic/basic-test.jsonl": "dcf4183d87e43abeb9b9e0ea5d2155d324de1dc2b46471ccf24defb9a99194cd",
+    "data/benchmarks/launcher-transfer-v1/synthetic/catalog.json": "8995136576941eb1d28ed6e2a184206267e4ce71130e9d035ac7c5b1845d6d5f",
+    "data/benchmarks/launcher-transfer-v1/synthetic/difficult-test.jsonl": "d60bfaf66ffb86a1a656b5c5c481aa0c3789e10e3dc1326d5eeede820ecc8444",
+    "data/benchmarks/launcher-transfer-v1/synthetic/manifest.json": "755359c9c959aad4956938444797100a59833c68779802ce14f3998becbe8f14",
+    "data/benchmarks/launcher-v1/synthetic/catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "data/benchmarks/launcher-v1/synthetic/manifest.json": "c0868c73b76a38b0f4d77ba706a2f4dfcf1906bf8d07d000911c914ca7e62068",
+    "data/benchmarks/launcher-v1/synthetic/test.jsonl": "c419ef9fc564e80d1d7f168efbb97e3936883ee9df537d609e4130e393707484",
+    "data/benchmarks/launcher-v1/synthetic/validation.jsonl": "41bd8ed21d32a25fd2726fd61816b4467beb10fabc95f1ff587cdc93a2a9759f",
+    "data/training/launcher-stt-train-v1/catalogs.jsonl": "6ff0fe21b5decdd9fc3cf589ec42721e25037aba3e997ba436232a861a6c197e",
+    "data/training/launcher-stt-train-v1/manifest.json": "4b48baf42493f70ddb3882896469fd2645cdeb558333a5cf4425f5509981fbb7",
+    "data/training/launcher-stt-train-v1/operators.json": "aa722c783e606c90058f16733fb788266bc46026387d384cf2b4a557c17379ca",
+    "data/training/launcher-stt-train-v1/train.jsonl": "0363131ec342f3cd4f1de52b65f16ca6ad66d1b218a276546a891d3d346c71c0",
+    "data/training/launcher-train-v1/catalogs.jsonl": "6ff0fe21b5decdd9fc3cf589ec42721e25037aba3e997ba436232a861a6c197e",
+    "data/training/launcher-train-v1/manifest.json": "757d565949612efd2d5061c1b9cad08238df2eca78cc21e653088511b88176e1",
+    "data/training/launcher-train-v1/profiles.json": "e34afe6920272f60a544568e04ecc8ad33d7df48441c99e0d2d440c3a7b40a5e",
+    "data/training/launcher-train-v1/train.jsonl": "262a48b2dbb45ae48e3431b7c936890946376f64041f7f6884c6f6ee36a4b1bf"
+  },
+  "audio_origin": "new_neural_tts_with_deterministic_mild_noise",
+  "noise_profiles": {
+    "quiet_background": {
+      "snr_db": 30,
+      "gain": 0.8,
+      "hum": 0.02,
+      "lowpass": 1.0
+    },
+    "soft_room": {
+      "snr_db": 26,
+      "gain": 0.75,
+      "hum": 0.05,
+      "lowpass": 0.98
+    },
+    "soft_fan": {
+      "snr_db": 22,
+      "gain": 0.65,
+      "hum": 0.15,
+      "lowpass": 0.95
+    },
+    "soft_distance": {
+      "snr_db": 18,
+      "gain": 0.5,
+      "hum": 0.04,
+      "lowpass": 0.85
+    }
+  },
+  "tts_packages": {
+    "edge-tts": "7.2.8",
+    "imageio-ffmpeg": "0.6.0"
+  },
+  "tts_rate_unit": "percent",
+  "speaker_policy": {
+    "validation": "ru-RU-SvetlanaNeural",
+    "test": "ru-RU-DmitryNeural"
+  },
+  "independent_of_previous_datasets": true,
+  "training_access": false,
+  "guarded_query_occurrences": 25555
+}

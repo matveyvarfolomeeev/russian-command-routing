@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-train-v1",
+  "created_on": "2026-10-04",
+  "privacy": "shareable_fictional",
+  "split": "train_only",
+  "files": {
+    "catalogs.jsonl": "6ff0fe21b5decdd9fc3cf589ec42721e25037aba3e997ba436232a861a6c197e",
+    "profiles.json": "e34afe6920272f60a544568e04ecc8ad33d7df48441c99e0d2d440c3a7b40a5e",
+    "train.jsonl": "262a48b2dbb45ae48e3431b7c936890946376f64041f7f6884c6f6ee36a4b1bf"
+  },
+  "statistics": {
+    "catalogs": 8,
+    "objects_per_catalog": {
+      "177": 8
+    },
+    "rows": 5664,
+    "seed_queries": 708,
+    "target_families": 117,
+    "target_objects": 1416,
+    "unique_normalized_queries": 4474,
+    "actions": {
+      "open": 5664
+    },
+    "kinds": {
+      "app": 4448,
+      "file": 576,
+      "folder": 640
+    },
+    "sources": {
+      "controlled_augmentation": 440,
+      "authored_pattern_instantiation": 5224
+    },
+    "tags": {
+      "app": 4448,
+      "exact_name": 1416,
+      "typo": 440,
+      "variant": 1312,
+      "alias": 1416,
+      "file": 576,
+      "folder": 640,
+      "semantic": 1520
+    }
+  },
+  "seed": 20261004,
+  "query_source": "authored_patterns_with_controlled_instantiation_and_typos",
+  "annotation_review": {
+    "status": "author_reviewed",
+    "reviewer": "Codex (dataset author)",
+    "reviewed_on": "2026-10-04",
+    "independent": false,
+    "seed_queries": 708,
+    "method": "Author review of profile purposes, explicit variant qualifiers and file/folder distinctions; deterministic instantiation and structural checks of all rows."
+  },
+  "protocol": {
+    "task": "Select one uniquely specified catalog object to open",
+    "allowed_actions": [
+      "open"
+    ],
+    "require_unique_target": true,
+    "model_input": [
+      "query",
+      "full_catalog.objects"
+    ],
+    "private_annotation_fields": [
+      "augmentation",
+      "catalog_id",
+      "expected_action",
+      "expected_object_id",
+      "group_id",
+      "id",
+      "input_type",
+      "rationale",
+      "seed_id",
+      "source",
+      "tags"
+    ],
+    "candidate_order": "Deterministic independent shuffle per row ID at export",
+    "evaluation": "Frozen launcher-basic-v1 and launcher-v1, reported separately; no random row split of this training corpus"
+  },
+  "evaluation_guard": [
+    {
+      "dataset_id": "launcher-v1-synthetic",
+      "path": "data/benchmarks/launcher-v1/synthetic",
+      "files": {
+        "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+        "validation.jsonl": "41bd8ed21d32a25fd2726fd61816b4467beb10fabc95f1ff587cdc93a2a9759f",
+        "test.jsonl": "c419ef9fc564e80d1d7f168efbb97e3936883ee9df537d609e4130e393707484",
+        "manifest.json": "c0868c73b76a38b0f4d77ba706a2f4dfcf1906bf8d07d000911c914ca7e62068"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-v1-real",
+      "path": "artifacts/benchmarks/launcher-v1/real",
+      "files": {
+        "catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+        "validation.jsonl": "6d3e8317eafcd5ce6a4a1ec6c19a8759b76606bf4487b6d1db8e52e25a155872",
+        "test.jsonl": "aeb9d2d37080fc32e4f6da765a4c5dfed7b7f630e62031f1bbd90aaaae088ce3",
+        "manifest.json": "430593899efdd0a02707f274b6b8c1e515d46c284e35ce70882a5aaf21419c15"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-basic-v1-synthetic",
+      "path": "data/benchmarks/launcher-basic-v1/synthetic",
+      "files": {
+        "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+        "validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+        "test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4",
+        "manifest.json": "64b7f818bc0de29032f37901999a3bfc2ac9e9da9cea10a5706e3b0d795505a6"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    },
+    {
+      "dataset_id": "launcher-basic-v1-real",
+      "path": "artifacts/benchmarks/launcher-basic-v1/real",
+      "files": {
+        "catalog.json": "cc1e4b279a49185fdcae9252e35068983ea58fd0f946a2468ea8dea033e8db49",
+        "validation.jsonl": "5a67a5b77f1922013b3006b707d4fe70f30f8c71be9749b1a9bb031314ad4390",
+        "test.jsonl": "57db3e38e0d17f8a3c97cf523bda1f3d45f47302218d079f2450e8671fb4d40a",
+        "manifest.json": "014d1aeba0a51b4b81253b90925e117b889ffc20a05e3f7eec955c37ad7b5fbe"
+      },
+      "query_rows": 200,
+      "held_out_targets": 50,
+      "overlap": {
+        "target_ids": 0,
+        "target_names": 0,
+        "normalized_queries": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic author-written data; no production logs, teacher responses, independent human annotation or real ASR.",
+    "5664 rows are instantiations of 708 seed queries, not 5664 independent linguistic scenarios.",
+    "Object/name and exact normalized query separation does not imply unseen intents or surface command templates.",
+    "Only forced unique open choices; no evidence about uncertainty, clarification or refusal.",
+    "No checkpoint trained or model runtime checked; tokenizer counts do not establish model quality or GPU compatibility.",
+    "Kev's default training context cannot hold 177 options; the checked export requires --max_state 16384 with the documented tokenizer."
+  ],
+  "kev_format_reference": "https://github.com/jaredpalmer/kev#by-hand"
+}

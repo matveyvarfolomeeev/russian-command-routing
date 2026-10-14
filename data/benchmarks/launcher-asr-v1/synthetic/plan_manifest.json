@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-asr-v1-synthetic",
+  "created_on": "2026-10-04",
+  "source_dataset": "launcher-basic-v1-synthetic",
+  "source_files": {
+    "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+    "test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4",
+    "manifest.json": "64b7f818bc0de29032f37901999a3bfc2ac9e9da9cea10a5706e3b0d795505a6"
+  },
+  "source_path": "data/benchmarks/launcher-basic-v1/synthetic",
+  "clean_queries_sha256": "1a23d5db80cc89f3d12c2eac84c03a54589daf59ffa03392a21c800d930427f0",
+  "asr": {
+    "provider": "groq",
+    "model": "whisper-large-v3-turbo",
+    "language": "ru",
+    "response_format": "json",
+    "prompt": null
+  },
+  "asr_client_sha256": "1669ddddb7a108a8f12cccf5d6cb28f0cd6ef19c3ec91420db58ca2d1c5c4eab",
+  "audio_origin": "windows_tts_with_deterministic_noise",
+  "noise_profiles": {
+    "room": {
+      "snr_db": 18,
+      "gain": 0.8,
+      "hum": 0.1,
+      "lowpass": 1.0
+    },
+    "fan": {
+      "snr_db": 12,
+      "gain": 0.55,
+      "hum": 0.45,
+      "lowpass": 0.7
+    },
+    "distant": {
+      "snr_db": 10,
+      "gain": 0.2,
+      "hum": 0.2,
+      "lowpass": 0.35
+    },
+    "telephone": {
+      "snr_db": 8,
+      "gain": 0.5,
+      "hum": 0.1,
+      "lowpass": 0.65
+    }
+  },
+  "speaker_policy": "Irina validation / Pavel test; shared across corresponding catalogs"
+}

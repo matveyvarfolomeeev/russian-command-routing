@@ -1,121 +1,136 @@
-# Jev Launcher
+# Russian Command Routing
 
-Модульный лаунчер для Windows и основа для экспериментов с decision models. Рабочее название не привязывает проект к модели Jev.
+**Fine-tuning and evaluating retrieval, reranking and decision models for Russian text and speech-derived commands.**
 
-Инженерная оболочка реализована: каталог приложений, папок и файлов, редактируемые описания, текстовый фильтр, открытие объектов, горячая клавиша, трей и голосовой ввод через готовую ASR. Выбор объекта сейчас делает пользователь.
+The task is to select one object from a catalog of applications, files and folders. Queries can describe an object's purpose, contain typos, switch alphabets or arrive as noisy speech transcripts. Models return a catalog ID; the Windows demo opens that object through ordinary host code.
 
-![Интерфейс на вымышленном каталоге](assets/launcher.png)
+This repository contains the datasets, training code, Kaggle notebooks, experiment records and saved predictions. The desktop launcher is an application of the research. Its internal Python package keeps the original name, `jev_launcher`.
 
-На изображении — демонстрационные объекты. При обычном запуске приложение собирает реальный каталог Windows.
+[Architecture](docs/ARCHITECTURE.md) · [Results and limitations](docs/RESULTS.md) · [Reproduce the checks](docs/REPRODUCIBILITY.md) · [Resume wording, RU/EN](docs/RESUME_RU.md)
 
-## Запуск готовой сборки
+## Research questions
 
-Запустите **dist/JevLauncher/JevLauncher.exe**. Для переноса копируйте всю папку **dist/JevLauncher**, включая **_internal**. Python на целевом ПК не нужен; сборка проверена на текущем Windows 11, отдельный чистый компьютер пока не проверялся.
+- How much does task-specific fine-tuning improve selection on previously unseen objects?
+- How do an embedding retriever, a cross-encoder reranker and a bounded decision model compare?
+- Where do errors arise: a missing retrieval candidate or an incorrect choice inside the shortlist?
+- What do clean-first training, quantization, catalog descriptions and temperature calibration change?
 
-При первом запуске автоматически собираются приложения из меню «Пуск», Get-StartApps и стандартные папки Windows: рабочий стол, документы, загрузки, изображения, музыка, видео и домашняя папка. Учитываются перенесённые пользовательские папки. Затем каталог сразу загружается из локальной SQLite-базы. Если данные старше суток, обновление идёт в фоне: поиском можно пользоваться сразу. В «Каталоге» можно обновить данные вручную, добавить файл или папку, изменить описание и альтернативные названия, включить/отключить запись и добавить её в избранное. Деинсталляторы исключаются, одинаковые команды запуска из разных источников объединяются.
+## Main results
 
-Для автоматического добавления проектов задайте корневую папку. Настройка сохраняется в базе и используется при последующих обновлениях:
+Each test column below contains **150 commands on a new fictional catalog of 177 objects**. Clean text and ASR are paired representations of the same commands. ASR uses neural TTS, mild noise and real Whisper Large V3 transcription; it is not a human-speaker benchmark.
 
-~~~powershell
-.\.venv\Scripts\jev-catalog.exe scan --folder-root D:\ML
-~~~
+| Model / pipeline | Clean test | ASR test | Evaluation stage |
+| --- | ---: | ---: | --- |
+| Original E5, full-catalog retrieval | 143/150 · 95.33% | 136/150 · 90.67% | Initial frozen comparison |
+| Fine-tuned E5, full-catalog retrieval | 145/150 · 96.67% | 143/150 · 95.33% | Later, already known suite |
+| E5 → original Laya | 40/150 · 26.67% | 45/150 · 30.00% | Initial frozen comparison |
+| E5 → fine-tuned Laya, step 568 | 141/150 · 94.00% | 141/150 · 94.00% | Initial frozen comparison |
+| E5 → original Kev-0.8B | 143/150 · 95.33% | 143/150 · 95.33% | Initial frozen comparison |
+| **E5 → fine-tuned Kev-0.8B, step 710** | **149/150 · 99.33%** | **146/150 · 97.33%** | Initial frozen comparison |
+| E5 → fine-tuned RuModernBERT | 144/150 · 96.00% | 143/150 · 95.33% | Later, already known suite |
 
-Каталог включает сам корень и его непосредственные подпапки. Вложенные деревья не сканируются; скрытые и служебные каталоги (`.venv`, `node_modules`, `output`, `build`, `dist`, `tools` и другие) пропускаются. Несколько корней задаются повторением `--folder-root`.
+The initial comparison fixed the checkpoints before evaluating the new catalog. Kev's advantage over original E5 was **+4.00 percentage points on clean test** and **+6.67 on ASR test**; group bootstrap 95% intervals were `[+0.67, +8.00]` and `[+1.33, +11.33]`. These intervals describe this benchmark's groups, not variability across training seeds. Later E5 and reranker results are descriptive follow-up evaluations.
 
-- Ctrl+Shift+Space — вызвать окно; повторное нажатие в активном окне скрывает его. Сочетание меняется в настройках; ранее сохранённое собственное сочетание сохраняется.
-- Стрелки — выбрать строку; Enter — открыть; двойной клик также открывает объект.
-- Ctrl+L — перейти к поиску; Esc или закрытие окна — скрыть в трей.
-- «Выйти» в меню значка в трее — завершить приложение.
+All 11 evaluated variants, saved predictions and the denominator for every result are in [the public evidence](results/README.md). The unusual zero accuracy of original Nano-Jev is retained with its diagnostics.
 
-Окно плавающее. Статус регистрации горячей клавиши виден в настройках. Если сочетание занято, выберите другое; интерфейс и трей продолжают работать. Конфигурация GlazeWM не изменяется.
+![Initial frozen-model comparison: validation and test, clean and ASR](assets/experiments/independent-v1-comparison.png)
 
-## Запуск из исходников
+## Architecture
 
-Windows x64 и Python 3.12. Из корня репозитория:
+```mermaid
+flowchart LR
+    Q[Russian query or frozen ASR transcript] --> E[E5 query encoder]
+    C[Catalog metadata] --> I[Cached catalog embeddings]
+    E --> R[Cosine retrieval]
+    I --> R
+    R --> A[Full-catalog top-1: E5-only]
+    R --> K[Top-20 candidates]
+    K --> D[Laya / Kev / Nano-Jev choice model]
+    K --> X[RuModernBERT cross-encoder]
+    D --> O[Fixed object_id]
+    X --> O
+    A --> O
+    O --> V[Host validates ID and launch intent]
+    V --> W[Optional Windows demo]
+```
 
-~~~powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.lock
-.\.venv\Scripts\python.exe -m pip install --no-deps -e .
-.\scripts\run.ps1
-~~~
+E5-only ranks all 177 objects. Decision models receive the same frozen original-E5 top-20, with a deterministic candidate permutation. Evaluation never inserts the correct object into a missed shortlist. Recall@20 and end-to-end top-1 are reported separately.
 
-Для диагностики с выводом в терминал:
+Fine-tuned E5 runs independently in the demo. Replacing the retriever before a fixed Laya with the fine-tuned E5 improved candidate coverage but reduced mean accuracy on the known suite from 88.15% to 87.95%. The two-stage pipeline therefore keeps the original retriever. [Pipeline experiment](docs/E5_LAYA_PIPELINE_RU.md).
 
-~~~powershell
-.\.venv\Scripts\python.exe -m jev_launcher
-~~~
+## Fine-tuning
 
-Отдельный каталог для пробных запусков:
+The authored training pool contains **22,656 synthetic examples**: 5,664 clean and 16,992 simulated STT variants, built from 708 source queries on eight fictional 177-object catalogs. Related variants stay grouped. Simulated STT corruption is distinct from actual ASR transcription.
 
-~~~powershell
-.\.venv\Scripts\python.exe -m jev_launcher --data-dir artifacts\sandbox
-~~~
+| Family | Adaptation | Selected / completed optimizer updates |
+| --- | --- | ---: |
+| E5-small | Full encoder; per-query contrastive CE with frozen hard negatives; no new head | 142 / 568 |
+| Laya multilingual | Encoder + native choice head; escalation head frozen | 568 / 994 |
+| Kev-0.8B | Rank-16 LoRA + native pointer head; Qwen base frozen | 710 / 1,136 |
+| RuModernBERT | Cross-encoder; listwise CE over 20 candidate scores | 426 / 852 |
+| Nano-Jev | Full adaptation; mixed vs clean-first order | 1,416 / 1,416 each |
+| RuBERT-tiny2 | Encoder + seeded scalar choice head | 142 / 568 |
 
-Дополнительные параметры: --no-scan, --no-hotkey, --no-tray, --hidden. Без трея и зарегистрированной горячей клавиши закрытие окна завершает приложение.
+The pool size is not the number of examples seen by every selected checkpoint. In particular, E5's selected step 142 falls inside the 2,272-example clean prefix, before the simulated-STT part.
 
-## Голос
+Training used Kaggle Tesla T4, effective batch size 16, AdamW, warmup and gradient clipping. Periodic-stopping runs evaluated every 142 updates and selected checkpoints by group/profile-balanced validation NLL; the original Nano pair used final one-pass weights. Exact plans, selected/last weight hashes and training/validation ledgers are published in [results/training-runs.json](results/training-runs.json).
 
-В настройках укажите API-ключ Groq и микрофон, затем сохраните. Альтернатива — переменная окружения GROQ_API_KEY. Сохранённый ключ защищается Windows DPAPI для текущего пользователя; переменная окружения имеет приоритет.
+Training code: [E5](scripts/train_e5_kaggle.py), [Laya](scripts/train_laya_kaggle.py), [Kev](scripts/train_kev_kaggle.py), [RuModernBERT / RuBERT](scripts/train_modernbert_kaggle.py), [Nano-Jev](scripts/train_nanojev_kaggle.py). The [notebooks](notebooks/) preserve the original execution protocols; [reproduction instructions](docs/REPRODUCIBILITY.md) distinguish historical Kaggle inputs from public reruns.
 
-Кнопка «Голос» начинает запись, «Стоп» отправляет её в Whisper Large V3 Turbo. Текст появляется в поле ввода, после чего пользователь выбирает объект. Запись ограничена 60 секундами; аудио остаётся в памяти. «Отмена» и изменение текста во время распознавания предотвращают применение позднего ответа.
+## Other findings
 
-Запись с микрофона, преобразование WAV, формирование API-запроса и ошибки проверены. Живой запрос к Groq проверен на синтетической русской фразе «Открой блокнот»: получен текст «Открой блокнот.». Личный ключ хранится только в локальных данных с защитой DPAPI. Бесплатный доступ и квоты зависят от аккаунта: [документация Groq](https://console.groq.com/docs/speech-to-text).
+- **Calibration:** one Laya temperature, `T = 2.49388`, fitted on 100 validation representations. A later application-order replay on 300 separate test representations reduced conditional NLL **0.4044 → 0.2410** and ECE **4.59% → 3.11%**, while keeping top-1 at **283/300**. Brier scores did not improve. This known-suite calibration is separate from the initial comparison above.
+- **Training order:** Nano's clean-first schedule did not show a consistent advantage over mixed training on the new catalog. Both obtained 128/150 clean; mixed obtained 127/150 ASR versus 125/150 for clean-first.
+- **Quantization:** dynamic INT8 Laya reduced accuracy on the old noisy-STT validation from 80% to 64%; repeated latency checks did not establish a consistent sub-500 ms pipeline.
+- **Quality vs latency:** original/fine-tuned E5 took roughly 14–15 ms in full warm CPU checks; RuModernBERT roughly 118–148 ms. Kev's roughly 4.5 s result came from a small 12-query × 2 probe, so a full latency qualification is not claimed. All timings exclude ASR, model loading and initial indexing.
 
-## Модули и эксперименты
+[Detailed results](docs/RESULTS.md) include the roles of old validation sets, later adaptations, negative results and timing protocols.
 
-| Модуль | Задача |
+## Verify from a fresh checkout
+
+Python 3.12+, standard library only; no GPU, API key or model download is needed:
+
+```console
+git clone https://github.com/matveyvarfolomeeev/russian-command-routing.git
+cd russian-command-routing
+python scripts/verify_public_results.py
+```
+
+This recomputes metrics from **4,400 saved predictions**, checks labels against public datasets, verifies SHA-256 hashes and recalculates Laya's temperature transformation, NLL and ECE. It also verifies the 22,656-example frozen training archive. It checks recorded evidence; it does not rerun model inference or training.
+
+[Reproduction guide](docs/REPRODUCIBILITY.md) covers dataset validation, tests and a portable E5 training bundle.
+
+## Repository map
+
+| Path | Contents |
 | --- | --- |
-| objects.py | Dataclass-записи и идентичность способа запуска |
-| catalog.py | SQLite, постоянные ID, обновление и пользовательские поля |
-| discovery.py + resources/discover.ps1 | Сбор источников Windows |
-| search.py | Прозрачный текстовый фильтр |
-| launch.py | Открытие сохранённого объекта по ID |
-| speech.py | HTTPS-запрос распознавания; не зависит от Qt |
-| audio.py | Запись микрофона и преобразование аудио в памяти |
-| config.py, hotkey.py, icons.py | Настройки/ключ, горячая клавиша, иконки |
-| jobs.py, controller.py | Фоновые задачи и связь логики с Qt |
-| app.py + ui/ | Сборка приложения, трей и QML-интерфейс |
-| cli.py | Каталог без окна и открытия программ |
+| [data/benchmarks](data/benchmarks/) | Basic, difficult, ASR, transfer and new-catalog evaluation data |
+| [data/training](data/training/) | Clean and simulated-STT source data, catalogs and manifests |
+| [data/prepared](data/prepared/) | Compressed, frozen top-20 training/validation inputs |
+| [scripts](scripts/) | Dataset generation, fine-tuning, evaluation, export and audits |
+| [notebooks](notebooks/) | Original Kaggle training and evaluation notebooks |
+| [results](results/) | Public predictions, run plans, ledgers, calibration and hashes |
+| [docs](docs/) | Architecture, experiment reports and reproduction instructions |
+| [src/jev_launcher](src/jev_launcher/) | Optional Windows/Qt application and host-side execution |
+| [tests](tests/) | Dataset, training, inference-boundary and application checks |
 
-Полный доступный каталог для модели отдаёт **Catalog.model_catalog()**. Он не зависит от фильтра интерфейса и содержит ID, название, тип, описание и альтернативные названия. Пути и команды остаются локально.
+## Windows application
 
-~~~powershell
-.\.venv\Scripts\jev-catalog.exe export --output artifacts\catalog.json
-.\.venv\Scripts\jev-catalog.exe search "редактор кода"
-.\.venv\Scripts\jev-catalog.exe --db artifacts\sandbox\catalog.sqlite3 scan
-~~~
+The demo provides a catalog editor, persistent model worker, text/voice quick panel and stale-result cancellation. Model inputs contain names, kinds, descriptions and aliases. Paths, launch arguments and credentials remain host-side. A valid model output alone does not authorize a launch.
 
-Экспорт включает хеш снимка для воспроизводимых экспериментов и не запускает программы. Подробности: [архитектура](docs/ARCHITECTURE.md), [эксперименты](docs/EXPERIMENTS.md), [исходный план](MVP_PLAN.md).
+<details>
+<summary>Application preview and setup</summary>
 
-## Проверки и сборка
+![Windows demo on a fictional catalog](assets/launcher.png)
 
-Результаты и границы проверки: [VALIDATION.md](docs/VALIDATION.md).
+![Compact quick-launch panel](assets/quick-launcher.png)
 
-~~~powershell
-.\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\ruff.exe check src tests scripts
-.\scripts\build.ps1
-~~~
+See [the launcher guide](docs/LAUNCHER_GUIDE_RU.md). Windows x64 and Python 3.12 are the tested application environment. The source snapshot does not include a portable pretrained executable or model weights. A fresh source install can use the text filter; neural profiles require local weights and a configured runtime.
 
-Проверка упакованного приложения в отдельном каталоге:
+</details>
 
-~~~powershell
-.\.venv\Scripts\python.exe scripts\windows_smoke.py --exe dist\JevLauncher\JevLauncher.exe
-~~~
+## Scope and limitations
 
-Отдельная проверка реального открытия тестовых объектов:
+Labels and ASR meaning preservation were reviewed by the author. Most data is synthetic, speech is TTS and each training recipe has one recorded seed. Clean/ASR pairs are correlated. Earlier test sets became known during the research and must not be reused as fresh blind confirmation. The benchmark contains unambiguous single-object `open` requests; abstention, clarification and destructive actions are not evaluated.
 
-~~~powershell
-.\.venv\Scripts\python.exe scripts\windows_smoke.py --open-objects
-~~~
-
-Последняя команда открывает Блокнот, калькулятор, временную папку, текстовый файл и ярлык; закрывает только новые окна, соответствующие тестам. Отчёт сохраняется в artifacts/windows-smoke.
-
-Превью на вымышленных данных: **python scripts/capture_demo.py**. Программы при этом не запускаются.
-
-## Данные и ограничения
-
-База, настройки и лог находятся в **%LOCALAPPDATA%/JevLauncher**. Переопределение — --data-dir или JEV_LAUNCHER_DATA_DIR. Личные каталоги, аудио, модели, ключи и результаты запусков исключены из Git.
-
-Сканирование не гарантирует обнаружение каждого portable-приложения. Варианты запуска с разными аргументами или рабочими папками сохраняются отдельно. Поиск использует подстроку, без смыслового выбора. Decision models, ML-бенчмарки и обучение подключаются следующим этапом.
+Original project code and authored synthetic data are under [MIT](LICENSE). Models and their native implementations retain their upstream licenses; pinned sources are listed in [third-party notices](THIRD_PARTY_NOTICES.md).

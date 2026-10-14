@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-transfer-v1",
+  "role": "test_only",
+  "created_on": "2026-10-05",
+  "author": "Codex",
+  "catalog_hash": "e192ad8d46c932529da72482bc587263f1e4519b8618dcc4bde32315bc3f5322",
+  "catalog_counts": {
+    "app": 139,
+    "folder": 20,
+    "file": 18
+  },
+  "profiles": {
+    "basic": {
+      "rows": 50,
+      "groups": 38,
+      "target_kinds": {
+        "app": 35,
+        "folder": 10,
+        "file": 5
+      }
+    },
+    "difficult": {
+      "rows": 50,
+      "groups": 38,
+      "target_kinds": {
+        "app": 35,
+        "folder": 10,
+        "file": 5
+      }
+    }
+  },
+  "checkpoint_selection_access": false,
+  "training_access": false,
+  "guarded_source_rows": 23856,
+  "model_evaluation": "Not evaluated during authoring",
+  "annotation_review": {
+    "status": "author_reviewed",
+    "independent_human_review": false
+  },
+  "limits": "New authored fictional metadata/queries; related queries share groups. Does not establish novel semantic concepts or human speech generalization.",
+  "files": {
+    "catalog.json": "8995136576941eb1d28ed6e2a184206267e4ce71130e9d035ac7c5b1845d6d5f",
+    "basic-test.jsonl": "dcf4183d87e43abeb9b9e0ea5d2155d324de1dc2b46471ccf24defb9a99194cd",
+    "difficult-test.jsonl": "d60bfaf66ffb86a1a656b5c5c481aa0c3789e10e3dc1326d5eeede820ecc8444"
+  }
+}

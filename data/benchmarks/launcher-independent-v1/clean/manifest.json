@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-independent-v1-clean",
+  "created_on": "2026-10-06",
+  "query_source": "authored",
+  "catalog_hash": "7c38fa1292b5829dcdfed58c91b06027fa8e10832b968639cc2b5f974e40417d",
+  "catalog_counts": {
+    "app": 139,
+    "folder": 20,
+    "file": 18
+  },
+  "group_count": 40,
+  "splits": {
+    "validation": {
+      "rows": 50,
+      "actions": {
+        "open": 50
+      }
+    },
+    "test": {
+      "rows": 150,
+      "actions": {
+        "open": 150
+      }
+    }
+  },
+  "annotation_review": {
+    "status": "author_reviewed",
+    "reviewed_rows": 200,
+    "independent": false
+  },
+  "protocol": {
+    "allowed_actions": [
+      "open"
+    ],
+    "metric": "top1_accuracy",
+    "require_unique_target": true,
+    "independent_of_previous_datasets": true,
+    "training_access": false,
+    "model_input": [
+      "query",
+      "full_catalog.objects"
+    ]
+  },
+  "files": {
+    "catalog.json": "cf67280d388225f3032f2750dd1f047014ea1fb5ae30f637d245d9618b4d1d0b",
+    "validation.jsonl": "6979da9d89daeb3d5d085e46355188481e619120871a2acca21653b09abacfc1",
+    "test.jsonl": "aa435bf6a9914fbbf3d51e79cd5e650e3c2e93d0489f069e2b8d51dd4281e15e"
+  }
+}

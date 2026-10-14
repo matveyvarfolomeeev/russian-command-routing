@@ -1,0 +1,56 @@
+{
+  "nanojev": {
+    "repo": "sdmlai/nano-jev",
+    "revision": "b9f855e8253f177d162b50807c99d80507ec1e61",
+    "max_tokens": 512,
+    "kind": "decision",
+    "family": "nanojev",
+    "code_github": "shubham10divakar/nano-jev",
+    "code_revision": "25b4655ac129c7151eb39d2ed1d15227f93f1ba6",
+    "code_package": "nanojev",
+    "prompt_version": "nanojev-native-choice-v1",
+    "score_type": "uncalibrated_choice_probability"
+  },
+  "laya": {
+    "repo": "convaiinnovations/laya-multilingual",
+    "revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+    "max_tokens": 8192,
+    "kind": "decision",
+    "family": "laya",
+    "prompt_version": "launcher-choice-passage-v1",
+    "score_type": "uncalibrated_choice_probability",
+    "native_option_tokens": 48
+  },
+  "kev": {
+    "repo": "jaredpalmer/kev-0.8b",
+    "revision": "bf75a6a8848ea6960ff2ed108d9ed44c2941174f",
+    "base_repo": "Qwen/Qwen3.5-0.8B-Base",
+    "base_revision": "dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68",
+    "code_github": "jaredpalmer/kev",
+    "code_revision": "fe64b1274ea7f80d4095866df90666abb03e9cf6",
+    "max_tokens": 8192,
+    "kind": "decision",
+    "family": "kev",
+    "prompt_version": "launcher-choice-passage-v1",
+    "score_type": "uncalibrated_choice_probability"
+  },
+  "modernbert": {
+    "repo": "ARGA100/ru-reranker-modernbert-small",
+    "revision": "8d4ea05d7c793bc812879ca18e7e310ac4cb228f",
+    "license": "mit"
+  },
+  "e5": {
+    "model_id": "intfloat/multilingual-e5-small",
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "source_url": "https://huggingface.co/intfloat/multilingual-e5-small/tree/614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "license": "MIT",
+    "parameters": 117653760
+  },
+  "rubert": {
+    "model_id": "cointegrated/rubert-tiny2",
+    "revision": "e8ed3b0c8bbf4fb6984c3de043bf7d2f4e5969ae",
+    "source_url": "https://huggingface.co/cointegrated/rubert-tiny2/tree/e8ed3b0c8bbf4fb6984c3de043bf7d2f4e5969ae",
+    "license": "MIT",
+    "parameters": 29194081
+  }
+}

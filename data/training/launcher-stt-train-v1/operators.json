@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-stt-train-v1",
+  "created_on": "2026-10-04",
+  "seed": "stt-text-v1-20261004",
+  "views_per_parent": 3,
+  "phonetic_pairs": {
+    "а": "о",
+    "о": "а",
+    "е": "и",
+    "и": "е",
+    "б": "п",
+    "п": "б",
+    "д": "т",
+    "т": "д",
+    "в": "ф",
+    "ф": "в",
+    "с": "з",
+    "з": "с",
+    "к": "г",
+    "г": "к",
+    "a": "o",
+    "o": "a",
+    "e": "i",
+    "i": "e",
+    "b": "p",
+    "p": "b",
+    "d": "t",
+    "t": "d",
+    "v": "f",
+    "f": "v",
+    "s": "z",
+    "z": "s",
+    "k": "g",
+    "g": "k"
+  },
+  "spoken_numbers": {
+    "32": "тридцать два",
+    "64": "шестьдесят четыре",
+    "2026": "две тысячи двадцать шесть"
+  },
+  "spoken_acronyms": {
+    "PDF": "пи ди эф",
+    "DOCX": "док икс",
+    "XLSX": "икс эл эс икс",
+    "CSV": "си эс ви",
+    "TXT": "ти икс ти",
+    "SQL": "эс кью эл",
+    "DNS": "ди эн эс",
+    "SMART": "смарт",
+    "COM": "ком",
+    "3D": "три дэ",
+    "ping": "пинг"
+  },
+  "fillers": [
+    "ну ",
+    "так ",
+    "эм ",
+    "слушай ",
+    "пожалуйста "
+  ],
+  "simulation": "Plausible text operators, not measured vendor error probabilities or actual ASR responses"
+}

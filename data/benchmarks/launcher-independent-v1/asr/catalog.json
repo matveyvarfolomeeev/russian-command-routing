@@ -1,0 +1,1245 @@
+{
+  "schema_version": 1,
+  "catalog_hash": "7c38fa1292b5829dcdfed58c91b06027fa8e10832b968639cc2b5f974e40417d",
+  "objects": [
+    {
+      "object_id": "independent-v1-b14aa36d60d4b3caefa41253",
+      "name": "Брусничная переправа — растительность",
+      "kind": "folder",
+      "description": "Каталог полевых описаний прибрежных растительных сообществ.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-37a88f044b60162a8a2b3cf1",
+      "name": "Гончарный цикл",
+      "kind": "app",
+      "description": "Температурные программы обжига керамики: ступени нагрева, выдержки и остывание печи.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-759c117189be44d783f59be1",
+      "name": "Меловой амфитеатр — перечень прожекторов.json",
+      "kind": "file",
+      "description": "Список световых приборов сценической площадки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d6fb30067affaf885ab81ee6",
+      "name": "Литейный припуск",
+      "kind": "app",
+      "description": "Расчёт размеров литейной модели с учётом усадки металла и припусков на последующую обработку.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-62a88e8706dd6d3063dc34e5",
+      "name": "Какао партия",
+      "kind": "app",
+      "description": "Учёт происхождения какао, партий сырья и результатов дегустации.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7a5fbbb9dfdfc409dca73bfe",
+      "name": "Брусничная переправа — гидрология",
+      "kind": "folder",
+      "description": "Папка полевых гидрологических материалов Брусничной переправы: промеры, уровни и створы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f0362deb5aaa770388436629",
+      "name": "Гнездовой обход",
+      "kind": "app",
+      "description": "Осмотры занятых гнёзд, число яиц и развитие птенцов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e987fa2e4cbb8d1d0bb06c7b",
+      "name": "Глиняная масса",
+      "kind": "app",
+      "description": "Расчёт пропорций глины, шамота и воды в керамической массе.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c1de1f20a3a5cc493a0de3aa",
+      "name": "Вязальная петля",
+      "kind": "app",
+      "description": "Схемы рядов вязания спицами с лицевыми и изнаночными петлями.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-46c53a2ed5b75b194213debc",
+      "name": "Медовая фасовка",
+      "kind": "app",
+      "description": "Учёт банок мёда, фасовочных партий и остатков тары.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-174a4008f9529df1c8244b98",
+      "name": "Тканевое усаживание",
+      "kind": "app",
+      "description": "Сравнение размеров тканевых образцов до и после стирки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-70f3ddb54cd86a85b318a959",
+      "name": "Воздушный змей",
+      "kind": "app",
+      "description": "Конструирование воздушных змеев: геометрия каркаса, размеры полотна и точки крепления уздечки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-61235efe6cb64e1860b7fdcf",
+      "name": "Береговая линия",
+      "kind": "app",
+      "description": "Оцифровка положения береговой линии на разные даты.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-48dd241d269644ee46ecaea1",
+      "name": "Светофильтровый набор",
+      "kind": "app",
+      "description": "Каталог светофильтров для сценических приборов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ef27e0987e15834a878acd11",
+      "name": "Сафьяновый купол — покрытия",
+      "kind": "folder",
+      "description": "Папка проб восстановительных покрытий объекта.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-dc47319b8cce5b1acb865f27",
+      "name": "Полочный раскрой",
+      "kind": "app",
+      "description": "Раскладка прямоугольных мебельных деталей на листах материала с учётом пропила и направления волокон.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-60619dbae1367798a3847930",
+      "name": "Парусный крой",
+      "kind": "app",
+      "description": "Расчёт геометрии и площади полотнищ парусов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-447e019007ecf2a580e64204",
+      "name": "Звуковой подвес",
+      "kind": "app",
+      "description": "Размещение громкоговорителей и зон покрытия в помещении.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-b3fefaa14813b1a2a0e25a8a",
+      "name": "Сухарный причал — лист упаковки.odt",
+      "kind": "file",
+      "description": "Документ комплектации упаковки хлебных изделий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-65af468257e1709fda0901d6",
+      "name": "Сценический свет",
+      "kind": "app",
+      "description": "Редактор световых сцен спектакля: уровни каналов, очередность переходов и длительность затемнений.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e059408ffe094652432c12f9",
+      "name": "Регатный старт",
+      "kind": "app",
+      "description": "Стартовые процедуры парусных соревнований и порядок сигналов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-98e1764b542c5799b8d45941",
+      "name": "Льняная пристань — оборудование",
+      "kind": "folder",
+      "description": "Каталог паспортов оборудования текстильной мастерской.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7c28cc1a4553c32a6eeb59e8",
+      "name": "Снежная проба",
+      "kind": "app",
+      "description": "Учёт отобранных снежных проб и результатов их лабораторного анализа.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-de711c03f9f78e3c59958960",
+      "name": "Хрустальный карниз — афиши",
+      "kind": "folder",
+      "description": "Каталог материалов афиш сценической постановки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-423d6548b9aaf8d7fef3002f",
+      "name": "Кондитерская витрина",
+      "kind": "app",
+      "description": "Размещение кондитерских изделий по витринам и срокам реализации.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c3118e43e8f52f908764d3ec",
+      "name": "Кормовой рацион",
+      "kind": "app",
+      "description": "Учёт состава и массы выданных животным кормов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-86e08eb3f3d580f4de6b57dc",
+      "name": "Гумусовая проба",
+      "kind": "app",
+      "description": "Учёт образцов и результатов анализа органического вещества почвы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e5a3d31b799fc22b13a70543",
+      "name": "Мебельная кромка",
+      "kind": "app",
+      "description": "Учёт сторон мебельных деталей, на которые наносится кромочная лента.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-047b68df14fe8cc15f5b7f31",
+      "name": "Птичий голос",
+      "kind": "app",
+      "description": "Сравнение записей голосов птиц по акустическим признакам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-cc60b721356904f264055a30",
+      "name": "Бункерный остаток",
+      "kind": "app",
+      "description": "Остатки зерна в складских бункерах и перемещения между ними.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-992d866a5ba865c0aaad3a61",
+      "name": "Ароматическая смесь",
+      "kind": "app",
+      "description": "Подбор пропорций отдушек и учёт ароматических композиций.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f84df2bf5b24a6e03d737084",
+      "name": "Хрустальный карниз — костюмы",
+      "kind": "folder",
+      "description": "Папка костюмных эскизов сценической постановки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f1b5fbad38790e91b6a879de",
+      "name": "Мучной склад",
+      "kind": "app",
+      "description": "Остатки мешков муки по сорту, партии и дате поступления.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1cc40e60568357d357c89c89",
+      "name": "Стволовой прирост",
+      "kind": "app",
+      "description": "Журнал внешних измерений диаметра растущих древесных стволов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-bce69b72a46d8e02c06a358f",
+      "name": "Шумовая изоляция",
+      "kind": "app",
+      "description": "Расчёт звукоизоляции перегородок между помещениями.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-871f22959e36a070c5ea6b89",
+      "name": "Складское охлаждение",
+      "kind": "app",
+      "description": "Температурные журналы стационарных камер хранения на складе.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-b46204d4645b374d40da3ccc",
+      "name": "Черемуховый венец — подписи предметов.md",
+      "kind": "file",
+      "description": "Файл текстов музейных этикеток предметов выставки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-36ff2a2dd30491586dfa5c61",
+      "name": "Тестовая расстойка",
+      "kind": "app",
+      "description": "Учёт времени расстойки сформованных хлебных заготовок.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ab144bcf1c0f811568110688",
+      "name": "Течение створа",
+      "kind": "app",
+      "description": "Запись скоростей течения на гидрометрических створах.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e72b715d6f2fef8aec831011",
+      "name": "Пастбищный оборот",
+      "kind": "app",
+      "description": "Ротация выпаса: распределение стад по загонам и длительность отдыха пастбищных участков.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-2b302e9c2ddc7d831cd6839b",
+      "name": "Анатомический ориентир",
+      "kind": "app",
+      "description": "Справочник строения мышц и костных ориентиров для художников.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-5c6bf59733885941cf5e3fd9",
+      "name": "Вересковая ярмарка — выкладки",
+      "kind": "folder",
+      "description": "Каталог схем размещения ремесленных стендов на Вересковой ярмарке.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-fee0a7fa636bc473de15d644",
+      "name": "Геосеточный расклад",
+      "kind": "app",
+      "description": "Размещение армирующих геосеток в слоях насыпи.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1a49699b2f56b0c70ee5f431",
+      "name": "Керновая упаковка",
+      "kind": "app",
+      "description": "Учёт мест хранения и маркировки коробок с древесными кернами.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-fb5d5d9df3f31961e9bbb3b4",
+      "name": "Сафьяновый купол — крепления",
+      "kind": "folder",
+      "description": "Каталог схем крепления декоративных элементов объекта.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-83637a018ea98ff5f57b7efb",
+      "name": "Витражная нумерация",
+      "kind": "app",
+      "description": "Разбивка витража на стеклянные детали и присвоение номеров.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-5c3a9c5b4b03e0095e69e74a",
+      "name": "Вересковая ярмарка — навигация",
+      "kind": "folder",
+      "description": "Каталог указателей и табличек для посетителей ярмарки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c6d3567fa0b2a549d10ff4b7",
+      "name": "Ледяная корка",
+      "kind": "app",
+      "description": "Описание поверхностных ледяных корок и их распространения.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d9c8d93c596f75de6fdfc968",
+      "name": "Присадочный шаблон",
+      "kind": "app",
+      "description": "Схемы отверстий под мебельный крепёж и фурнитуру.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-498ef1e4f079123569b17e16",
+      "name": "Сусловой журнал",
+      "kind": "app",
+      "description": "Наблюдение за брожением уже полученного виноградного сусла.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8046cf00e86b5cec6d2dac05",
+      "name": "Древесный порок",
+      "kind": "app",
+      "description": "Описание сучков, трещин и дефектов пиломатериалов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-6b986e2e6704aff90d166ba6",
+      "name": "Пемзовая терраса — дефекты отливок.yaml",
+      "kind": "file",
+      "description": "Список дефектов готовых отливок по результатам осмотра.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-43ef748270ed1bca878b8559",
+      "name": "Черемуховый венец — упаковочные короба.md",
+      "kind": "file",
+      "description": "Документ перечня коробов для перевозки экспонатов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a0b61f8cd93681f6d93f467f",
+      "name": "Глубинный профиль",
+      "kind": "app",
+      "description": "Построение профиля дна водоёма по координатам и результатам промеров глубины.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1d6d6f9856b95d9fe5e3b002",
+      "name": "Формовочная смесь",
+      "kind": "app",
+      "description": "Составы и характеристики песчаных формовочных смесей.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-6b074b1099170daedc770352",
+      "name": "Поливная смена",
+      "kind": "app",
+      "description": "Расписание включения поливных зон по дням и времени.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f6b14a9535d1011c7cf243b7",
+      "name": "Сухарный причал — остатки муки.ods",
+      "kind": "file",
+      "description": "Таблица остатков муки по мешкам и сортам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-982f874c912eda8920057121",
+      "name": "Льняная пристань — переплетения",
+      "kind": "folder",
+      "description": "Каталог схем переплетений текстильной мастерской.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a65a483d8e2acdb7bb8e5da6",
+      "name": "Камерная сушка",
+      "kind": "app",
+      "description": "Режимы сушки пиломатериалов: влажность древесины, температура камеры и этапы выдержки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1f065841e852cf2b843bb54b",
+      "name": "Меловой амфитеатр — декорации.json",
+      "kind": "file",
+      "description": "Перечень сценических декораций постановки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-63ca5b1c03df9a1c098cd283",
+      "name": "Холодильный контур",
+      "kind": "app",
+      "description": "Журнал технического обслуживания холодильного оборудования катка.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a5aa310757e68c3697c3afe8",
+      "name": "Конфетная начинка",
+      "kind": "app",
+      "description": "Составы начинок конфет, вкусовые сочетания и масса порций.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-37cfbd009ec7c9f17ae3988d",
+      "name": "Сафьяновый купол — оттиски",
+      "kind": "folder",
+      "description": "Каталог цифровых материалов оттисков декоративных деталей объекта Сафьяновый купол.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-60b8dba5e72c7eed1de48c03",
+      "name": "Сборочный крепёж",
+      "kind": "app",
+      "description": "Комплектация мебельных изделий крепежом и фурнитурой.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-93192bf1bfe541685593344a",
+      "name": "Хлебная посадка",
+      "kind": "app",
+      "description": "Расписание посадки хлебных заготовок в печь и время выпекания.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-9976aca6f006786225052449",
+      "name": "Выставочная развеска",
+      "kind": "app",
+      "description": "Раскладка картин на стенах выставочного пространства.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c478af324a78e5fbfe730401",
+      "name": "Бумажный переплёт",
+      "kind": "app",
+      "description": "Расчёт толщины книжного блока, корешка и переплётных крышек.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-efe92291652968563c4b91a1",
+      "name": "Бирочный реестр",
+      "kind": "app",
+      "description": "Перечень животных по индивидуальным биркам и происхождению.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-118d9196a5faa4adab2c2bc0",
+      "name": "Бревенчатая приёмка",
+      "kind": "app",
+      "description": "Учёт поступивших брёвен по диаметру, длине и породе.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0d8744383143b7e214e3e4d6",
+      "name": "Музейная упаковка",
+      "kind": "app",
+      "description": "Комплектация упаковочных коробов для перевозки музейных предметов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-245353697274152c8949e241",
+      "name": "Хрустальный карниз — реквизит",
+      "kind": "folder",
+      "description": "Папка схем изготовления сценического реквизита постановки Хрустальный карниз.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-14976edc96befb3226dd446e",
+      "name": "Каточная аренда",
+      "kind": "app",
+      "description": "Бронирование времени ледовой площадки для групп.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-669b8b4402fae7b615289c50",
+      "name": "Отливочный дефект",
+      "kind": "app",
+      "description": "Каталог дефектов готовых отливок и отметок осмотра.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-4fde5f98d4ef3b86e41e8c22",
+      "name": "Всхожая проба",
+      "kind": "app",
+      "description": "Результаты контрольных проб всхожести семян по партиям.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0867edad793aa56ac763ec50",
+      "name": "Яшмовая бухта — граница берега.geojson",
+      "kind": "file",
+      "description": "Файл оцифрованной береговой линии бухты.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-b7e18400f94adea3cd0df55d",
+      "name": "Колокольная настройка",
+      "kind": "app",
+      "description": "Сопоставление частот звуковых тонов колоколов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-bcc9892a103b5e06817bce7c",
+      "name": "Сухарный причал — загрузка печи.ods",
+      "kind": "file",
+      "description": "Таблица очередности загрузки хлебной печи.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a5abc702ae50dc4a14fc000a",
+      "name": "Снегомерный маршрут",
+      "kind": "app",
+      "description": "Измерения общей высоты снежного покрова вдоль маршрута.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ce9a482da3e17ff0027a9c1e",
+      "name": "Зерновой приём",
+      "kind": "app",
+      "description": "Приёмка зерна: взвешивания, влажность, сорная примесь и пересчёт зачётной массы партий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f9d2882cc7b9f59d7e35dfed",
+      "name": "Меловой амфитеатр — звуковые сигналы.json",
+      "kind": "file",
+      "description": "Последовательность звуковых сигналов постановки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-15fe3462ca12ae44b36335e5",
+      "name": "Змеевой запуск",
+      "kind": "app",
+      "description": "Журнал испытательных запусков воздушных змеев.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ff3065cd84f9c729f892e391",
+      "name": "Почвенная кислотность",
+      "kind": "app",
+      "description": "Запись лабораторных измерений кислотности образцов почвы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-5e69d0343a0dd1769055f227",
+      "name": "Семенная стратификация",
+      "kind": "app",
+      "description": "Планирование холодных и тёплых этапов подготовки древесных семян к прорастанию.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-84e19130bafe74ac165c4bdc",
+      "name": "Этюдная поза",
+      "kind": "app",
+      "description": "Сеансы рисования фигуры: смена изображений поз по заданным интервалам времени.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-80f6063784637967704030a0",
+      "name": "Виноградный сбор",
+      "kind": "app",
+      "description": "Планирование сбора винограда по участкам на основании проб сахаристости и зрелости ягод.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-fd84ca4e455cf41ded8b8555",
+      "name": "Досочный штабель",
+      "kind": "app",
+      "description": "Размещение досок по штабелям и складским площадкам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e92bae2449d9b47acdf62f1e",
+      "name": "Грунтовый объём",
+      "kind": "app",
+      "description": "Расчёт объёма вынутого грунта по размерам котлована.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0b1bbb6523ba99eaeb5303a3",
+      "name": "Меловой амфитеатр — световые переходы.json",
+      "kind": "file",
+      "description": "Сохранённый файл последовательности световых переходов спектакля Меловой амфитеатр.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e35ddd503df14db7b230e74b",
+      "name": "Чайная заварка",
+      "kind": "app",
+      "description": "Параметры заваривания отдельных чаёв: вода, температура и время.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ef3dc29682a5212594eb342c",
+      "name": "Парусный такелаж",
+      "kind": "app",
+      "description": "Учёт снастей парусной лодки: назначения концов, их длины, диаметры и места крепления.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-46244c94e88def8e7a8b9957",
+      "name": "Шоколадная упаковка",
+      "kind": "app",
+      "description": "Комплектация коробок конфет по размерам ячеек и количеству изделий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-44285a75e0a90e95cd736f9e",
+      "name": "Зерновая лаборатория",
+      "kind": "app",
+      "description": "Архив лабораторных анализов зерна без расчёта приёмочной массы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-28679e0e1bd1a81aa509fbca",
+      "name": "Волоконный состав",
+      "kind": "app",
+      "description": "Учёт состава тканевых образцов по видам волокон.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-cfe834293ca9d4802818d5c4",
+      "name": "Водомерная отметка",
+      "kind": "app",
+      "description": "Журнал уровня воды по показаниям водомерных реек.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ab1433abeb9b86a3801deb21",
+      "name": "Полотняный материал",
+      "kind": "app",
+      "description": "Свойства тканей и плёнок для оболочек летательных моделей.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-4f5d28360957a20894368065",
+      "name": "Склоновое озеленение",
+      "kind": "app",
+      "description": "Планирование посадок для озеленения откосов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d4fc75f8ebad9158a734e140",
+      "name": "Снежный разрез",
+      "kind": "app",
+      "description": "Полевое описание слоёв снежного покрова: толщина, плотность и форма снежных зёрен.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1cb68268b1ee7eba89c0bd87",
+      "name": "Солнечная ориентация",
+      "kind": "app",
+      "description": "Ориентация строительных фасадов относительно пути солнца.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-630b43b9805ce8a0d44bb3e7",
+      "name": "Прожекторный подвес",
+      "kind": "app",
+      "description": "План размещения сценических прожекторов и точек подвеса.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-b5a169e2a8142a5a3eda9ea4",
+      "name": "Пемзовая терраса — перечень литейных форм.yaml",
+      "kind": "file",
+      "description": "Файл перечня литейных форм Пемзовой террасы с их обозначениями и размерами.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c816a31b0f88a3c44c128319",
+      "name": "Полимерная форма",
+      "kind": "app",
+      "description": "Учёт изготовления силиконовых форм и времени выдержки полимера.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ef3218325ad6c5ce230cc0f1",
+      "name": "Лозовая обрезка",
+      "kind": "app",
+      "description": "Планирование сезонной обрезки лоз и нагрузки по побегам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-336a6b567afb7f81aa79bba6",
+      "name": "Дрожжевой старт",
+      "kind": "app",
+      "description": "Учёт дрожжевых культур и объёмов стартовых заквасок для брожения.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-69a70da797fb92110548aa21",
+      "name": "Сушильная смена",
+      "kind": "app",
+      "description": "Расписание работы зерносушилок и загрузок сушильных линий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-1a42e32d1f611c76b1853a52",
+      "name": "Сценическая коммутация",
+      "kind": "app",
+      "description": "Распределение кабельных соединений и адресов световых приборов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e6846ad2f462b3096bd1ad5a",
+      "name": "Древесная порода",
+      "kind": "app",
+      "description": "Определение породы древесины по признакам её структуры.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8584ff3007a2e21d44b98ecd",
+      "name": "Гончарная полка",
+      "kind": "app",
+      "description": "Учёт высохших заготовок керамики на складских полках.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c0361da5b12da12e2f12eb05",
+      "name": "Пасечный журнал",
+      "kind": "app",
+      "description": "Осмотры пчелиных семей: состояние матки, расплод, сила семьи и запасы корма по ульям.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ebc6eaf82d2ab1d70135cd2b",
+      "name": "Черемуховый венец — условия экспонирования.md",
+      "kind": "file",
+      "description": "Документ условий освещения и размещения предметов выставки Черемуховый венец.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0e0eadc7045b2e41bae83741",
+      "name": "Хмелевой расчёт",
+      "kind": "app",
+      "description": "Подбор массы хмеля и времени его внесения при варке.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-6bed66390f600e762b02e00c",
+      "name": "Оградный осмотр",
+      "kind": "app",
+      "description": "Состояние ограждений, ворот и поилок на пастбищных участках.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-af4a53a3897b697605b248d5",
+      "name": "Глазурный цвет",
+      "kind": "app",
+      "description": "Запись составов глазурей, пигментов и результатов цветовых проб.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-605362d654de6f25377803ea",
+      "name": "Портретное освещение",
+      "kind": "app",
+      "description": "Подбор схем освещения лица для портретных этюдов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e5dc123a29295e504e9735da",
+      "name": "Вересковая ярмарка — упаковка",
+      "kind": "folder",
+      "description": "Папка макетов упаковочных материалов ярмарки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-30622ce83b687480d1f9ba58",
+      "name": "Фильтровальный узел",
+      "kind": "app",
+      "description": "Учёт фильтров и обслуживания узлов очистки поливной воды.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d5a92eef6531a35cfb3bd63a",
+      "name": "Маточное разведение",
+      "kind": "app",
+      "description": "Планирование вывода пчелиных маток и учёт племенных линий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0e24755a7b83cf77dbc5fd55",
+      "name": "Яшмовая бухта — промерный створ.gpx",
+      "kind": "file",
+      "description": "Маршрут гидрологических промеров по створу бухты.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d82434baa146206ad118c331",
+      "name": "Брусничная переправа — геология",
+      "kind": "folder",
+      "description": "Каталог описаний пород на геологических выходах у переправы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-4b060d8a81e343fa1bde82ae",
+      "name": "Рефрижераторный парк",
+      "kind": "app",
+      "description": "Учёт холодильных автомобилей, обслуживания и доступности машин.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-39b7c0356e217589f1e95a74",
+      "name": "Коньковая заточка",
+      "kind": "app",
+      "description": "Учёт заточки коньков, профилей лезвий и заказов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-439b35c5a17eb5e6152a0f20",
+      "name": "Пыльцевой сезон",
+      "kind": "app",
+      "description": "Календарь цветения медоносов и запасов пыльцы возле пасеки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-5b2df93fd427481a3486ba0a",
+      "name": "Оконный профиль",
+      "kind": "app",
+      "description": "Размеры заготовок профилей оконных рам и их соединений.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c7e5e9aa049f24b99cd81d17",
+      "name": "Литниковая система",
+      "kind": "app",
+      "description": "Расчёт геометрии каналов подвода металла в литейную форму.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-37ed544a48ff736e16268f6d",
+      "name": "Голубиная дистанция",
+      "kind": "app",
+      "description": "Учёт тренировочных дистанций и возвращений почтовых голубей.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7d65177c0d4c3e970589b912",
+      "name": "Порционный кейтеринг",
+      "kind": "app",
+      "description": "Расчёт количества сервировочных порций для выездных мероприятий.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-20281eb9b775618e76773406",
+      "name": "Тканевая фактура",
+      "kind": "app",
+      "description": "Каталог образцов тканей по поверхности и плотности переплетения.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-11ef9f2d24d6476b52081d53",
+      "name": "Саженцевый учёт",
+      "kind": "app",
+      "description": "Перечень подросших саженцев по грядкам и питомниковым участкам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7029094990763470dcd0cd34",
+      "name": "Семенная кладовая",
+      "kind": "app",
+      "description": "Запасы пакетов семян, места хранения и даты сбора.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-734f03f29cb556d33319990b",
+      "name": "Сухарный причал — ведомость дегустации.ods",
+      "kind": "file",
+      "description": "Файл ведомости вкусовых оценок хлебных проб Сухарного причала.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-b60b912cbefbc4ab3dc13ed4",
+      "name": "Нитяной раппорт",
+      "kind": "app",
+      "description": "Схемы ткацких переплетений: порядок подъёма ремизок, основа, уток и повтор узора.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-3dd64c75589e2664767350d3",
+      "name": "Оконная продуваемость",
+      "kind": "app",
+      "description": "Журнал испытаний воздухопроницаемости оконных блоков.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8dbed58e35d9405677f9a65e",
+      "name": "Красильная ёмкость",
+      "kind": "app",
+      "description": "Учёт оборудования, объёмов и загрузок красильных баков.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-9b1f8e0f9946cac1625e487c",
+      "name": "Яшмовая бухта — контрольный обход.gpx",
+      "kind": "file",
+      "description": "Файл записанного маршрута контрольного обхода Яшмовой бухты.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8ee4c53cfd9d7ae98d2b361e",
+      "name": "Льняная пристань — образцы",
+      "kind": "folder",
+      "description": "Папка цветовых образцов пробного окрашивания ткани для Льняной пристани.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-95affe9d312bc71789fced3a",
+      "name": "Кольцевой реестр",
+      "kind": "app",
+      "description": "Учёт номеров колец и повторных поимок окольцованных птиц.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-06b23fbe1ccadcf07fc617a2",
+      "name": "Круговой венок",
+      "kind": "app",
+      "description": "Подбор стеблей и элементов для флористических венков.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-0850a47190f9d73a44eab0fb",
+      "name": "Кожаный шов",
+      "kind": "app",
+      "description": "Разметка расстояний между отверстиями шва на кожаных изделиях.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-00e601a594e33224e188b663",
+      "name": "Шоколадный темпер",
+      "kind": "app",
+      "description": "Темперирование шоколада: нагрев, охлаждение и рабочая температура по видам шоколада.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a1bdc04bc76765fbff93ae2d",
+      "name": "Тёплый валенок",
+      "kind": "app",
+      "description": "Учёт стадий валяния шерстяной обуви и усадки заготовок.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-2feeb57dfc1efd5bc0e9f36a",
+      "name": "Пузырчатый тест",
+      "kind": "app",
+      "description": "Запись сравнительных проб пенообразования готовых моющих составов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-c21d4c80d2a526f3bd0c1a00",
+      "name": "Термоконтейнер",
+      "kind": "app",
+      "description": "Комплектация переносных изотермических коробов и охлаждающих элементов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-9ef77d3a9b59a88f5e5c32ad",
+      "name": "Льняная пристань — поставки",
+      "kind": "folder",
+      "description": "Папка документов поставки тканей в мастерскую.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-4705351a75d26204a3c4c8c3",
+      "name": "Заквасочный дневник",
+      "kind": "app",
+      "description": "Кормления хлебной закваски: масса стартера, муки и воды, время и подъём после кормления.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-134f98d39a164058c7812504",
+      "name": "Брусничная переправа — настил",
+      "kind": "folder",
+      "description": "Папка схем деревянного настила переправы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-03ac8fdd5adc9299f4cfbf7e",
+      "name": "Тканевый краситель",
+      "kind": "app",
+      "description": "Пробные окрашивания ткани: состав красильной ванны, цвет и стойкость образцов после стирки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-66c7227e9f24453b29b33093",
+      "name": "Мыльный баланс",
+      "kind": "app",
+      "description": "Калькулятор рецептуры мыла: массы масел, щёлочи и воды по введённым характеристикам сырья.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-18ef713217d79e4f1e9d7fab",
+      "name": "Холодовая цепь",
+      "kind": "app",
+      "description": "Наблюдение температур перевозки охлаждённых грузов и отметки выходов из заданного диапазона.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7e4c42db30b7665e379aab78",
+      "name": "Акустическая проба",
+      "kind": "app",
+      "description": "Журнал натурных акустических измерений и импульсных откликов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-3d56033578f79527a6c55911",
+      "name": "Капельная линия",
+      "kind": "app",
+      "description": "Гидравлический расчёт капельного полива: длина линий, расход эмиттеров и падение давления.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-91ea78b6c95584eea68c71a3",
+      "name": "Солодовый режим",
+      "kind": "app",
+      "description": "Планирование затирания солода: температурные паузы и длительность каждой паузы.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-423f21d497af3b1390247c4c",
+      "name": "Чайная посуда",
+      "kind": "app",
+      "description": "Каталог заварочной посуды, размеров и материалов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-2bea36d4e20289d26df8e9d3",
+      "name": "Древесный возраст",
+      "kind": "app",
+      "description": "Измерение годичных колец на древесных кернах и сопоставление рядов ширины колец.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f8c6ec97c2e485b072278b11",
+      "name": "Полевой орнитолог",
+      "kind": "app",
+      "description": "Полевые наблюдения птиц: вид, число особей, место, дата и обстоятельства встречи.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8ac70cc26f82c1db17491798",
+      "name": "Насосный подбор",
+      "kind": "app",
+      "description": "Сравнение характеристик насосов по напору и расходу.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-87c504ba0c7273c888aeb1e8",
+      "name": "Пуховое наполнение",
+      "kind": "app",
+      "description": "Нормы наполнения подушек пухом по размерам и массе.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-476a663c71d3a47cbf286711",
+      "name": "Почвенный монолит",
+      "kind": "app",
+      "description": "Описание почвенных горизонтов: глубина границ, цвет, структура и механический состав.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-6e22fb8938a14f121b0387d4",
+      "name": "Ледовый уход",
+      "kind": "app",
+      "description": "Обслуживание катка: очередность заливок, проходы ледозаливочной машины и состояние ледовой поверхности.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-d0799c27a90f8d79fb6cb77d",
+      "name": "Резонансный зал",
+      "kind": "app",
+      "description": "Расчёт времени реверберации помещения по объёму зала и звукопоглощению его поверхностей.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-bcc4865ba513a7c257ab0768",
+      "name": "Хрустальный карниз — музыка",
+      "kind": "folder",
+      "description": "Папка музыкальных материалов сценической постановки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-08626ce5fe8a6712d372809b",
+      "name": "Виноградная шпалера",
+      "kind": "app",
+      "description": "Схемы опор, проволок и подвязки лоз на рядах.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-52d6496f053bdb17682f7b83",
+      "name": "Бутылочный розлив",
+      "kind": "app",
+      "description": "Планирование розлива напитка по бутылкам и остатков тары.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-a92af8e9f8fc98049d1c5118",
+      "name": "Яшмовая бухта — точки отбора.gpx",
+      "kind": "file",
+      "description": "Координаты точек отбора проб воды в бухте.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-7308508576f4d9326584dede",
+      "name": "Чайная поставка",
+      "kind": "app",
+      "description": "Поставщики, закупочные партии и остатки чайного сырья.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-306341218acfd93d75d8ef9c",
+      "name": "Кровельный нахлёст",
+      "kind": "app",
+      "description": "Раскладка кровельных листов с учётом нахлёстов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-64a22025b6ef84c9cb2cebed",
+      "name": "Вересковая ярмарка — участники",
+      "kind": "folder",
+      "description": "Папка анкет мастеров и заявок участников ярмарки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-4e8e88aee1e20a54de4e40e5",
+      "name": "Этюдная коллекция",
+      "kind": "app",
+      "description": "Каталог завершённых художественных этюдов и их материалов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-07ac4ea16bc52d8f2afae7f2",
+      "name": "Ветеринарная очередь",
+      "kind": "app",
+      "description": "Очередь посещений ветеринарного кабинета по животным и владельцам.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-f22b44a0c182f2529fcb6456",
+      "name": "Откосный расчёт",
+      "kind": "app",
+      "description": "Геометрия земляных откосов: высота, угол наклона, горизонтальная проекция и длина склона.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-36d3d108a14198335ec5f664",
+      "name": "Сафьяновый купол — кладка",
+      "kind": "folder",
+      "description": "Папка обследования каменной кладки объекта.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-8e03b236b90dcf0d9cec675e",
+      "name": "Мыльная выдержка",
+      "kind": "app",
+      "description": "Даты изготовления и созревания готовых партий мыла на стеллажах.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-e52368b75ffc30ecb8c19968",
+      "name": "Пемзовая терраса — формовочные смеси.yaml",
+      "kind": "file",
+      "description": "Перечень составов формовочных смесей.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-63c890cbeebdc80a708676f1",
+      "name": "Тепличная рассада",
+      "kind": "app",
+      "description": "Размещение рассадных кассет и сроки перевалки растений.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-532163bebb9070ae3ba71821",
+      "name": "Корпусная оснастка",
+      "kind": "app",
+      "description": "Учёт крепежа и металлической фурнитуры корпуса лодки.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-cf571e9e6d0b62cbabb30888",
+      "name": "Полевой отбор",
+      "kind": "app",
+      "description": "Маркировка точек отбора почвенных проб и номеров пакетов.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-ca37fcd4718b5f5cd0947c3d",
+      "name": "Моток пряжи",
+      "kind": "app",
+      "description": "Остатки пряжи по моткам, цветам, волокнам и толщине.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-90ef8ec449e7ace4969e1620",
+      "name": "Катушечный запас",
+      "kind": "app",
+      "description": "Учёт длин лееров и катушек для запуска змеев.",
+      "aliases": []
+    },
+    {
+      "object_id": "independent-v1-bea4738e9ca50f16ff503f2c",
+      "name": "Чайный купаж",
+      "kind": "app",
+      "description": "Составление чайных смесей: доли сортов и результаты вкусовых проб каждого купажа.",
+      "aliases": []
+    }
+  ]
+}

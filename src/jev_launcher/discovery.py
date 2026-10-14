@@ -204,6 +204,10 @@ def scan_windows(folder_roots: list[str] | None = None) -> ScanResult:
     if process.returncode:
         raise RuntimeError("Не удалось собрать приложения Windows")
     try:
-        return parse_scan(json.loads(process.stdout))
+        result = parse_scan(json.loads(process.stdout))
     except (ValueError, KeyError, TypeError) as exc:
         raise RuntimeError("Windows вернула неполный результат сканирования") from exc
+    from .app_metadata import enrich_descriptions
+
+    enrich_descriptions(result.objects)
+    return result

@@ -5,15 +5,16 @@ import QtQuick.Layouts
 ApplicationWindow {
     id: window
     objectName: "launcherWindow"
-    width: 840
-    height: 670
+    width: 1040
+    height: 720
     minimumWidth: 720
     minimumHeight: 560
     visible: true
     title: "Jev Launcher"
-    flags: Qt.Tool | Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinMaxButtonsHint
+    flags: Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinMaxButtonsHint
     font.family: colors.family
     property bool dark: controller.theme === "dark"
+    property bool narrow: width < 640
     property color panel: colors.surface
     property color ink: colors.ink
     property color muted: colors.muted
@@ -40,81 +41,86 @@ ApplicationWindow {
         }
     }
 
-    ColumnLayout {
+    QtObject { id: tabs; objectName: "navigation"; property int currentIndex: 0 }
+    RowLayout {
         anchors.fill: parent
-        anchors.margins: 24
-        spacing: 18
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 38
-            spacing: 10
-            Rectangle {
-                Layout.preferredWidth: 34
-                Layout.preferredHeight: 34
-                radius: 9
-                color: colors.accent
-                Text {
-                    anchors.centerIn: parent
-                    text: "↗"
-                    color: colors.accentInk
-                    font.family: colors.family
-                    font.pixelSize: 24
-                    font.weight: Font.DemiBold
-                }
-            }
-            Label {
-                text: "Jev"
-                color: colors.ink
-                font.pixelSize: 20
-                font.weight: Font.DemiBold
-                font.letterSpacing: -0.5
-            }
-            Label {
-                text: "LAUNCHER"
-                color: colors.subtle
-                font.pixelSize: 9
-                font.letterSpacing: 1.5
-                Layout.leftMargin: 2
-            }
-            Item { Layout.fillWidth: true }
-            TabBar {
-                id: tabs
-                objectName: "navigation"
-                Layout.preferredWidth: 286
-                Layout.preferredHeight: 38
-                spacing: 3
-                padding: 3
-                background: Rectangle {
-                    radius: 9
-                    color: colors.input
-                    border.color: colors.line
+        spacing: 0
+        Rectangle {
+            Layout.preferredWidth: window.narrow ? 60 : window.width < 850 ? 138 : 184
+            Layout.fillHeight: true
+            color: colors.input
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: window.narrow ? 8 : 16
+                spacing: 10
+                RowLayout {
+                    Layout.topMargin: 12
+                    Layout.bottomMargin: 30
+                    spacing: 9
+                    Rectangle {
+                        width: 30; height: 30; radius: 8; color: colors.accent
+                        Text { anchors.centerIn: parent; text: "↗"; color: colors.accentInk; font.pixelSize: 22 }
+                    }
+                    Label { visible: !window.narrow; text: "Jev"; color: colors.ink; font.pixelSize: 23; font.weight: Font.DemiBold }
                 }
                 Repeater {
                     model: ["Поиск", "Каталог", "Настройки"]
-                    TabButton {
-                        id: tab
+                    Button {
+                        id: navButton
                         required property string modelData
+                        required property int index
+                        Layout.fillWidth: true
+                        implicitHeight: 42
                         text: modelData
-                        implicitHeight: 32
+                        Accessible.name: modelData
+                        ToolTip.visible: hovered && window.narrow
+                        ToolTip.text: modelData
+                        onClicked: tabs.currentIndex = index
                         background: Rectangle {
-                            radius: 6
-                            color: tab.checked ? colors.raised : tab.hovered ? colors.surface : "transparent"
-                            border.color: tab.activeFocus ? colors.accent : "transparent"
+                            radius: 8
+                            color: tabs.currentIndex === navButton.index ? colors.selected : navButton.hovered ? colors.raised : "transparent"
+                            border.color: navButton.activeFocus ? colors.accent : "transparent"
                         }
                         contentItem: Text {
-                            text: tab.text
-                            color: tab.checked ? colors.ink : colors.muted
+                            text: window.narrow ? ["⌕", "▦", "⚙"][navButton.index] : navButton.text
+                            color: tabs.currentIndex === navButton.index ? colors.ink : colors.muted
                             font.family: colors.family
-                            font.pixelSize: 12
-                            font.weight: tab.checked ? Font.DemiBold : Font.Normal
-                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: window.narrow ? 21 : 13
+                            font.weight: tabs.currentIndex === navButton.index ? Font.DemiBold : Font.Normal
                             verticalAlignment: Text.AlignVCenter
+                            leftPadding: window.narrow ? 0 : 8
+                            horizontalAlignment: window.narrow ? Text.AlignHCenter : Text.AlignLeft
                         }
                     }
                 }
+                Item { Layout.fillHeight: true }
+                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: colors.line }
+                Label {
+                    visible: !window.narrow
+                    text: controller.modelStatus
+                    color: controller.modelReady ? colors.accent : colors.muted
+                    font.pixelSize: 11
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    maximumLineCount: 4
+                    elide: Text.ElideRight
+                    ToolTip.visible: modelStatusHover.containsMouse
+                    ToolTip.text: text
+                    MouseArea { id: modelStatusHover; anchors.fill: parent; hoverEnabled: true }
+                }
+                Label { visible: !window.narrow; text: controller.activeCount + " объектов"; color: colors.subtle; font.pixelSize: 11 }
+                Label { visible: !window.narrow; text: "Быстрый запуск"; color: colors.subtle; font.pixelSize: 11; Layout.topMargin: 10 }
+                AppButton { text: window.narrow ? "Т" : "Текст"; Accessible.name: "Текстовый быстрый запуск"; dark: window.dark; compact: true; Layout.fillWidth: true; onClicked: controller.showQuick("text") }
+                AppButton { text: window.narrow ? "Г" : "Голос"; Accessible.name: "Голосовой быстрый запуск"; dark: window.dark; compact: true; Layout.fillWidth: true; onClicked: controller.showQuick("voice") }
             }
         }
-        Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: colors.line }
+        Rectangle { Layout.fillHeight: true; implicitWidth: 1; color: colors.line }
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumWidth: 0
+            Layout.margins: 24
+            spacing: 18
         StackLayout {
             currentIndex: tabs.currentIndex
             Layout.fillWidth: true
@@ -125,24 +131,62 @@ ApplicationWindow {
                 RowLayout {
                     Layout.fillWidth: true
                     ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 0
                         spacing: 4
                         Label {
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
                             text: "Что открыть?"
                             color: colors.ink
                             font.pixelSize: 25
                             font.weight: Font.DemiBold
                             font.letterSpacing: -0.6
                         }
-                        Label { text: "Приложения, файлы и папки в одном месте"; color: colors.muted; font.pixelSize: 12 }
+                        Label { text: "Приложения, файлы и папки в одном месте"; color: colors.muted; font.pixelSize: 12; Layout.fillWidth: true; elide: Text.ElideRight }
                     }
                     Item { Layout.fillWidth: true }
                     Label {
+                        visible: window.width >= 850
                         text: controller.activeCount + " в каталоге"
                         color: colors.subtle
                         font.pixelSize: 11
                         Layout.alignment: Qt.AlignBottom
                         Layout.bottomMargin: 3
                     }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 12
+                    Label { text: "Модель"; color: colors.muted; font.pixelSize: 12 }
+                    AppCombo {
+                        id: modelBox
+                        objectName: "modelBox"
+                        dark: window.dark
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 0
+                        implicitHeight: 36
+                        model: controller.searchModels
+                        textRole: "name"
+                        valueRole: "id"
+                        currentIndex: Math.max(0, indexOfValue(controller.searchModel))
+                        onActivated: controller.setSearchModel(currentValue)
+                    }
+                    BusyIndicator {
+                        running: controller.modelSearching || controller.modelPreparing
+                        visible: running
+                        implicitWidth: 26
+                        implicitHeight: 26
+                        Accessible.name: "Идёт поиск"
+                    }
+                }
+                Label {
+                    visible: window.narrow
+                    text: controller.modelStatus
+                    color: controller.modelReady ? colors.accent : colors.muted
+                    font.pixelSize: 10
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
                 }
                 Rectangle {
                     Layout.fillWidth: true
@@ -173,8 +217,9 @@ ApplicationWindow {
                             background: null
                             onTextEdited: { controller.setQuery(text); results.currentIndex = 0 }
                             onAccepted: {
-                                if (results.count > 0)
-                                    controller.openObject(controller.results[Math.max(0, results.currentIndex)].object_id)
+                                var candidates = controller.results
+                                if (candidates.length > 0)
+                                    controller.openObject(candidates[Math.min(candidates.length - 1, Math.max(0, results.currentIndex))].object_id)
                             }
                             Keys.onDownPressed: function(event) {
                                 results.currentIndex = Math.min(results.count - 1, results.currentIndex + 1)
@@ -290,7 +335,8 @@ ApplicationWindow {
                         Label {
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignHCenter
-                            text: controller.scanning ? "Собираем каталог…"
+                            text: controller.modelSearching ? "Модель выбирает объект…"
+                                : controller.scanning ? "Собираем каталог…"
                                 : controller.totalCount === 0 ? "Начнём с ваших приложений" : "Совпадений пока нет"
                             color: colors.ink
                             font.pixelSize: 18
@@ -300,7 +346,9 @@ ApplicationWindow {
                         Label {
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignHCenter
-                            text: controller.totalCount === 0 ? "Обновите каталог или добавьте файл и папку"
+                            text: controller.modelPreparing ? "Модель и индекс готовятся в фоне"
+                                : controller.modelSearching ? "Поиск выполняется в фоне"
+                                : controller.totalCount === 0 ? "Обновите каталог или добавьте файл и папку"
                                   : "Попробуйте другое название или описание"
                             color: colors.muted
                             font.pixelSize: 12
@@ -336,7 +384,7 @@ ApplicationWindow {
                             elide: Text.ElideRight
                         }
                         Label {
-                            text: selection.selected ? selection.selected.launch_target : controller.hotkeyText + " — вызвать окно"
+                            text: selection.selected ? selection.selected.launch_target : controller.hotkeyText + " — быстрый запуск"
                             color: colors.subtle
                             font.pixelSize: 10
                             Layout.fillWidth: true
@@ -388,12 +436,13 @@ ApplicationWindow {
                 ToolTip.text: text
                 MouseArea { id: statusHover; anchors.fill: parent; hoverEnabled: true }
             }
-            KeyCap { text: "↑ ↓"; dark: window.dark; visible: tabs.currentIndex === 0 }
-            Label { text: "выбор"; color: colors.subtle; font.pixelSize: 10; visible: tabs.currentIndex === 0 }
+            KeyCap { text: "↑ ↓"; dark: window.dark; visible: tabs.currentIndex === 0 && window.width >= 850 }
+            Label { text: "выбор"; color: colors.subtle; font.pixelSize: 10; visible: tabs.currentIndex === 0 && window.width >= 850 }
             KeyCap { text: "Enter"; dark: window.dark; visible: tabs.currentIndex === 0; Layout.leftMargin: 6 }
-            Label { text: "открыть"; color: colors.subtle; font.pixelSize: 10; visible: tabs.currentIndex === 0 }
+            Label { text: "открыть"; color: colors.subtle; font.pixelSize: 10; visible: tabs.currentIndex === 0 && window.width >= 850 }
             KeyCap { text: "Esc"; dark: window.dark; Layout.leftMargin: 6 }
-            Label { text: "скрыть"; color: colors.subtle; font.pixelSize: 10 }
+            Label { visible: window.width >= 850; text: "скрыть"; color: colors.subtle; font.pixelSize: 10 }
+        }
         }
     }
     Component.onCompleted: searchField.forceActiveFocus()

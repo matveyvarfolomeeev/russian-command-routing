@@ -1,7 +1,14 @@
 * text=auto eol=lf
+# Preserve the bytes used by frozen dataset and experiment SHA-256 manifests.
+data/** -text
+results/** -text
+data/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+results/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 *.png binary
 *.jpg binary
 *.jpeg binary
 *.ico binary
 *.wav binary
 *.mp3 binary
+*.gz binary
+*.zip binary

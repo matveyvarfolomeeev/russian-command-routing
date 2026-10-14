@@ -265,6 +265,26 @@ class Catalog:
             raise KeyError("Объект больше не существует в каталоге")
         return self._decode(row)
 
+    def apply_descriptions(self, updates: dict[str, dict[str, str]]) -> int:
+        """Apply enrichment without changing identities, launch data, or user edits."""
+        changed = 0
+        with self.connection() as db:
+            db.execute("BEGIN IMMEDIATE")
+            for object_id, update in updates.items():
+                row = db.execute("SELECT payload FROM objects WHERE object_id=?", (object_id,)).fetchone()
+                if row is None:
+                    continue
+                item = self._decode(row)
+                if item.kind != "app" or item.description.strip() or "description" in item.overrides:
+                    continue
+                description = update["description"].strip()
+                if description:
+                    item.description = description
+                    item.description_source = update["description_source"]
+                    self._save(db, item)
+                    changed += 1
+        return changed
+
     def merge_scan(self, result: ScanResult) -> int:
         """Only successful sources can mark old entries missing; edits always survive."""
         now = datetime.now(timezone.utc).isoformat()
@@ -299,6 +319,15 @@ class Catalog:
                 row = row or source_row
                 if row:
                     item = self._decode(row)
+                    enrichment = found.description_source.startswith("winget:") or (
+                        found.description_source == "windows_metadata"
+                    )
+                    # Enrichment fills gaps; it cannot replace an existing richer source.
+                    keep_description = bool(item.description.strip()) and enrichment and (
+                        item.description_source != "windows_metadata"
+                        and not (item.description_source.startswith("winget:") and
+                                 found.description_source.startswith("winget:"))
+                    )
                     preserve_shortcut = (
                         found.launch_type in ("app_id", "executable", "file", "folder")
                         and item.launch_type == "shortcut"
@@ -318,6 +347,8 @@ class Catalog:
                         "icon_target",
                         "resolved_target",
                     ):
+                        if keep_description and key in ("description", "description_source"):
+                            continue
                         if preserve_shortcut and key in (
                             "launch_type",
                             "launch_target",

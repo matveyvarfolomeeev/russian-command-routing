@@ -2,19 +2,23 @@
 
 from __future__ import annotations
 
+import ctypes
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
-from PySide6.QtCore import Property, QObject, Signal, Slot
+from PySide6.QtCore import Property, QObject, QTimer, Signal, Slot
 from PySide6.QtWidgets import QFileDialog
 
 from . import config
 from .audio import Recorder
 from .discovery import scan_windows
-from .hotkey import DEFAULT_HOTKEY
+from .hotkey import DEFAULT_HOTKEY, DEFAULT_VOICE_HOTKEY, parse_hotkey, register_pair
 from .jobs import Jobs
 from .launch import launch_by_id
+from .model_search import DEFAULT_MODEL, MODELS, ModelRuntime
+from .quick import QuickSession
 from .search import filter_catalog
 from .speech import transcribe
 
@@ -54,12 +58,35 @@ class Controller(QObject):
         self._opening = False
         self._transcribing = False
         self._speech_token = 0
+        self.model_runtime = ModelRuntime()
+        self._model_ids = []
+        self._model_generation = 0
+        self._model_job_active = False
+        self._model_searching = False
+        self._model_timer = QTimer(self)
+        self._model_timer.setSingleShot(True)
+        self._model_timer.setInterval(250)
+        self._model_timer.timeout.connect(self._run_model_search)
+        self._prepare_generation = 0
+        self._prepare_active = False
+        self._model_ready = False
+        self._model_preparing = False
+        self._model_error = ""
+        self._prepare_timer = QTimer(self)
+        self._prepare_timer.setSingleShot(True)
+        self._prepare_timer.timeout.connect(self._prepare_model)
+        self._closing = False
         self.hotkey = None
+        self.voice_hotkey = None
+        self.quick = QuickSession(self)
         self.reload()
 
     def reload(self):
         self._all = self.catalog.items()
         self._revision += 1
+        self._schedule_model_search()
+        self._schedule_preparation()
+        self.quick.invalidate()
         self.catalogChanged.emit()
         self.stateChanged.emit()
 
@@ -95,6 +122,7 @@ class Controller(QObject):
                 self._status = "Ввод изменён. Результат распознавания отменён."
                 self._error = False
             self._query = query
+            self._schedule_model_search()
             self.queryChanged.emit()
             self.stateChanged.emit()
 
@@ -105,7 +133,153 @@ class Controller(QObject):
 
     @Property("QVariantList", notify=stateChanged)
     def results(self):
+        if self.searchModel != "filter" and self._query.strip():
+            by_id = {item.object_id: item for item in self._all if item.enabled and item.available}
+            return [self._view(by_id[value]) for value in self._model_ids if value in by_id]
         return [self._view(item) for item in filter_catalog(self._all, self._query)]
+
+    @Property("QVariantList", notify=stateChanged)
+    def searchModels(self):
+        return [{"id": key, "name": name} for key, name in MODELS]
+
+    @Property(str, notify=stateChanged)
+    def searchModel(self):
+        value = self.catalog.setting("search_model", DEFAULT_MODEL)
+        if value == "e5":
+            return "e5_trained"
+        return value if value in dict(MODELS) else DEFAULT_MODEL
+
+    @Property(bool, notify=stateChanged)
+    def modelSearching(self):
+        return self._model_searching
+
+    @Property(bool, notify=stateChanged)
+    def modelReady(self):
+        return self._model_ready
+
+    @Property(bool, notify=stateChanged)
+    def modelPreparing(self):
+        return self._model_preparing
+
+    @Property(str, notify=stateChanged)
+    def modelStatus(self):
+        if self._model_error:
+            return "Модель недоступна: " + self._model_error
+        if self._model_preparing:
+            return "Подготавливаю модель и каталог…"
+        return "Модель готова" if self._model_ready else "Модель не подготовлена"
+
+    def modelCompleted(self, error):
+        self._model_error = error
+        self._model_ready = not bool(error)
+        self.stateChanged.emit()
+
+    def _schedule_preparation(self):
+        self._prepare_generation += 1
+        self._model_ready = self.searchModel == "filter"
+        self._model_preparing = not self._model_ready
+        self._model_error = ""
+        self._prepare_timer.start(0)
+
+    def _prepare_model(self):
+        if self._closing or self._prepare_active or not self._model_preparing:
+            return
+        token, model = self._prepare_generation, self.searchModel
+        runtime_generation = self.model_runtime.generation
+        objects = [item.for_model() for item in self._all if item.enabled and item.available]
+        self._prepare_active = True
+
+        def work():
+            if self._closing or token != self._prepare_generation:
+                return None
+            return self.model_runtime.prepare(model, objects, expected_generation=runtime_generation)
+
+        def done(result, error):
+            self._prepare_active = False
+            if self._closing:
+                return
+            if token != self._prepare_generation:
+                self._prepare_model()
+                return
+            self._model_preparing = False
+            self._model_ready = not bool(error)
+            self._model_error = error
+            self.stateChanged.emit()
+
+        self.jobs.submit(work, done)
+
+    @Slot(str)
+    def setSearchModel(self, model):
+        if model not in dict(MODELS):
+            self._message("Неизвестная модель.", True)
+            return
+        if model == self.searchModel:
+            return
+        self.catalog.set_setting("search_model", model)
+        self.model_runtime.close()
+        self._schedule_preparation()
+        self._schedule_model_search()
+        self.quick.invalidate(model_changed=True)
+        self._message("Выбрана модель: " + dict(MODELS)[model])
+
+    def _schedule_model_search(self):
+        self._model_generation += 1
+        self._model_ids = []
+        self._model_timer.stop()
+        self._model_searching = self.searchModel != "filter" and bool(self._query.strip())
+        if self._model_searching:
+            self._model_timer.start()
+
+    def _run_model_search(self):
+        if self._closing or self._model_job_active or not self._model_searching:
+            return
+        token, query, model = self._model_generation, self._query, self.searchModel
+        runtime_generation = self.model_runtime.generation
+        objects = [item.for_model() for item in self._all if item.enabled and item.available]
+        if not objects:
+            self._model_searching = False
+            self.stateChanged.emit()
+            return
+        self._model_job_active = True
+        self._message("Ищем подходящий объект…")
+
+        def done(result, error):
+            self._model_job_active = False
+            if self._closing:
+                return
+            if token != self._model_generation:
+                if not self._model_timer.isActive():
+                    self._run_model_search()
+                return
+            self._model_searching = False
+            if error:
+                self.modelCompleted(error)
+                self._message("Не удалось выполнить поиск: " + error, True)
+            else:
+                self.modelCompleted("")
+                self._model_ids = result["object_ids"]
+                self._message(
+                    f"{dict(MODELS)[model]}: {len(self._model_ids)} вариантов, "
+                    f"{result['elapsed_ms']:.0f} мс. Выберите объект и нажмите Enter."
+                )
+
+        def work():
+            if self._closing or token != self._model_generation:
+                return None
+            return self.model_runtime.search(model, query, objects,
+                                             expected_generation=runtime_generation)
+
+        self.jobs.submit(work, done)
+
+    def closeModels(self):
+        self._closing = True
+        self.quick.close()
+        self._prepare_generation += 1
+        self._prepare_timer.stop()
+        self._model_generation += 1
+        self._model_timer.stop()
+        self._model_searching = False
+        self.model_runtime.close()
 
     @Property("QVariantList", notify=stateChanged)
     def catalogItems(self):
@@ -159,8 +333,28 @@ class Controller(QObject):
         return self.hotkey.status_text if self.hotkey else "Горячая клавиша отключена"
 
     @Property(str, notify=stateChanged)
+    def voiceHotkeyText(self):
+        return self.catalog.setting("voice_hotkey", DEFAULT_VOICE_HOTKEY)
+
+    @Property(bool, notify=stateChanged)
+    def voiceHotkeyRegistered(self):
+        return bool(self.voice_hotkey and self.voice_hotkey.registered)
+
+    @Property(str, notify=stateChanged)
+    def voiceHotkeyStatus(self):
+        return self.voice_hotkey.status_text if self.voice_hotkey else "Горячая клавиша отключена"
+
+    @Property(str, notify=stateChanged)
     def theme(self):
         return self.catalog.setting("theme", "dark")
+
+    @Property(bool, constant=True)
+    def animationsEnabled(self):
+        if os.name == "nt":
+            enabled = ctypes.c_int(1)
+            if ctypes.windll.user32.SystemParametersInfoW(0x1042, 0, ctypes.byref(enabled), 0):
+                return bool(enabled.value)
+        return True
 
     @Property(bool, notify=stateChanged)
     def keyConfigured(self):
@@ -319,17 +513,24 @@ class Controller(QObject):
             self._message("Не удалось сохранить файл экспорта.", True)
 
     @Slot(str, str, str, str, bool, result=bool)
-    def saveSettings(self, hotkey, theme, microphone, new_key, clear_key=False):
+    @Slot(str, str, str, str, bool, str, result=bool)
+    def saveSettings(self, hotkey, theme, microphone, new_key, clear_key=False, voice_hotkey=None):
+        voice_hotkey = voice_hotkey if voice_hotkey is not None else self.voiceHotkeyText
         try:
-            if self.hotkey:
-                self.hotkey.register(hotkey)
             if theme not in ("dark", "light"):
                 raise ValueError("Неизвестная тема")
+            if parse_hotkey(hotkey) == parse_hotkey(voice_hotkey):
+                raise ValueError("Для текста и голоса нужны разные сочетания клавиш.")
+            if self.hotkey and self.voice_hotkey:
+                register_pair(self.hotkey, self.voice_hotkey, hotkey, voice_hotkey)
+            elif self.hotkey:
+                self.hotkey.register(hotkey)
             if clear_key:
                 config.save_api_key(self.catalog, "")
             elif new_key.strip():
                 config.save_api_key(self.catalog, new_key)
             self.catalog.set_setting("hotkey", hotkey)
+            self.catalog.set_setting("voice_hotkey", voice_hotkey)
             self.catalog.set_setting("theme", theme)
             self.catalog.set_setting("microphone", microphone)
             self._message("Настройки сохранены.")
@@ -340,6 +541,7 @@ class Controller(QObject):
 
     @Slot()
     def toggleRecording(self):
+        self.quick.cancel()
         if self._transcribing:
             self.cancelSpeech()
             return
@@ -393,3 +595,15 @@ class Controller(QObject):
     @Slot()
     def hideWindow(self):
         self.hideRequested.emit()
+
+    @Slot(str)
+    def showQuick(self, mode):
+        self.quick.show(mode)
+
+    @Slot()
+    def submitQuick(self):
+        self.quick.submit()
+
+    @Slot()
+    def cancelQuick(self):
+        self.quick.cancel()

@@ -11,7 +11,15 @@ analysis = Analysis(
     datas=[
         (str(package / "ui"), "jev_launcher/ui"),
         (str(package / "resources"), "jev_launcher/resources"),
-    ],
+        *[(str(root / "scripts" / name), "jev_launcher/runtime") for name in (
+            "run_launcher_model.py", "benchmark_choice_quantization.py",
+            "train_laya_kaggle.py", "train_nanojev_kaggle.py",
+            "continue_nanojev_kaggle.py", "train_modernbert_kaggle.py",
+        )],
+    ] + (
+        [(str(root / "models" / "launcher-runtime.json"), "jev_launcher/resources")]
+        if (root / "models" / "launcher-runtime.json").is_file() else []
+    ),
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],

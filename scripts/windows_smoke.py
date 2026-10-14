@@ -7,6 +7,7 @@ import base64
 import ctypes
 import json
 import os
+import re
 import subprocess
 import time
 from ctypes import wintypes
@@ -104,7 +105,7 @@ def wait_for(predicate, timeout=15):
     raise RuntimeError("Integration check timed out")
 
 
-def packaged_check(executable: Path, root: Path, application):
+def packaged_check(executable: Path, root: Path, application, wait_model=False):
     data_dir = root / "packaged-data"
     data_dir.mkdir(parents=True, exist_ok=True)
     environment = dict(os.environ)
@@ -158,6 +159,26 @@ def packaged_check(executable: Path, root: Path, application):
         catalog = wait_for(scan_completed, 50)
         assert not catalog.needs_refresh(), "Packaged catalog did not complete all sources"
         catalog_ready_ms = round((time.perf_counter() - started) * 1000)
+        model_report = {}
+        model_pid = None
+        if wait_model:
+            def model_ready():
+                log = data_dir / "app.log"
+                if not log.is_file():
+                    return None
+                return re.search(
+                    rf"Model and catalog ready: model=laya pid=(\d+) objects={len(catalog.model_catalog())} ",
+                    log.read_text(encoding="utf-8"),
+                )
+
+            ready = wait_for(model_ready, 120)
+            model_pid = int(ready.group(1))
+            assert model_pid in process_family(process.pid)
+            log = (data_dir / "app.log").read_text(encoding="utf-8")
+            assert "jev_launcher\\runtime\\run_launcher_model.py" in log
+            model_report = {"model_and_index_ready": True, "model_pid": model_pid,
+                            "model_ready_ms": round((time.perf_counter() - started) * 1000),
+                            "bundled_worker": True}
         image = application.primaryScreen().grabWindow(handle)
         assert not image.isNull() and image.save(str(root / "packaged.png"))
         second = subprocess.run(command, cwd=root, env=environment, timeout=10, check=False)
@@ -166,6 +187,9 @@ def packaged_check(executable: Path, root: Path, application):
         USER.PostMessageW(handle, 0x0010, 0, 0)
         process.wait(10)
         assert process.returncode == 0
+        if model_pid is not None:
+            assert model_pid not in process_family(process.pid)
+            model_report["model_stopped_on_exit"] = True
         return {
             "window_visible": True,
             "window_ready_ms": window_ms,
@@ -175,6 +199,7 @@ def packaged_check(executable: Path, root: Path, application):
             "source_errors": catalog.setting("last_scan")["errors"],
             "second_instance_exit": second.returncode,
             "close_exit": process.returncode,
+            **model_report,
         }
     finally:
         if process.poll() is None:
@@ -318,13 +343,15 @@ def main():
     parser.add_argument("--exe", type=Path)
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/windows-smoke"))
     parser.add_argument("--open-objects", action="store_true")
+    parser.add_argument("--wait-for-model", action="store_true",
+                        help="Also verify the bundled Laya worker prepares the full catalog")
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     root = args.output_dir.resolve()
     application = QApplication([])
     report = {}
     if args.exe:
-        report["packaged"] = packaged_check(args.exe, root, application)
+        report["packaged"] = packaged_check(args.exe, root, application, args.wait_for_model)
         report["cached_start"] = cached_start_check(args.exe, root)
     if args.open_objects:
         report["actual_open"] = actual_open_check(root)

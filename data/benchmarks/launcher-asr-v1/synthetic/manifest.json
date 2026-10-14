@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "dataset_id": "launcher-asr-v1-synthetic",
+  "created_on": "2026-10-04",
+  "source_dataset": "launcher-basic-v1-synthetic",
+  "source_files": {
+    "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "validation.jsonl": "218186f609bdaae51ad4e1b9e70081ed7b579daea37d245b4e09ed8bc2021894",
+    "test.jsonl": "32d7735628422976eb603a4f3bad9493ed8d9b80dafb498191bc53c585b79fc4",
+    "manifest.json": "64b7f818bc0de29032f37901999a3bfc2ac9e9da9cea10a5706e3b0d795505a6"
+  },
+  "source_path": "data/benchmarks/launcher-basic-v1/synthetic",
+  "clean_queries_sha256": "1a23d5db80cc89f3d12c2eac84c03a54589daf59ffa03392a21c800d930427f0",
+  "asr": {
+    "provider": "groq",
+    "model": "whisper-large-v3-turbo",
+    "language": "ru",
+    "response_format": "json",
+    "prompt": null
+  },
+  "asr_client_sha256": "1669ddddb7a108a8f12cccf5d6cb28f0cd6ef19c3ec91420db58ca2d1c5c4eab",
+  "audio_origin": "windows_tts_with_deterministic_noise",
+  "noise_profiles": {
+    "room": {
+      "snr_db": 18,
+      "gain": 0.8,
+      "hum": 0.1,
+      "lowpass": 1.0
+    },
+    "fan": {
+      "snr_db": 12,
+      "gain": 0.55,
+      "hum": 0.45,
+      "lowpass": 0.7
+    },
+    "distant": {
+      "snr_db": 10,
+      "gain": 0.2,
+      "hum": 0.2,
+      "lowpass": 0.35
+    },
+    "telephone": {
+      "snr_db": 8,
+      "gain": 0.5,
+      "hum": 0.1,
+      "lowpass": 0.65
+    }
+  },
+  "speaker_policy": "Irina validation / Pavel test; shared across corresponding catalogs",
+  "revision": "tts-noisy-asr",
+  "difficulty": "asr",
+  "privacy": "shareable_fictional",
+  "catalog_hash": "8eae415a091da95523f58421614f3103969d24b4feb8b88c29e19ee079ca8390",
+  "query_source": "actual_api_asr",
+  "files": {
+    "asr_review.jsonl": "979a4b1ceb69c47279a52b2cb1a16ea797c93b1be4d5bb382655a3f43e294943",
+    "catalog.json": "d0a2735063ac49694bc4dd6cee36afc5efd5e34ec9364c6c45dc27005303788f",
+    "clean_queries.jsonl": "1a23d5db80cc89f3d12c2eac84c03a54589daf59ffa03392a21c800d930427f0",
+    "recordings.jsonl": "4768f93f575ab53d138495f2999166df5e881efaa928e1c65adeeac966cedf90",
+    "test.jsonl": "b68ddabaabd460ef50d3c8c85d9a90859c40a9a83a832b49fc0163bb3748f9ff",
+    "transcriptions.jsonl": "fe1c84bbaeb4c188fc25cc3bd4ee0b532b88d81c0940c415c4cd36a642cbed94",
+    "validation.jsonl": "635d3e82ccbb21a314e250b8f78b9d6bcb2478c798964226d9c20bf5c7fe5cc4"
+  },
+  "splits": {
+    "validation": {
+      "rows": 50,
+      "actions": {
+        "open": 50
+      }
+    },
+    "test": {
+      "rows": 150,
+      "actions": {
+        "open": 150
+      }
+    }
+  },
+  "asr_statistics": {
+    "status": {
+      "ok": 200
+    },
+    "text_status": {
+      "changed": 101,
+      "unchanged": 99
+    },
+    "recoverability": {
+      "preserved": 190,
+      "lost": 2,
+      "uncertain": 8
+    },
+    "audio_seconds": 598.365,
+    "conditions": {
+      "room": 51,
+      "fan": 51,
+      "distant": 49,
+      "telephone": 49
+    }
+  },
+  "annotation_review": {
+    "status": "original_intent_author_reviewed",
+    "independent": false,
+    "reviewer": "Codex (original basic dataset author)",
+    "transcript_semantics": "Author assessments are recorded in asr_review.jsonl; unchanged normalized text is inherited from original intent review. No transcripts repaired or excluded.",
+    "author_reviewed_transcripts": 101
+  },
+  "protocol": {
+    "allowed_actions": [
+      "open"
+    ],
+    "require_unique_target": true,
+    "unique_target_scope": "original_spoken_request",
+    "model_input": [
+      "query",
+      "full_catalog.objects"
+    ],
+    "metric": "top1_accuracy_on_all_original_requests",
+    "metric_definition": "Match intended object ID / all split rows; empty ASR is an upstream failure, no exclusions or deduplication.",
+    "paired_control": "Evaluate the same intended objects on clean_queries.clean_query separately to locate ASR-induced loss.",
+    "post_asr_uncertainty": "Noise can remove identifying words; original intent remains the label, but text-only recovery may become impossible.",
+    "independent_of_basic_profile": false,
+    "test_usage": "Held out from decision-model settings; no model predictions used to filter transcripts."
+  },
+  "limitations": [
+    "Synthetic Windows TTS plus synthetic acoustic degradation; no human speakers or actual microphone/room recordings.",
+    "Two synthetic voices with voice and split confounded; no claim of human-speaker generalization.",
+    "ASR text is exactly the application client return value (outer whitespace stripped); no clean text or catalog prompt sent to ASR.",
+    "Request IDs and raw HTTP response bodies are not available from the reused client; model revision is the hosted model ID at measured_at.",
+    "Forced open only; this dataset does not evaluate clarification/refusal policy."
+  ]
+}

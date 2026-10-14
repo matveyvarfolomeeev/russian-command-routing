@@ -1,0 +1,102 @@
+{
+  "valid": true,
+  "clean": {
+    "dataset_id": "launcher-independent-v1-clean",
+    "catalog_hash": "7c38fa1292b5829dcdfed58c91b06027fa8e10832b968639cc2b5f974e40417d",
+    "catalog_objects": 177,
+    "catalog_counts": {
+      "folder": 20,
+      "app": 139,
+      "file": 18
+    },
+    "distinct_open_targets": 40,
+    "splits": {
+      "validation": {
+        "rows": 50,
+        "actions": {
+          "open": 50
+        },
+        "target_kinds": {
+          "app": 40,
+          "folder": 5,
+          "file": 5
+        },
+        "groups": 10
+      },
+      "test": {
+        "rows": 150,
+        "actions": {
+          "open": 150
+        },
+        "target_kinds": {
+          "app": 110,
+          "folder": 20,
+          "file": 20
+        },
+        "groups": 30
+      }
+    },
+    "annotation_review": {
+      "status": "author_reviewed",
+      "reviewed_rows": 200,
+      "independent": false
+    },
+    "tags": {
+      "app": 150,
+      "file": 25,
+      "folder": 25,
+      "natural_request": 200,
+      "new_catalog": 200
+    }
+  },
+  "overlaps": {
+    "object_ids": 0,
+    "object_names_or_aliases": 0,
+    "object_descriptions": 0,
+    "example_or_group_ids": 0,
+    "clean_queries": 0,
+    "asr_queries": 0,
+    "audio_hashes": 0,
+    "voices": 0
+  },
+  "previous_files": 47,
+  "previous_query_occurrences": 25555,
+  "previous_unique_queries": 21248,
+  "audio_records": 200,
+  "asr_responses": 200,
+  "asr": {
+    "dataset_id": "launcher-independent-v1-asr",
+    "valid": true,
+    "splits": {
+      "validation": {
+        "rows": 50,
+        "empty_asr": 0
+      },
+      "test": {
+        "rows": 150,
+        "empty_asr": 0
+      }
+    },
+    "asr_statistics": {
+      "status": {
+        "ok": 200
+      },
+      "text_status": {
+        "changed": 39,
+        "unchanged": 161
+      },
+      "recoverability": {
+        "preserved": 200
+      },
+      "audio_seconds": 931.92,
+      "conditions": {
+        "quiet_background": 50,
+        "soft_room": 50,
+        "soft_fan": 50,
+        "soft_distance": 50
+      }
+    },
+    "audio_hashes_checked": true,
+    "missing_audio_files": 0
+  }
+}

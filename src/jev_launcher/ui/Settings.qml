@@ -45,12 +45,13 @@ ColumnLayout {
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 16
-                        Label { text: "Горячая клавиша"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        Label { text: "Текстовый запуск"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
                         Field {
                             id: hotkeyField
                             objectName: "hotkeyField"
                             dark: page.dark
                             Layout.fillWidth: true
+                            Layout.minimumWidth: 0
                             text: controller.hotkeyText
                             placeholderText: "Ctrl+Shift+Space"
                             implicitHeight: 38
@@ -66,6 +67,28 @@ ColumnLayout {
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 16
+                        Label { text: "Голосовой запуск"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
+                        Field {
+                            id: voiceHotkeyField
+                            objectName: "voiceHotkeyField"
+                            dark: page.dark
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 0
+                            text: controller.voiceHotkeyText
+                            placeholderText: "Ctrl+Alt+Space"
+                            implicitHeight: 38
+                        }
+                    }
+                    Label {
+                        text: controller.voiceHotkeyStatus
+                        color: controller.voiceHotkeyRegistered ? colors.muted : colors.danger
+                        font.pixelSize: 11
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 16
                         Label { text: "Оформление"; color: colors.muted; font.pixelSize: 12; Layout.preferredWidth: 145 }
                         AppCombo {
                             id: themeBox
@@ -74,6 +97,7 @@ ColumnLayout {
                             model: ["Тёмная", "Светлая"]
                             currentIndex: controller.theme === "dark" ? 0 : 1
                             Layout.fillWidth: true
+                            Layout.minimumWidth: 0
                             implicitHeight: 38
                         }
                     }
@@ -92,7 +116,7 @@ ColumnLayout {
                     spacing: 6
                     Label { text: "Голосовой ввод"; color: colors.ink; font.pixelSize: 15; font.weight: Font.DemiBold }
                     Label {
-                        text: "Запись распознаётся через Groq после нажатия «Стоп»."
+                        text: "Горячая клавиша сразу включает запись. Enter — распознать и открыть; «Стоп» — сначала проверить текст."
                         color: colors.muted
                         font.pixelSize: 12
                         Layout.fillWidth: true
@@ -107,6 +131,7 @@ ColumnLayout {
                             objectName: "microphoneBox"
                             dark: page.dark
                             Layout.fillWidth: true
+                            Layout.minimumWidth: 0
                             model: controller.microphones
                             textRole: "name"
                             valueRole: "id"
@@ -123,6 +148,7 @@ ColumnLayout {
                             objectName: "apiKeyField"
                             dark: page.dark
                             Layout.fillWidth: true
+                            Layout.minimumWidth: 0
                             echoMode: TextInput.Password
                             placeholderText: "Оставьте пустым, чтобы сохранить прежний"
                             implicitHeight: 38
@@ -169,7 +195,7 @@ ColumnLayout {
             dark: page.dark
             onClicked: {
                 if (controller.saveSettings(hotkeyField.text, themeBox.currentIndex === 0 ? "dark" : "light",
-                        microphoneBox.currentValue || "", keyField.text, clearKey.checked)) {
+                        microphoneBox.currentValue || "", keyField.text, clearKey.checked, voiceHotkeyField.text)) {
                     keyField.clear()
                     clearKey.checked = false
                 }

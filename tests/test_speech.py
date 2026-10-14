@@ -18,7 +18,8 @@ def wav_bytes():
     return pcm_to_wav(b"\x00\x00" * 160, QAudioFormat.SampleFormat.Int16, 16000, 1)
 
 
-def test_request_uses_expected_model_file_and_language(monkeypatch):
+@pytest.mark.parametrize("model", [None, "whisper-large-v3-turbo"])
+def test_request_uses_expected_model_file_and_language(monkeypatch, model):
     requests = []
 
     @contextmanager
@@ -27,12 +28,14 @@ def test_request_uses_expected_model_file_and_language(monkeypatch):
         yield io.BytesIO(json.dumps({"text": "  открой блокнот  "}).encode())
 
     monkeypatch.setattr(speech.urllib.request, "urlopen", fake)
-    assert speech.transcribe(wav_bytes(), "example-test-key") == "открой блокнот"
+    options = {} if model is None else {"model": model}
+    assert speech.transcribe(wav_bytes(), "example-test-key", **options) == "открой блокнот"
     request, timeout = requests[0]
     assert request.full_url == "https://api.groq.com/openai/v1/audio/transcriptions"
     assert request.get_header("Authorization") == "Bearer example-test-key"
     assert request.get_header("User-agent") == "JevLauncher/0.1"
-    assert b"whisper-large-v3-turbo" in request.data
+    expected_model = model or "whisper-large-v3"
+    assert f'name="model"\r\n\r\n{expected_model}\r\n'.encode() in request.data
     assert b'name="language"\r\n\r\nru' in request.data
     assert wav_bytes() in request.data
     assert timeout == 30

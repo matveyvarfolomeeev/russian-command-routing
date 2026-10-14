@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "jev-launcher"
 version = "0.1.0"
-description = "A modular Windows launcher and a catalog for decision-model experiments"
+description = "Russian command routing: retrieval, decision-model fine-tuning and evaluation"
 requires-python = ">=3.12"
 dependencies = ["PySide6==6.11.2"]
 

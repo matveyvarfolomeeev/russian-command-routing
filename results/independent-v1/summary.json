@@ -1,0 +1,972 @@
+{
+  "schema_version": 1,
+  "commands": 200,
+  "representations": [
+    "clean",
+    "asr"
+  ],
+  "test_commands": 150,
+  "catalog_objects": 177,
+  "test_groups": 30,
+  "role": "Initial frozen-model evaluation; later adaptations use a previously inspected suite",
+  "annotation": "Author-reviewed; TTS audio; no independent human annotation or live human speech",
+  "models": {
+    "e5-original": {
+      "display_name": "E5 original",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 136,
+          "accuracy": 0.9066666666666666,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 41,
+          "accuracy": 0.82,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 143,
+          "accuracy": 0.9533333333333334,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 42,
+          "accuracy": 0.84,
+          "recall_at_20": 1.0
+        }
+      }
+    },
+    "original-nano": {
+      "display_name": "original-nano",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 0,
+          "accuracy": 0.0,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 0,
+          "accuracy": 0.0,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 0,
+          "accuracy": 0.0,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 0,
+          "accuracy": 0.0,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "aa62d33d0c6cd886609c910b245267d956bc20a5c1e95a687c9cc8ddd4261ace",
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": -0.9533333333333334,
+          "cluster_bootstrap_95_percent": [
+            -0.9866666666666667,
+            -0.9133333333333333
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 0,
+          "lost_e5_correct": 143
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.84,
+          "cluster_bootstrap_95_percent": [
+            -0.94,
+            -0.72
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 0,
+          "lost_e5_correct": 42
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.82,
+          "cluster_bootstrap_95_percent": [
+            -0.92,
+            -0.72
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 0,
+          "lost_e5_correct": 41
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": -0.9066666666666666,
+          "cluster_bootstrap_95_percent": [
+            -0.9466666666666667,
+            -0.8666666666666667
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 0,
+          "lost_e5_correct": 136
+        }
+      },
+      "selected_step": null
+    },
+    "mixed-nano": {
+      "display_name": "mixed-nano",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 127,
+          "accuracy": 0.8466666666666667,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 36,
+          "accuracy": 0.72,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 128,
+          "accuracy": 0.8533333333333334,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 37,
+          "accuracy": 0.74,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "ff828dfaf9594a07583d3bed4a5d12548051ca8e32bde71e8f4544be7a58accf",
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": -0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.16,
+            -0.04666666666666667
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 5,
+          "lost_e5_correct": 20
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.28,
+            0.08
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 6,
+          "lost_e5_correct": 11
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.28,
+            0.08
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 13
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": -0.06,
+          "cluster_bootstrap_95_percent": [
+            -0.12,
+            0.0
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 9,
+          "lost_e5_correct": 18
+        }
+      },
+      "selected_step": null
+    },
+    "clean-nano": {
+      "display_name": "clean-nano",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 125,
+          "accuracy": 0.8333333333333334,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 38,
+          "accuracy": 0.76,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 128,
+          "accuracy": 0.8533333333333334,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 38,
+          "accuracy": 0.76,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "0df8d201084de2051c1beb6b7e7ec6d6891b3fd8f86318f4ef482d7286404095",
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": -0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.15333333333333332,
+            -0.04666666666666667
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 5,
+          "lost_e5_correct": 20
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.08,
+          "cluster_bootstrap_95_percent": [
+            -0.24,
+            0.08
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 6,
+          "lost_e5_correct": 10
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.06,
+          "cluster_bootstrap_95_percent": [
+            -0.22,
+            0.1
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 11
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": -0.07333333333333333,
+          "cluster_bootstrap_95_percent": [
+            -0.14,
+            -0.006666666666666667
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 10,
+          "lost_e5_correct": 21
+        }
+      },
+      "selected_step": null
+    },
+    "original-laya": {
+      "display_name": "original-laya",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 45,
+          "accuracy": 0.3,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 14,
+          "accuracy": 0.28,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 40,
+          "accuracy": 0.26666666666666666,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 16,
+          "accuracy": 0.32,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "9d628fd971b700382ac6f65920a86f149777b2e748e0c955fb3b19695aa8f204",
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": -0.6866666666666666,
+          "cluster_bootstrap_95_percent": [
+            -0.7533333333333333,
+            -0.62
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 0,
+          "lost_e5_correct": 103
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.52,
+          "cluster_bootstrap_95_percent": [
+            -0.66,
+            -0.38
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 1,
+          "lost_e5_correct": 27
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": -0.54,
+          "cluster_bootstrap_95_percent": [
+            -0.66,
+            -0.42
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 1,
+          "lost_e5_correct": 28
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": -0.6066666666666667,
+          "cluster_bootstrap_95_percent": [
+            -0.6866666666666666,
+            -0.52
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 1,
+          "lost_e5_correct": 92
+        }
+      },
+      "selected_step": null
+    },
+    "trained-laya": {
+      "display_name": "trained-laya",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 141,
+          "accuracy": 0.94,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 48,
+          "accuracy": 0.96,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 141,
+          "accuracy": 0.94,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 47,
+          "accuracy": 0.94,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "acc8ee1848ae7c2fcca1b8e640b76823d8990482c0be2af592f987cd234f6bcc",
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": -0.013333333333333334,
+          "cluster_bootstrap_95_percent": [
+            -0.06,
+            0.03333333333333333
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 5,
+          "lost_e5_correct": 7
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.02,
+            0.24
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 7,
+          "lost_e5_correct": 2
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.14,
+          "cluster_bootstrap_95_percent": [
+            0.02,
+            0.26
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 1
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": 0.03333333333333333,
+          "cluster_bootstrap_95_percent": [
+            -0.013333333333333334,
+            0.08
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 10,
+          "lost_e5_correct": 5
+        }
+      },
+      "selected_step": 568
+    },
+    "original-kev": {
+      "display_name": "original-kev",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 143,
+          "accuracy": 0.9533333333333334,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 47,
+          "accuracy": 0.94,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 143,
+          "accuracy": 0.9533333333333334,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 47,
+          "accuracy": 0.94,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": {
+        "adapter_model.safetensors": "9b908623acb162118575f4e7a94524f9c139c335be4bfb74d6cfceca01e1885a",
+        "adapter_config.json": "748acb2cda88454cb1ba69d745ba336f3fcb5486eac349e90960c8b8d8d3e854",
+        "head.pt": "f400bd12802b2b105ae45d6b03774a158a3db4fccff42413734ddca2e5c920b6"
+      },
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": 0.0,
+          "cluster_bootstrap_95_percent": [
+            -0.04666666666666667,
+            0.04666666666666667
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 7,
+          "lost_e5_correct": 7
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.1,
+          "cluster_bootstrap_95_percent": [
+            -0.02,
+            0.24
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 3
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.12,
+          "cluster_bootstrap_95_percent": [
+            0.0,
+            0.24
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 2
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": 0.04666666666666667,
+          "cluster_bootstrap_95_percent": [
+            -0.013333333333333334,
+            0.1
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 13,
+          "lost_e5_correct": 6
+        }
+      },
+      "selected_step": null
+    },
+    "trained-kev": {
+      "display_name": "trained-kev",
+      "stage": "initial_frozen_comparison",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 146,
+          "accuracy": 0.9733333333333334,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 50,
+          "accuracy": 1.0,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 149,
+          "accuracy": 0.9933333333333333,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 50,
+          "accuracy": 1.0,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": {
+        "adapter_model.safetensors": "8a24b7d1c1af1cab6c9b1b7f79d82967da8ac8a12352cd0c89ec594f8b395c4e",
+        "adapter_config.json": "c7fdcefbace4030fbb0d84218bb4624f92a06c507de9c5cfb671fbe9fd0ccb8e",
+        "head.pt": "b15c3eb2032675de25a3cbefbd92aa7b2e60817b1d88839e9a3976805a795837"
+      },
+      "paired_vs_e5": {
+        "independent/clean/test": {
+          "groups": 30,
+          "delta_accuracy": 0.04,
+          "cluster_bootstrap_95_percent": [
+            0.006666666666666667,
+            0.08
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 7,
+          "lost_e5_correct": 1
+        },
+        "independent/clean/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.16,
+          "cluster_bootstrap_95_percent": [
+            0.06,
+            0.28
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 8,
+          "lost_e5_correct": 0
+        },
+        "independent/asr/validation": {
+          "groups": 10,
+          "delta_accuracy": 0.18,
+          "cluster_bootstrap_95_percent": [
+            0.08,
+            0.28
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 9,
+          "lost_e5_correct": 0
+        },
+        "independent/asr/test": {
+          "groups": 30,
+          "delta_accuracy": 0.06666666666666667,
+          "cluster_bootstrap_95_percent": [
+            0.013333333333333334,
+            0.11333333333333333
+          ],
+          "resamples": 10000,
+          "scope": "Scenario groups in this profile; does not cover training-seed variability",
+          "fixed_e5_errors": 13,
+          "lost_e5_correct": 3
+        }
+      },
+      "selected_step": 710
+    },
+    "e5-trained": {
+      "display_name": "e5-trained",
+      "stage": "later_known_suite",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 143,
+          "accuracy": 0.9533333333333334,
+          "recall_at_20": 1.0
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 48,
+          "accuracy": 0.96,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 145,
+          "accuracy": 0.9666666666666667,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 48,
+          "accuracy": 0.96,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "1570ccb623e4e16431a2737619611b5415319071a9428270ceeebafc9d979b06"
+    },
+    "modernbert-trained": {
+      "display_name": "modernbert-trained",
+      "stage": "later_known_suite",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 143,
+          "accuracy": 0.9533333333333334,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 47,
+          "accuracy": 0.94,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 144,
+          "accuracy": 0.96,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 48,
+          "accuracy": 0.96,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "abe6fc7d9b8797a75ba4b4c1b8924d6e505fad43bf70f3658496a5f07c2d2d4d"
+    },
+    "rubert-trained": {
+      "display_name": "rubert-trained",
+      "stage": "later_known_suite",
+      "metrics": {
+        "independent/asr/test": {
+          "rows": 150,
+          "correct": 90,
+          "accuracy": 0.6,
+          "recall_at_20": 0.9933333333333333
+        },
+        "independent/asr/validation": {
+          "rows": 50,
+          "correct": 35,
+          "accuracy": 0.7,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/test": {
+          "rows": 150,
+          "correct": 76,
+          "accuracy": 0.5066666666666667,
+          "recall_at_20": 1.0
+        },
+        "independent/clean/validation": {
+          "rows": 50,
+          "correct": 32,
+          "accuracy": 0.64,
+          "recall_at_20": 1.0
+        }
+      },
+      "checkpoint_sha256": "6dd2b719fe61c9dbe97839d71a2a5344afb8c9fd372f79ebb58a54719be46388"
+    }
+  },
+  "adaptation": {
+    "mixed-nano": {
+      "independent/clean/test": {
+        "groups": 30,
+        "delta_accuracy": 0.8533333333333334,
+        "cluster_bootstrap_95_percent": [
+          0.7933333333333333,
+          0.9066666666666666
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 128,
+        "lost_correct": 0
+      },
+      "independent/clean/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.74,
+        "cluster_bootstrap_95_percent": [
+          0.62,
+          0.84
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 37,
+        "lost_correct": 0
+      },
+      "independent/asr/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.72,
+        "cluster_bootstrap_95_percent": [
+          0.6,
+          0.84
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 36,
+        "lost_correct": 0
+      },
+      "independent/asr/test": {
+        "groups": 30,
+        "delta_accuracy": 0.8466666666666667,
+        "cluster_bootstrap_95_percent": [
+          0.7866666666666666,
+          0.9066666666666666
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 127,
+        "lost_correct": 0
+      }
+    },
+    "clean-nano": {
+      "independent/clean/test": {
+        "groups": 30,
+        "delta_accuracy": 0.8533333333333334,
+        "cluster_bootstrap_95_percent": [
+          0.8066666666666666,
+          0.9
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 128,
+        "lost_correct": 0
+      },
+      "independent/clean/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.76,
+        "cluster_bootstrap_95_percent": [
+          0.68,
+          0.86
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 38,
+        "lost_correct": 0
+      },
+      "independent/asr/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.76,
+        "cluster_bootstrap_95_percent": [
+          0.68,
+          0.86
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 38,
+        "lost_correct": 0
+      },
+      "independent/asr/test": {
+        "groups": 30,
+        "delta_accuracy": 0.8333333333333334,
+        "cluster_bootstrap_95_percent": [
+          0.7733333333333333,
+          0.8933333333333333
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 125,
+        "lost_correct": 0
+      }
+    },
+    "trained-laya": {
+      "independent/clean/test": {
+        "groups": 30,
+        "delta_accuracy": 0.6733333333333333,
+        "cluster_bootstrap_95_percent": [
+          0.5733333333333334,
+          0.76
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 104,
+        "lost_correct": 3
+      },
+      "independent/clean/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.62,
+        "cluster_bootstrap_95_percent": [
+          0.5,
+          0.76
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 31,
+        "lost_correct": 0
+      },
+      "independent/asr/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.68,
+        "cluster_bootstrap_95_percent": [
+          0.56,
+          0.8
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 34,
+        "lost_correct": 0
+      },
+      "independent/asr/test": {
+        "groups": 30,
+        "delta_accuracy": 0.64,
+        "cluster_bootstrap_95_percent": [
+          0.5466666666666666,
+          0.7266666666666667
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 97,
+        "lost_correct": 1
+      }
+    },
+    "trained-kev": {
+      "independent/clean/test": {
+        "groups": 30,
+        "delta_accuracy": 0.04,
+        "cluster_bootstrap_95_percent": [
+          0.006666666666666667,
+          0.07333333333333333
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 7,
+        "lost_correct": 1
+      },
+      "independent/clean/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.06,
+        "cluster_bootstrap_95_percent": [
+          0.0,
+          0.12
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 3,
+        "lost_correct": 0
+      },
+      "independent/asr/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.06,
+        "cluster_bootstrap_95_percent": [
+          0.0,
+          0.14
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 3,
+        "lost_correct": 0
+      },
+      "independent/asr/test": {
+        "groups": 30,
+        "delta_accuracy": 0.02,
+        "cluster_bootstrap_95_percent": [
+          -0.006666666666666667,
+          0.04666666666666667
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 4,
+        "lost_correct": 1
+      }
+    },
+    "clean-nano-vs-mixed": {
+      "independent/clean/test": {
+        "groups": 30,
+        "delta_accuracy": 0.0,
+        "cluster_bootstrap_95_percent": [
+          -0.03333333333333333,
+          0.04
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 4,
+        "lost_correct": 4
+      },
+      "independent/clean/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.02,
+        "cluster_bootstrap_95_percent": [
+          0.0,
+          0.06
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 1,
+        "lost_correct": 0
+      },
+      "independent/asr/validation": {
+        "groups": 10,
+        "delta_accuracy": 0.04,
+        "cluster_bootstrap_95_percent": [
+          0.0,
+          0.1
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 2,
+        "lost_correct": 0
+      },
+      "independent/asr/test": {
+        "groups": 30,
+        "delta_accuracy": -0.013333333333333334,
+        "cluster_bootstrap_95_percent": [
+          -0.04666666666666667,
+          0.02
+        ],
+        "resamples": 10000,
+        "scope": "Scenario groups in this profile; does not cover training-seed variability",
+        "fixed_errors": 2,
+        "lost_correct": 4
+      }
+    }
+  }
+}
